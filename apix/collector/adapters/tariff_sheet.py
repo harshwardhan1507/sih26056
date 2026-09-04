@@ -228,7 +228,11 @@ def parse_indigo_tariff_csv(
     row_type, distance_km, fare_1 … fare_21
     """
     retrieved_at = datetime.now(timezone.utc)
-    effective_month = _extract_effective_month(str(csv_path))
+    effective_month = (
+        _extract_effective_month(str(csv_path))
+        or _extract_effective_month(source_url)
+        or _extract_effective_month(str(FIXTURE_PDF))
+    )
     bands: list[TariffBand] = []
 
     with open(csv_path, encoding="utf-8", newline="") as f:
