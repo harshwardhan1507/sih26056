@@ -1,6 +1,6 @@
 import React from "react";
 import { PageHeader } from "@/components/layout/PageHeader";
-import { BookOpen, ShieldCheck, Scale, Database, Layers, CheckCircle2 } from "lucide-react";
+import { Scale } from "lucide-react";
 
 export default function MethodologyPage() {
   return (
@@ -198,7 +198,7 @@ export default function MethodologyPage() {
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-[#176B5B] font-mono font-bold">›</span>
-                <span><strong>Sold-Out Observations:</strong> Unavailable flights are stored strictly with <code>total_fare_inr = null</code> and <code>quality_flag = 'sold_out'</code>. They drop out of matched-sample chaining and are <strong>NEVER converted to ₹0.00</strong>, which would cause catastrophic false deflation.</span>
+                <span><strong>Sold-Out Observations:</strong> Unavailable flights are stored strictly with <code>total_fare_inr = null</code> and <code>quality_flag = &apos;sold_out&apos;</code>. They drop out of matched-sample chaining and are <strong>NEVER converted to ₹0.00</strong>, which would cause catastrophic false deflation.</span>
               </li>
             </ul>
           </div>

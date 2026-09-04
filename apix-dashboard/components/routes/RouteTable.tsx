@@ -76,8 +76,8 @@ export function RouteTable({
 
     // Sort
     result.sort((a, b) => {
-      let aVal = a[sortField] ?? 0;
-      let bVal = b[sortField] ?? 0;
+      const aVal = a[sortField] ?? 0;
+      const bVal = b[sortField] ?? 0;
       if (typeof aVal === "number" && typeof bVal === "number") {
         return sortDir === "desc" ? bVal - aVal : aVal - bVal;
       }
@@ -207,7 +207,7 @@ export function RouteTable({
             {filteredAndSortedRoutes.length === 0 ? (
               <tr>
                 <td colSpan={7} className="py-8 text-center text-[#626863] font-mono text-xs">
-                  No routes matching "{searchTerm}"
+                  No routes matching &quot;{searchTerm}&quot;
                 </td>
               </tr>
             ) : (

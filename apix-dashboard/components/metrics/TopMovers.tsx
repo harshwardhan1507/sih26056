@@ -29,7 +29,7 @@ export function TopMovers({
       <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#D8D7D0]">
         <div>
           <h4 className="font-mono text-xs uppercase tracking-widest text-[#111716] font-semibold">
-            What's Driving the Index
+            What&apos;s Driving the Index
           </h4>
           <p className="text-[11px] text-[#626863] mt-0.5">
             Top moving routes weighted by DGCA passenger traffic

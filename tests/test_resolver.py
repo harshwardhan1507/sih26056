@@ -193,9 +193,33 @@ def test_resolver_full_primary_success():
     assert metrics["fallback_invocations"] == 0
 
 
+def test_resolver_case_insensitive_carrier_matching():
+    """Verify carrier codes match case-insensitively across adapter responses."""
+    mock_primary = MockCarrierSource(
+        source_id="primary_api",
+        supported_carriers=["6E"],
+    )
+    resolver = FareResolver(primary_sources=[mock_primary])
+    # Pass lowercase carrier codes
+    quotes = resolver.get_quotes(
+        origin="DEL",
+        destination="BOM",
+        as_of_date=date(2026, 9, 4),
+        advance_window_days=7,
+        carriers=["6e", "ai"],
+    )
+    assert len(quotes) == 2
+    by_carrier = {q.carrier_iata.upper(): q for q in quotes}
+    assert "6E" in by_carrier
+    assert "AI" in by_carrier
+    assert by_carrier["6E"].source_id == "primary_api"
+    assert by_carrier["AI"].source_id == "simulated_v1"
+
+
 if __name__ == "__main__":
     test_resolver_default_fallback()
     test_resolver_partial_carrier_merge()
     test_resolver_resilience_to_exceptions()
     test_resolver_full_primary_success()
+    test_resolver_case_insensitive_carrier_matching()
     print("All FareResolver unit tests passed successfully!")

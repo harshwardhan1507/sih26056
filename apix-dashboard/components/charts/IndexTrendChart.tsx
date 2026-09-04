@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useCallback, useRef } from "react";
 import type { IndexPoint } from "@/lib/api/types";
 import { formatPercent } from "@/lib/formatters/percentage";
 import { Tabs } from "@/components/common/Tabs";
@@ -68,15 +68,21 @@ export function IndexTrendChart({
   }, [validValues, baseValue]);
 
   // Scales
-  const getX = (index: number) => {
-    if (points.length <= 1) return padLeft + chartW / 2;
-    return padLeft + (index / (points.length - 1)) * chartW;
-  };
+  const getX = useCallback(
+    (index: number) => {
+      if (points.length <= 1) return padLeft + chartW / 2;
+      return padLeft + (index / (points.length - 1)) * chartW;
+    },
+    [chartW, padLeft, points.length]
+  );
 
-  const getY = (val: number) => {
-    if (maxVal === minVal) return padTop + chartH / 2;
-    return padTop + chartH - ((val - minVal) / (maxVal - minVal)) * chartH;
-  };
+  const getY = useCallback(
+    (val: number) => {
+      if (maxVal === minVal) return padTop + chartH / 2;
+      return padTop + chartH - ((val - minVal) / (maxVal - minVal)) * chartH;
+    },
+    [chartH, maxVal, minVal, padTop]
+  );
 
   // Build SVG path segments handling null gaps cleanly
   const pathSegments = useMemo(() => {
@@ -106,7 +112,7 @@ export function IndexTrendChart({
     }
 
     return segments;
-  }, [points, minVal, maxVal]);
+  }, [points, getX, getY]);
 
   // Area path for gradient fill
   const areaPath = useMemo(() => {

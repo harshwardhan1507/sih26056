@@ -1,5 +1,5 @@
 import React from "react";
-import { ShieldCheck, AlertTriangle, XCircle, RefreshCw, CheckCircle2 } from "lucide-react";
+import { AlertTriangle, XCircle, RefreshCw, CheckCircle2 } from "lucide-react";
 
 interface QualityScoreHeroProps {
   score: number;
@@ -113,7 +113,7 @@ export function QualityScoreHero({
               Simulated Fallback Engine Active ({fallbackSimulatedPct.toFixed(1)}%)
             </p>
             <p className="text-amber-800 font-sans leading-relaxed">
-              {Math.round((fallbackSimulatedPct / 100) * totalQuotes)} of {totalQuotes} observations were fulfilled via Tier 4 advance-decay simulation due to upstream API rate limits. All simulated observations maintain transparent collection_method="simulated" metadata.
+              {Math.round((fallbackSimulatedPct / 100) * totalQuotes)} of {totalQuotes} observations were fulfilled via Tier 4 advance-decay simulation due to upstream API rate limits. All simulated observations maintain transparent collection_method=&quot;simulated&quot; metadata.
             </p>
           </div>
         </div>

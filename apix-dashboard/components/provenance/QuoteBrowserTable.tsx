@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import type { QuoteItem, QualityFlag, CollectionMethod } from "@/lib/api/types";
+import type { QuoteItem } from "@/lib/api/types";
 import { formatINR } from "@/lib/formatters/currency";
-import { formatUTCtoIST } from "@/lib/formatters/dates";
 import { StatusBadge } from "@/components/common/StatusBadge";
-import { Search, Eye, Filter } from "lucide-react";
+import { Search, Eye } from "lucide-react";
 
 interface QuoteBrowserTableProps {
   quotes: QuoteItem[];

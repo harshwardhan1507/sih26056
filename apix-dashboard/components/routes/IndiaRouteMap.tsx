@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import Link from "next/link";
 import type { RouteSnapshot } from "@/lib/api/types";
-import { formatPercent } from "@/lib/formatters/percentage";
 
 interface IndiaRouteMapProps {
   routes: RouteSnapshot[];

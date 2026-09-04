@@ -131,6 +131,32 @@ def test_get_elementary_index():
     assert first_pt["carrier_count"] > 0
 
 
+def test_get_elementary_index_excludes_outliers(tmp_path):
+    # Create mock fare_quote.csv with one normal carrier and one outlier carrier
+    csv_file = tmp_path / "fare_quote.csv"
+    csv_file.write_text(
+        "collected_at_utc,departure_date,advance_window_days,origin_iata,destination_iata,"
+        "carrier_iata,fare_class,total_fare_inr,source_id,collection_method,quality_flag\n"
+        "2026-09-01T10:00:00Z,2026-09-08,7,DEL,BOM,6E,Economy,5000.0,s1,api,ok\n"
+        "2026-09-01T10:00:00Z,2026-09-08,7,DEL,BOM,AI,Economy,99999.0,s1,api,outlier\n"
+        "2026-09-02T10:00:00Z,2026-09-09,7,DEL,BOM,6E,Economy,5500.0,s1,api,ok\n"
+        "2026-09-02T10:00:00Z,2026-09-09,7,DEL,BOM,AI,Economy,99999.0,s1,api,outlier\n",
+        encoding="utf-8",
+    )
+    result = data_access.get_elementary_index(
+        origin="DEL",
+        destination="BOM",
+        advance_window_days=7,
+        data_dir=tmp_path,
+    )
+    assert result.series_length == 2
+    # Only 6E should be included (carrier_count == 1, not 2)
+    assert result.series[0].carrier_count == 1
+    assert result.series[1].carrier_count == 1
+    # 5500 / 5000 = 1.10 -> 110.0
+    assert round(result.series[1].index_value, 1) == 110.0
+
+
 def test_get_sources_status():
     response = client.get("/sources/status")
     assert response.status_code == 200
