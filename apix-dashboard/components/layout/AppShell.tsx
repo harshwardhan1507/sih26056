@@ -9,7 +9,7 @@ function ShellContent({ children }: { children: React.ReactNode }) {
   const { connectionStatus, toggleMode, lastCheckedIst } = useData();
 
   return (
-    <div className="min-h-screen bg-[#F4F2EC] text-[#111716] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] flex flex-col font-sans">
       <Header
         connectionStatus={connectionStatus}
         onToggleMode={toggleMode}

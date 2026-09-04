@@ -39,19 +39,19 @@ export function HorizonDecayChart({
 
   return (
     <div
-      className={`border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm p-4 ${className}`}
+      className={`border border-[#E2E8F0] bg-white rounded-sm p-4 shadow-xs ${className}`}
     >
-      <div className="flex items-center justify-between pb-3 mb-2 border-b border-[#D8D7D0]">
+      <div className="flex items-center justify-between pb-3 mb-2 border-b border-[#E2E8F0]">
         <div>
-          <h4 className="font-mono text-xs uppercase tracking-widest text-[#111716] font-semibold">
+          <h4 className="font-mono text-xs uppercase tracking-widest text-[#0F172A] font-semibold">
             Advance-Purchase Price Decay
           </h4>
-          <p className="text-[11px] text-[#626863] mt-0.5">
+          <p className="text-[11px] text-[#64748B] mt-0.5">
             Average consumer fare progression by lead purchase horizon
           </p>
         </div>
-        <span className="text-[10px] font-mono text-[#626863]">
-          Active: <strong className="text-[#176B5B]">{activeWindow}</strong>
+        <span className="text-[10px] font-mono text-[#64748B]">
+          Active: <strong className="text-[#1E3A8A]">{activeWindow}</strong>
         </span>
       </div>
 
@@ -68,15 +68,15 @@ export function HorizonDecayChart({
                   y1={y}
                   x2={width - padRight}
                   y2={y}
-                  stroke="#D8D7D0"
+                  stroke="#E2E8F0"
                   strokeWidth="0.6"
-                  opacity="0.6"
+                  opacity="0.8"
                 />
                 <text
                   x={padLeft - 6}
                   y={y + 3}
                   textAnchor="end"
-                  className="text-[9px] font-mono fill-[#626863] tabular-nums"
+                  className="text-[9px] font-mono fill-[#64748B] tabular-nums"
                 >
                   ₹{(val / 1000).toFixed(0)}k
                 </text>
@@ -110,10 +110,10 @@ export function HorizonDecayChart({
                   rx="2"
                   fill={
                     !isAvailable
-                      ? "#D8D7D0"
+                      ? "#E2E8F0"
                       : isActive
-                      ? "#176B5B"
-                      : "#626863"
+                      ? "#1E3A8A"
+                      : "#64748B"
                   }
                   fillOpacity={isActive ? 0.95 : 0.4}
                   className="transition-all duration-150 group-hover:fill-opacity-80"
@@ -126,7 +126,7 @@ export function HorizonDecayChart({
                     y={yTop - 6}
                     textAnchor="middle"
                     className={`text-[10px] font-mono font-bold tabular-nums ${
-                      isActive ? "fill-[#176B5B]" : "fill-[#111716]"
+                      isActive ? "fill-[#1E3A8A]" : "fill-[#0F172A]"
                     }`}
                   >
                     {formatINR(fare)}
@@ -136,7 +136,7 @@ export function HorizonDecayChart({
                     x={xCenter}
                     y={yTop - 6}
                     textAnchor="middle"
-                    className="text-[9px] font-mono fill-[#626863] italic"
+                    className="text-[9px] font-mono fill-[#64748B] italic"
                   >
                     N/A
                   </text>
@@ -148,7 +148,7 @@ export function HorizonDecayChart({
                   y={height - 12}
                   textAnchor="middle"
                   className={`text-[11px] font-mono font-semibold ${
-                    isActive ? "fill-[#176B5B] underline" : "fill-[#111716]"
+                    isActive ? "fill-[#1E3A8A] underline" : "fill-[#0F172A]"
                   }`}
                 >
                   {h}
@@ -158,7 +158,7 @@ export function HorizonDecayChart({
                   x={xCenter}
                   y={height - 2}
                   textAnchor="middle"
-                  className="text-[8px] font-sans fill-[#626863]"
+                  className="text-[8px] font-sans fill-[#64748B]"
                 >
                   {h === "T+1"
                     ? "1 day lead"

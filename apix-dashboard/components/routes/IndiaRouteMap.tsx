@@ -66,35 +66,35 @@ export function IndiaRouteMap({
 
   return (
     <div
-      className={`border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm p-4 relative ${className}`}
+      className={`border border-[#E2E8F0] bg-white rounded-sm p-4 relative shadow-xs ${className}`}
     >
-      <div className="flex items-center justify-between pb-3 mb-2 border-b border-[#D8D7D0]">
+      <div className="flex items-center justify-between pb-3 mb-2 border-b border-[#E2E8F0]">
         <div>
-          <h4 className="font-mono text-xs uppercase tracking-widest text-[#111716] font-semibold">
+          <h4 className="font-mono text-xs uppercase tracking-widest text-[#0F172A] font-semibold">
             Route Network Graphic
           </h4>
-          <p className="text-[11px] text-[#626863] mt-0.5">
+          <p className="text-[11px] text-[#64748B] mt-0.5">
             12 major domestic routes, weighted by actual passenger traffic (DGCA)
           </p>
         </div>
 
         {activeRoute && (
           <div className="text-right font-mono text-xs">
-            <span className="font-bold text-[#111716]">{activeRoute.origin} ↔ {activeRoute.destination}</span>
-            <span className="text-[#176B5B] ml-2 font-semibold">
+            <span className="font-bold text-[#0F172A]">{activeRoute.origin} ↔ {activeRoute.destination}</span>
+            <span className="text-[#1E3A8A] ml-2 font-semibold">
               {(activeRoute.weight * 100).toFixed(1)}%
             </span>
           </div>
         )}
       </div>
 
-      <div className="relative w-full aspect-[4/3] max-h-[440px] flex items-center justify-center select-none bg-[#FAF9F5]">
+      <div className="relative w-full aspect-[4/3] max-h-[440px] flex items-center justify-center select-none bg-white">
         <svg
           viewBox="0 0 520 500"
           className="w-full h-full max-h-[440px] overflow-visible"
         >
-          {/* India Map outline/watermark background */}
-          <g opacity="0.08" fill="#176B5B">
+          {/* Subtle network compass/radar background */}
+          <g opacity="0.05" fill="#1E3A8A">
             <circle cx="260" cy="270" r="180" />
           </g>
 
@@ -132,9 +132,9 @@ export function IndiaRouteMap({
                   y1={from.y}
                   x2={to.x}
                   y2={to.y}
-                  stroke={isHighlighted ? "#176B5B" : "#162923"}
+                  stroke={isHighlighted ? "#2563EB" : "#1E3A8A"}
                   strokeWidth={isHighlighted ? strokeWidth + 1.5 : strokeWidth}
-                  strokeOpacity={isHighlighted ? 0.95 : 0.35}
+                  strokeOpacity={isHighlighted ? 0.95 : 0.45}
                   strokeLinecap="round"
                   className="transition-all duration-150"
                 />
@@ -158,8 +158,8 @@ export function IndiaRouteMap({
                   cx={hub.x}
                   cy={hub.y}
                   r={isHovered ? 7 : 5}
-                  fill="#FAF9F5"
-                  stroke={isHovered ? "#176B5B" : "#162923"}
+                  fill="#FFFFFF"
+                  stroke={isHovered ? "#2563EB" : "#1E3A8A"}
                   strokeWidth="2"
                   className="transition-all"
                 />
@@ -168,7 +168,7 @@ export function IndiaRouteMap({
                   cx={hub.x}
                   cy={hub.y}
                   r="2"
-                  fill={isHovered ? "#176B5B" : "#162923"}
+                  fill={isHovered ? "#2563EB" : "#1E3A8A"}
                 />
 
                 {/* Label */}
@@ -177,8 +177,8 @@ export function IndiaRouteMap({
                   y={hub.y + 4}
                   className={`text-[11px] font-mono select-none ${
                     isHovered
-                      ? "fill-[#176B5B] font-bold"
-                      : "fill-[#111716] font-semibold"
+                      ? "fill-[#1E3A8A] font-bold"
+                      : "fill-[#0F172A] font-semibold"
                   }`}
                 >
                   {hub.code}
@@ -190,14 +190,14 @@ export function IndiaRouteMap({
       </div>
 
       {/* Map Legend */}
-      <div className="pt-2 border-t border-[#D8D7D0] flex items-center justify-between text-[10px] font-mono text-[#626863]">
+      <div className="pt-2 border-t border-[#E2E8F0] flex items-center justify-between text-[10px] font-mono text-[#64748B]">
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1.5">
-            <span className="h-1 w-5 rounded-full bg-[#162923] opacity-80" />
+            <span className="h-1 w-5 rounded-full bg-[#1E3A8A] opacity-80" />
             <span>Route (both directions)</span>
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="h-0.5 w-5 rounded-full bg-[#162923] opacity-40" />
+            <span className="h-0.5 w-5 rounded-full bg-[#1E3A8A] opacity-40" />
             <span>Line thickness = DGCA weight</span>
           </span>
         </div>

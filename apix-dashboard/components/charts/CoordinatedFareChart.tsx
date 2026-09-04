@@ -198,10 +198,10 @@ export function CoordinatedFareChart({
       {/* Timeframe Controls */}
       <div className="flex items-center justify-between">
         <div>
-          <span className="font-mono text-xs uppercase tracking-wider text-[#111716] font-semibold">
+          <span className="font-mono text-xs uppercase tracking-wider text-[#0F172A] font-semibold">
             Coordinated Time Series Comparison
           </span>
-          <p className="text-[11px] text-[#626863] mt-0.5">
+          <p className="text-[11px] text-[#64748B] mt-0.5">
             Two vertically stacked aligned charts sharing a synchronized timeline. Never dual-axis.
           </p>
         </div>
@@ -223,17 +223,17 @@ export function CoordinatedFareChart({
         ref={containerRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={() => setHoverIndex(null)}
-        className="relative border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm p-4 cursor-crosshair select-none space-y-3"
+        className="relative border border-[#E2E8F0] bg-white rounded-sm p-4 cursor-crosshair select-none space-y-3 shadow-xs"
       >
         {/* CHART 1: Index Series (Top) */}
         <div>
           <div className="flex items-center justify-between mb-1 px-2">
-            <span className="text-[11px] font-mono font-semibold text-[#176B5B] uppercase tracking-wider flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-xs bg-[#176B5B]" />
+            <span className="text-[11px] font-mono font-semibold text-[#1E3A8A] uppercase tracking-wider flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-xs bg-[#1E3A8A]" />
               APIx Laspeyres Index Series (Base = 100.0)
             </span>
             {activePoint && activePoint.index_value !== null && (
-              <span className="text-xs font-mono font-bold text-[#176B5B] tabular-nums">
+              <span className="text-xs font-mono font-bold text-[#1E3A8A] tabular-nums">
                 {activePoint.index_value.toFixed(1)}
               </span>
             )}
@@ -251,16 +251,16 @@ export function CoordinatedFareChart({
                     y1={y}
                     x2={width - padRight}
                     y2={y}
-                    stroke={isBase ? "#111716" : "#D8D7D0"}
+                    stroke={isBase ? "#0F172A" : "#E2E8F0"}
                     strokeWidth={isBase ? 1 : 0.6}
                     strokeDasharray={isBase ? "4 3" : undefined}
-                    opacity={isBase ? 0.7 : 0.6}
+                    opacity={isBase ? 0.7 : 0.8}
                   />
                   <text
                     x={padLeft - 8}
                     y={y + 3.5}
                     textAnchor="end"
-                    className="text-[10px] font-mono fill-[#626863] tabular-nums"
+                    className="text-[10px] font-mono fill-[#64748B] tabular-nums"
                   >
                     {t.toFixed(1)}
                   </text>
@@ -274,7 +274,7 @@ export function CoordinatedFareChart({
                 key={i}
                 d={d}
                 fill="none"
-                stroke="#176B5B"
+                stroke="#1E3A8A"
                 strokeWidth="2.2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -289,7 +289,7 @@ export function CoordinatedFareChart({
                   y1={padTop}
                   x2={getX(hoverIndex)}
                   y2={padTop + chartH}
-                  stroke="#111716"
+                  stroke="#0F172A"
                   strokeWidth="1"
                   strokeDasharray="3 3"
                   opacity="0.5"
@@ -299,8 +299,8 @@ export function CoordinatedFareChart({
                     cx={getX(hoverIndex)}
                     cy={getIndexY(activePoint.index_value)}
                     r="4.5"
-                    fill="#FAF9F5"
-                    stroke="#176B5B"
+                    fill="#FFFFFF"
+                    stroke="#1E3A8A"
                     strokeWidth="2.5"
                   />
                 )}
@@ -310,17 +310,17 @@ export function CoordinatedFareChart({
         </div>
 
         {/* Divider rule between stacked charts */}
-        <div className="border-t border-[#D8D7D0] mx-2" />
+        <div className="border-t border-[#E2E8F0] mx-2" />
 
         {/* CHART 2: Observed Average Fare (Bottom) */}
         <div>
           <div className="flex items-center justify-between mb-1 px-2">
-            <span className="text-[11px] font-mono font-semibold text-[#111716] uppercase tracking-wider flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-xs bg-[#111716]" />
+            <span className="text-[11px] font-mono font-semibold text-[#0F172A] uppercase tracking-wider flex items-center gap-1.5">
+              <span className="h-2 w-2 rounded-xs bg-[#0F172A]" />
               Observed Average Consumer Fare (INR ₹)
             </span>
             {activePoint && activePoint.fare !== null && (
-              <span className="text-xs font-mono font-bold text-[#111716] tabular-nums">
+              <span className="text-xs font-mono font-bold text-[#0F172A] tabular-nums">
                 {formatINR(activePoint.fare)}
               </span>
             )}
@@ -337,15 +337,15 @@ export function CoordinatedFareChart({
                     y1={y}
                     x2={width - padRight}
                     y2={y}
-                    stroke="#D8D7D0"
+                    stroke="#E2E8F0"
                     strokeWidth="0.6"
-                    opacity="0.6"
+                    opacity="0.8"
                   />
                   <text
                     x={padLeft - 8}
                     y={y + 3.5}
                     textAnchor="end"
-                    className="text-[10px] font-mono fill-[#626863] tabular-nums"
+                    className="text-[10px] font-mono fill-[#64748B] tabular-nums"
                   >
                     ₹{t.toLocaleString("en-IN")}
                   </text>
@@ -359,7 +359,7 @@ export function CoordinatedFareChart({
                 key={i}
                 d={d}
                 fill="none"
-                stroke="#111716"
+                stroke="#0F172A"
                 strokeWidth="2.2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -374,7 +374,7 @@ export function CoordinatedFareChart({
                   y1={padTop}
                   x2={getX(hoverIndex)}
                   y2={padTop + chartH}
-                  stroke="#111716"
+                  stroke="#0F172A"
                   strokeWidth="1"
                   strokeDasharray="3 3"
                   opacity="0.5"
@@ -384,8 +384,8 @@ export function CoordinatedFareChart({
                     cx={getX(hoverIndex)}
                     cy={getFareY(activePoint.fare)}
                     r="4.5"
-                    fill="#FAF9F5"
-                    stroke="#111716"
+                    fill="#FFFFFF"
+                    stroke="#0F172A"
                     strokeWidth="2.5"
                   />
                 )}
@@ -399,7 +399,7 @@ export function CoordinatedFareChart({
                   x={padLeft}
                   y={chartHeight - 4}
                   textAnchor="start"
-                  className="text-[10px] font-mono fill-[#626863]"
+                  className="text-[10px] font-mono fill-[#64748B]"
                 >
                   {pointsWithFare[0].date}
                 </text>
@@ -407,7 +407,7 @@ export function CoordinatedFareChart({
                   x={padLeft + chartW / 2}
                   y={chartHeight - 4}
                   textAnchor="middle"
-                  className="text-[10px] font-mono fill-[#626863]"
+                  className="text-[10px] font-mono fill-[#64748B]"
                 >
                   {pointsWithFare[Math.floor(pointsWithFare.length / 2)].date}
                 </text>
@@ -415,7 +415,7 @@ export function CoordinatedFareChart({
                   x={width - padRight}
                   y={chartHeight - 4}
                   textAnchor="end"
-                  className="text-[10px] font-mono fill-[#626863]"
+                  className="text-[10px] font-mono fill-[#64748B]"
                 >
                   {pointsWithFare[pointsWithFare.length - 1].date}
                 </text>
@@ -427,33 +427,33 @@ export function CoordinatedFareChart({
         {/* Hover Tooltip synchronizing both values */}
         {hoverIndex !== null && activePoint && (
           <div
-            className="absolute z-20 pointer-events-none p-2.5 bg-[#111716] text-[#FAF9F5] text-xs font-mono rounded-xs shadow-lg"
+            className="absolute z-20 pointer-events-none p-2.5 bg-[#0F172A] text-white text-xs font-mono rounded-xs shadow-lg"
             style={{
               left: `${(getX(hoverIndex) / width) * 100}%`,
               top: "14px",
               transform: "translateX(-50%)",
             }}
           >
-            <div className="text-[10px] text-[#A9C4B8] border-b border-stone-700 pb-1 mb-1">
+            <div className="text-[10px] text-slate-300 border-b border-slate-700 pb-1 mb-1">
               {activePoint.date} (Day {activePoint.day})
             </div>
             <div className="space-y-1">
               <div className="flex justify-between gap-4">
-                <span className="text-[#A9C4B8]">Index:</span>
-                <span className="font-semibold text-emerald-400">
+                <span className="text-slate-400">Index:</span>
+                <span className="font-semibold text-blue-400">
                   {activePoint.index_value !== null ? activePoint.index_value.toFixed(1) : "Gap"}
                 </span>
               </div>
               <div className="flex justify-between gap-4">
-                <span className="text-[#A9C4B8]">Avg Fare:</span>
+                <span className="text-slate-400">Avg Fare:</span>
                 <span className="font-semibold text-white">
                   {formatINR(activePoint.fare)}
                 </span>
               </div>
               {activePoint.change_pct !== undefined && activePoint.change_pct !== null && (
-                <div className="flex justify-between gap-4 text-[10px] pt-1 border-t border-stone-800">
-                  <span className="text-stone-400">Δ Day:</span>
-                  <span className={activePoint.change_pct > 0 ? "text-emerald-400" : "text-rose-400"}>
+                <div className="flex justify-between gap-4 text-[10px] pt-1 border-t border-slate-800">
+                  <span className="text-slate-400">Δ Day:</span>
+                  <span className={activePoint.change_pct > 0 ? "text-blue-400" : "text-rose-400"}>
                     {formatPercent(activePoint.change_pct)}
                   </span>
                 </div>

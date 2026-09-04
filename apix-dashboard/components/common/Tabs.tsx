@@ -26,7 +26,7 @@ export function Tabs<T extends string>({
 }: TabsProps<T>) {
   return (
     <div
-      className={`inline-flex p-0.5 bg-[#FAF9F5] border border-[#D8D7D0] rounded-sm font-mono ${className}`}
+      className={`inline-flex p-0.5 bg-slate-100 border border-[#E2E8F0] rounded-sm font-mono ${className}`}
     >
       {tabs.map((tab) => {
         const isActive = activeTab === tab.id;
@@ -44,10 +44,10 @@ export function Tabs<T extends string>({
                 : "px-3 py-1.5 text-xs"
             } ${
               isDisabled
-                ? "text-[#626863]/40 cursor-not-allowed line-through"
+                ? "text-[#64748B]/40 cursor-not-allowed line-through"
                 : isActive
-                ? "bg-[#111716] text-[#FAF9F5] shadow-xs"
-                : "text-[#111716] hover:bg-[#F4F2EC]"
+                ? "bg-[#1E3A8A] text-white shadow-xs"
+                : "text-[#0F172A] hover:bg-slate-200/60"
             }`}
           >
             <span>{tab.label}</span>
@@ -55,8 +55,8 @@ export function Tabs<T extends string>({
               <span
                 className={`text-[9px] px-1 py-0.2 rounded-xs ${
                   isActive
-                    ? "bg-[#FAF9F5]/20 text-[#FAF9F5]"
-                    : "bg-[#D8D7D0]/50 text-[#626863]"
+                    ? "bg-white/20 text-white"
+                    : "bg-[#E2E8F0] text-[#64748B]"
                 }`}
               >
                 {tab.badge}

@@ -159,8 +159,8 @@ export function IndexTrendChart({
 
   if (points.length === 0) {
     return (
-      <div className="py-16 border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm text-center">
-        <p className="font-mono text-xs text-[#626863] uppercase tracking-wider">
+      <div className="py-16 border border-[#E2E8F0] bg-white rounded-sm text-center">
+        <p className="font-mono text-xs text-[#64748B] uppercase tracking-wider">
           No valid observations for this period
         </p>
       </div>
@@ -172,10 +172,10 @@ export function IndexTrendChart({
       {/* Header with Timeframe Tabs */}
       <div className="flex items-center justify-between mb-3">
         <div>
-          <span className="font-mono text-xs text-[#111716] uppercase tracking-wider font-semibold">
+          <span className="font-mono text-xs text-[#0F172A] uppercase tracking-wider font-semibold">
             India Airfare Index ({timeframe})
           </span>
-          <span className="text-[11px] text-[#626863] ml-2 font-sans">
+          <span className="text-[11px] text-[#64748B] ml-2 font-sans">
             Base ({baseValue.toFixed(1)}) = 100.0
           </span>
         </div>
@@ -195,7 +195,7 @@ export function IndexTrendChart({
       {/* SVG Container */}
       <div
         ref={containerRef}
-        className="relative w-full border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm p-3 select-none"
+        className="relative w-full border border-[#E2E8F0] bg-white rounded-sm p-3 select-none shadow-xs"
       >
         <svg
           viewBox={`0 0 ${width} ${height}`}
@@ -205,8 +205,8 @@ export function IndexTrendChart({
         >
           <defs>
             <linearGradient id="indexGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#176B5B" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#176B5B" stopOpacity="0.0" />
+              <stop offset="0%" stopColor="#1E3A8A" stopOpacity="0.20" />
+              <stop offset="100%" stopColor="#1E3A8A" stopOpacity="0.0" />
             </linearGradient>
           </defs>
 
@@ -221,16 +221,16 @@ export function IndexTrendChart({
                   y1={y}
                   x2={width - padRight}
                   y2={y}
-                  stroke={isBase ? "#111716" : "#D8D7D0"}
+                  stroke={isBase ? "#0F172A" : "#E2E8F0"}
                   strokeWidth={isBase ? 1 : 0.75}
                   strokeDasharray={isBase ? "4 3" : undefined}
-                  opacity={isBase ? 0.7 : 0.6}
+                  opacity={isBase ? 0.7 : 0.8}
                 />
                 <text
                   x={padLeft - 8}
                   y={y + 3.5}
                   textAnchor="end"
-                  className="text-[10px] font-mono fill-[#626863] tabular-nums"
+                  className="text-[10px] font-mono fill-[#64748B] tabular-nums"
                 >
                   {tick.toFixed(1)}
                 </text>
@@ -242,7 +242,7 @@ export function IndexTrendChart({
           <text
             x={width - padRight + 6}
             y={getY(baseValue) + 3}
-            className="text-[9px] font-mono fill-[#626863] uppercase tracking-wider font-semibold"
+            className="text-[9px] font-mono fill-[#64748B] uppercase tracking-wider font-semibold"
           >
             Base
           </text>
@@ -256,7 +256,7 @@ export function IndexTrendChart({
               key={i}
               d={d}
               fill="none"
-              stroke="#176B5B"
+              stroke="#1E3A8A"
               strokeWidth="2.2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -269,7 +269,7 @@ export function IndexTrendChart({
               cx={getX(0)}
               cy={getY(validValues[0])}
               r="4"
-              fill="#176B5B"
+              fill="#1E3A8A"
             />
           )}
 
@@ -281,7 +281,7 @@ export function IndexTrendChart({
                 x={padLeft}
                 y={height - 8}
                 textAnchor="start"
-                className="text-[10px] font-mono fill-[#626863]"
+                className="text-[10px] font-mono fill-[#64748B]"
               >
                 {points[0].date}
               </text>
@@ -290,7 +290,7 @@ export function IndexTrendChart({
                 x={padLeft + chartW / 2}
                 y={height - 8}
                 textAnchor="middle"
-                className="text-[10px] font-mono fill-[#626863]"
+                className="text-[10px] font-mono fill-[#64748B]"
               >
                 {points[Math.floor(points.length / 2)].date}
               </text>
@@ -299,7 +299,7 @@ export function IndexTrendChart({
                 x={width - padRight}
                 y={height - 8}
                 textAnchor="end"
-                className="text-[10px] font-mono fill-[#626863]"
+                className="text-[10px] font-mono fill-[#64748B]"
               >
                 {points[points.length - 1].date}
               </text>
@@ -315,7 +315,7 @@ export function IndexTrendChart({
                 y1={padTop}
                 x2={getX(hoverIndex)}
                 y2={padTop + chartH}
-                stroke="#111716"
+                stroke="#0F172A"
                 strokeWidth="1"
                 strokeDasharray="3 3"
                 opacity="0.5"
@@ -327,8 +327,8 @@ export function IndexTrendChart({
                   cx={getX(hoverIndex)}
                   cy={getY(activePoint.index_value)}
                   r="5"
-                  fill="#FAF9F5"
-                  stroke="#176B5B"
+                  fill="#FFFFFF"
+                  stroke="#1E3A8A"
                   strokeWidth="2.5"
                 />
               )}
@@ -339,34 +339,34 @@ export function IndexTrendChart({
         {/* Floating Tooltip Layer */}
         {hoverIndex !== null && activePoint && (
           <div
-            className="absolute z-20 pointer-events-none p-2.5 bg-[#111716] text-[#FAF9F5] text-xs font-mono rounded-xs shadow-lg"
+            className="absolute z-20 pointer-events-none p-2.5 bg-[#0F172A] text-white text-xs font-mono rounded-xs shadow-lg"
             style={{
               left: `${(getX(hoverIndex) / width) * 100}%`,
               top: "16px",
               transform: "translateX(-50%)",
             }}
           >
-            <div className="text-[10px] text-[#A9C4B8] border-b border-stone-700 pb-1 mb-1">
+            <div className="text-[10px] text-slate-300 border-b border-slate-700 pb-1 mb-1">
               {activePoint.date} (Day {activePoint.day})
             </div>
             {activePoint.index_value !== null ? (
               <div className="space-y-0.5">
                 <div className="flex justify-between gap-3">
-                  <span className="text-[#A9C4B8]">Index:</span>
+                  <span className="text-slate-400">Index:</span>
                   <span className="font-semibold text-white">
                     {activePoint.index_value.toFixed(1)}
                   </span>
                 </div>
                 {activePoint.change_pct !== undefined && activePoint.change_pct !== null && (
                   <div className="flex justify-between gap-3 text-[11px]">
-                    <span className="text-[#A9C4B8]">Δ Day:</span>
+                    <span className="text-slate-400">Δ Day:</span>
                     <span
                       className={
                         activePoint.change_pct > 0
-                          ? "text-emerald-400"
+                          ? "text-blue-400"
                           : activePoint.change_pct < 0
                           ? "text-rose-400"
-                          : "text-stone-300"
+                          : "text-slate-300"
                       }
                     >
                       {formatPercent(activePoint.change_pct)}
@@ -374,7 +374,7 @@ export function IndexTrendChart({
                   </div>
                 )}
                 {activePoint.quotes !== undefined && (
-                  <div className="flex justify-between gap-3 text-[10px] text-stone-400 pt-0.5 border-t border-stone-800">
+                  <div className="flex justify-between gap-3 text-[10px] text-slate-400 pt-0.5 border-t border-slate-800">
                     <span>Quotes:</span>
                     <span>{activePoint.quotes}</span>
                   </div>

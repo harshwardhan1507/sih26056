@@ -170,7 +170,7 @@ export default function ApiDocsPage() {
               href="http://localhost:8000/docs"
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#111716] text-[#FAF9F5] rounded-xs text-xs font-mono hover:bg-[#111716]/90 transition-colors shadow-xs"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0F172A] text-white rounded-xs text-xs font-mono hover:bg-[#0F172A]/90 transition-colors shadow-xs"
             >
               <span>Interactive Swagger UI</span>
               <ExternalLink className="h-3 w-3" />
@@ -180,14 +180,14 @@ export default function ApiDocsPage() {
       />
 
       {/* Overview Banner */}
-      <div className="p-4 border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs font-mono">
+      <div className="p-4 border border-[#E2E8F0] bg-white rounded-sm flex flex-col md:flex-row md:items-center justify-between gap-4 text-xs font-mono shadow-xs">
         <div>
-          <span className="text-[#626863]">Base URL:</span>{" "}
-          <strong className="text-[#111716]">http://localhost:8000</strong>
-          <span className="text-[#626863] ml-3">· Protocol:</span>{" "}
-          <strong className="text-[#111716]">HTTPS / JSON</strong>
+          <span className="text-[#64748B]">Base URL:</span>{" "}
+          <strong className="text-[#0F172A]">http://localhost:8000</strong>
+          <span className="text-[#64748B] ml-3">· Protocol:</span>{" "}
+          <strong className="text-[#0F172A]">HTTPS / JSON</strong>
         </div>
-        <div className="text-[#176B5B] font-semibold">
+        <div className="text-[#1E3A8A] font-semibold">
           FastAPI v1.0.0 · OpenAPI 3.1
         </div>
       </div>
@@ -199,61 +199,61 @@ export default function ApiDocsPage() {
           return (
             <div
               key={ep.path}
-              className="border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm p-5 space-y-4"
+              className="border border-[#E2E8F0] bg-white rounded-sm p-5 space-y-4 shadow-xs"
             >
               {/* Endpoint Header */}
-              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 pb-3 border-b border-[#D8D7D0]">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 pb-3 border-b border-[#E2E8F0]">
                 <div className="flex items-center gap-3">
-                  <span className="px-2 py-0.5 bg-[#176B5B] text-[#FAF9F5] font-mono text-[10px] font-bold rounded-xs tracking-wider">
+                  <span className="px-2 py-0.5 bg-[#1E3A8A] text-white font-mono text-[10px] font-bold rounded-xs tracking-wider">
                     {ep.method}
                   </span>
-                  <span className="font-mono font-bold text-sm text-[#111716]">
+                  <span className="font-mono font-bold text-sm text-[#0F172A]">
                     {ep.path}
                   </span>
                 </div>
-                <span className="text-xs text-[#626863] font-sans">
+                <span className="text-xs text-[#64748B] font-sans">
                   {ep.summary}
                 </span>
               </div>
 
               {/* Description */}
-              <p className="text-xs text-[#626863] font-sans leading-relaxed">
+              <p className="text-xs text-[#64748B] font-sans leading-relaxed">
                 {ep.description}
               </p>
 
               {/* Parameters Table if any */}
               {ep.params && ep.params.length > 0 && (
                 <div>
-                  <h5 className="font-mono text-[10px] uppercase tracking-wider text-[#626863] font-semibold mb-2">
+                  <h5 className="font-mono text-[10px] uppercase tracking-wider text-[#64748B] font-semibold mb-2">
                     Query Parameters
                   </h5>
-                  <div className="overflow-x-auto border border-[#D8D7D0] rounded-xs bg-[#F4F2EC]/40">
+                  <div className="overflow-x-auto border border-[#E2E8F0] rounded-xs bg-slate-50/50">
                     <table className="w-full text-left border-collapse text-xs">
                       <thead>
-                        <tr className="border-b border-[#D8D7D0] text-[10px] font-mono text-[#626863] uppercase">
+                        <tr className="border-b border-[#E2E8F0] text-[10px] font-mono text-[#64748B] uppercase">
                           <th className="py-1.5 px-3">Parameter</th>
                           <th className="py-1.5 px-3">Type</th>
                           <th className="py-1.5 px-3">Required</th>
                           <th className="py-1.5 px-3">Description</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#D8D7D0]/60 font-mono text-[11px]">
+                      <tbody className="divide-y divide-[#E2E8F0] font-mono text-[11px]">
                         {ep.params.map((param) => (
                           <tr key={param.name}>
-                            <td className="py-1.5 px-3 font-bold text-[#111716]">
+                            <td className="py-1.5 px-3 font-bold text-[#0F172A]">
                               {param.name}
                             </td>
-                            <td className="py-1.5 px-3 text-[#626863]">
+                            <td className="py-1.5 px-3 text-[#64748B]">
                               {param.type}
                             </td>
                             <td className="py-1.5 px-3">
                               {param.required ? (
                                 <span className="text-rose-700 font-semibold">Yes</span>
                               ) : (
-                                <span className="text-[#626863]">No</span>
+                                <span className="text-[#64748B]">No</span>
                               )}
                             </td>
-                            <td className="py-1.5 px-3 font-sans text-xs text-[#626863]">
+                            <td className="py-1.5 px-3 font-sans text-xs text-[#64748B]">
                               {param.description}
                             </td>
                           </tr>
@@ -267,17 +267,17 @@ export default function ApiDocsPage() {
               {/* cURL Example */}
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-[#626863] font-semibold">
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-[#64748B] font-semibold">
                     cURL Command
                   </span>
                   <button
                     type="button"
                     onClick={() => handleCopy(ep.curlExample, ep.path)}
-                    className="inline-flex items-center gap-1 text-[10px] font-mono text-[#176B5B] hover:underline cursor-pointer"
+                    className="inline-flex items-center gap-1 text-[10px] font-mono text-[#1E3A8A] hover:underline cursor-pointer"
                   >
                     {isCopied ? (
                       <>
-                        <Check className="h-3 w-3 text-[#176B5B]" />
+                        <Check className="h-3 w-3 text-[#1E3A8A]" />
                         <span>Copied!</span>
                       </>
                     ) : (
@@ -288,17 +288,17 @@ export default function ApiDocsPage() {
                     )}
                   </button>
                 </div>
-                <pre className="p-3 bg-[#111716] text-[#FAF9F5] rounded-xs font-mono text-xs overflow-x-auto selection:bg-[#176B5B]">
+                <pre className="p-3 bg-[#0F172A] text-slate-100 rounded-xs font-mono text-xs overflow-x-auto selection:bg-[#1E3A8A]">
                   {ep.curlExample}
                 </pre>
               </div>
 
               {/* JSON Response Preview */}
               <div>
-                <span className="font-mono text-[10px] uppercase tracking-wider text-[#626863] font-semibold block mb-1.5">
+                <span className="font-mono text-[10px] uppercase tracking-wider text-[#64748B] font-semibold block mb-1.5">
                   Response (200 OK)
                 </span>
-                <pre className="p-3 bg-[#F4F2EC] border border-[#D8D7D0] rounded-xs font-mono text-[11px] text-[#111716] overflow-x-auto max-h-56">
+                <pre className="p-3 bg-slate-50 border border-[#E2E8F0] rounded-xs font-mono text-[11px] text-[#0F172A] overflow-x-auto max-h-56">
                   {JSON.stringify(ep.responseExample, null, 2)}
                 </pre>
               </div>

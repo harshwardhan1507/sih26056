@@ -92,13 +92,13 @@ export function PipelineFlow({ className = "" }: { className?: string }) {
 
   return (
     <div
-      className={`border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm p-4 ${className}`}
+      className={`border border-[#E2E8F0] bg-white rounded-sm p-4 shadow-xs ${className}`}
     >
-      <div className="pb-3 mb-4 border-b border-[#D8D7D0]">
-        <h4 className="font-mono text-xs uppercase tracking-widest text-[#111716] font-semibold">
+      <div className="pb-3 mb-4 border-b border-[#E2E8F0]">
+        <h4 className="font-mono text-xs uppercase tracking-widest text-[#0F172A] font-semibold">
           Econometric Pipeline Architecture
         </h4>
-        <p className="text-[11px] text-[#626863] mt-0.5">
+        <p className="text-[11px] text-[#64748B] mt-0.5">
           From raw multi-tier ingestion through IQR hygiene to chained Laspeyres index aggregation
         </p>
       </div>
@@ -114,20 +114,20 @@ export function PipelineFlow({ className = "" }: { className?: string }) {
               onClick={() => setExpandedStep(isSelected ? null : s.step)}
               className={`p-2.5 rounded-xs border text-left transition-all cursor-pointer flex flex-col justify-between ${
                 isSelected
-                  ? "border-[#176B5B] bg-[#176B5B]/10 shadow-xs"
-                  : "border-[#D8D7D0] bg-[#F4F2EC] hover:bg-[#FAF9F5]"
+                  ? "border-[#1E3A8A] bg-blue-50/80 shadow-xs"
+                  : "border-[#E2E8F0] bg-slate-50 hover:bg-slate-100"
               }`}
             >
               <div>
-                <div className="flex items-center justify-between text-[10px] font-mono text-[#626863] mb-1">
+                <div className="flex items-center justify-between text-[10px] font-mono text-[#64748B] mb-1">
                   <span>STEP 0{s.step}</span>
-                  {isSelected && <CheckCircle2 className="h-3 w-3 text-[#176B5B]" />}
+                  {isSelected && <CheckCircle2 className="h-3 w-3 text-[#1E3A8A]" />}
                 </div>
-                <div className="font-mono font-bold text-xs text-[#111716] line-clamp-1">
+                <div className="font-mono font-bold text-xs text-[#0F172A] line-clamp-1">
                   {s.title}
                 </div>
               </div>
-              <div className="text-[10px] text-[#626863] font-sans mt-2 line-clamp-2">
+              <div className="text-[10px] text-[#64748B] font-sans mt-2 line-clamp-2">
                 {s.tag}
               </div>
             </button>
@@ -137,7 +137,7 @@ export function PipelineFlow({ className = "" }: { className?: string }) {
 
       {/* Detail Drawer for Selected Stage */}
       {expandedStep !== null && (
-        <div className="p-4 bg-[#F4F2EC] border border-[#D8D7D0] rounded-xs transition-all">
+        <div className="p-4 bg-slate-50 border border-[#E2E8F0] rounded-xs transition-all">
           {(() => {
             const current = STAGES.find((s) => s.step === expandedStep);
             if (!current) return null;
@@ -146,26 +146,26 @@ export function PipelineFlow({ className = "" }: { className?: string }) {
               <div>
                 <div className="flex items-baseline justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-xs text-[#176B5B] font-bold">
+                    <span className="font-mono text-xs text-[#1E3A8A] font-bold">
                       STAGE 0{current.step}:
                     </span>
-                    <h5 className="font-serif text-lg font-bold text-[#111716]">
+                    <h5 className="text-lg font-bold text-[#0F172A]">
                       {current.title}
                     </h5>
                   </div>
-                  <span className="text-[10px] font-mono uppercase bg-[#111716] text-[#FAF9F5] px-2 py-0.5 rounded-xs">
+                  <span className="text-[10px] font-mono uppercase bg-[#0F172A] text-white px-2 py-0.5 rounded-xs">
                     {current.tag}
                   </span>
                 </div>
 
-                <p className="text-xs text-[#111716] font-medium mb-3">
+                <p className="text-xs text-[#0F172A] font-medium mb-3">
                   {current.shortDesc}
                 </p>
 
-                <ul className="space-y-1.5 text-xs text-[#626863] font-sans">
+                <ul className="space-y-1.5 text-xs text-[#64748B] font-sans">
                   {current.details.map((d, idx) => (
                     <li key={idx} className="flex items-start gap-2">
-                      <span className="text-[#176B5B] font-mono font-bold">›</span>
+                      <span className="text-[#1E3A8A] font-mono font-bold">›</span>
                       <span className="leading-relaxed">{d}</span>
                     </li>
                   ))}

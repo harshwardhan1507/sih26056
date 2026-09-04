@@ -41,16 +41,16 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="w-60 bg-[#162923] text-[#FAF9F5] border-r border-[#1B362E] flex flex-col justify-between shrink-0 min-h-[calc(100vh-4rem)] select-none">
+    <aside className="w-60 bg-[#0B192C] text-slate-100 border-r border-[#1E293B] flex flex-col justify-between shrink-0 min-h-[calc(100vh-4rem)] select-none">
       <div className="py-5 px-3">
         {/* Brand Header / Title */}
         <div className="mb-6 px-3">
           <div className="flex items-center gap-2">
-            <span className="font-serif text-lg font-bold tracking-tight text-white">
+            <span className="text-xl font-bold tracking-tight text-white">
               APIx
             </span>
           </div>
-          <p className="text-[10px] text-[#A9C4B8] font-mono tracking-wider uppercase mt-0.5">
+          <p className="text-[10px] text-blue-200/70 font-mono tracking-wider uppercase mt-0.5">
             Real-Time Airfare Price Index
           </p>
         </div>
@@ -66,13 +66,13 @@ export function Sidebar() {
                 href={item.href}
                 className={`flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded transition-colors ${
                   active
-                    ? "bg-[#1E3E34] text-white font-semibold shadow-xs"
-                    : "text-[#A9C4B8] hover:text-white hover:bg-[#1E3E34]/50"
+                    ? "bg-[#1E3A8A] text-white font-semibold shadow-xs"
+                    : "text-slate-300 hover:text-white hover:bg-[#1E293B]"
                 }`}
               >
                 <Icon
                   className={`h-4 w-4 shrink-0 ${
-                    active ? "text-emerald-400" : "text-[#A9C4B8]"
+                    active ? "text-sky-300" : "text-slate-400"
                   }`}
                 />
                 <span>{item.label}</span>
@@ -82,8 +82,8 @@ export function Sidebar() {
         </nav>
 
         {/* Data & System Section */}
-        <div className="pt-4 border-t border-[#1E3E34]">
-          <p className="px-3 mb-2 text-[10px] uppercase tracking-wider text-[#A9C4B8]/70 font-mono font-semibold">
+        <div className="pt-4 border-t border-[#1E293B]">
+          <p className="px-3 mb-2 text-[10px] uppercase tracking-wider text-slate-400 font-mono font-semibold">
             Data & System
           </p>
           <nav className="space-y-1">
@@ -96,13 +96,13 @@ export function Sidebar() {
                   href={item.href}
                   className={`flex items-center gap-2.5 px-3 py-2 text-xs font-medium rounded transition-colors ${
                     active
-                      ? "bg-[#1E3E34] text-white font-semibold shadow-xs"
-                      : "text-[#A9C4B8] hover:text-white hover:bg-[#1E3E34]/50"
+                      ? "bg-[#1E3A8A] text-white font-semibold shadow-xs"
+                      : "text-slate-300 hover:text-white hover:bg-[#1E293B]"
                   }`}
                 >
                   <Icon
                     className={`h-4 w-4 shrink-0 ${
-                      active ? "text-emerald-400" : "text-[#A9C4B8]"
+                      active ? "text-sky-300" : "text-slate-400"
                     }`}
                   />
                   <span>{item.label}</span>
@@ -114,10 +114,10 @@ export function Sidebar() {
       </div>
 
       {/* Footer provenance tag */}
-      <div className="p-4 border-t border-[#1E3E34] text-[10px] text-[#A9C4B8]/70 font-mono leading-relaxed">
+      <div className="p-4 border-t border-[#1E293B] text-[10px] text-slate-400 font-mono leading-relaxed">
         <div className="text-white/90 font-medium">Ministry of Statistics</div>
         <div>and Programme Implementation</div>
-        <div className="text-[9px] text-[#A9C4B8]/50 mt-1">SIH-26056 · v0.1.0</div>
+        <div className="text-[9px] text-slate-500 mt-1">SIH-26056 · v0.1.0</div>
       </div>
     </aside>
   );
