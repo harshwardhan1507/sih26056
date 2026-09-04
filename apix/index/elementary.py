@@ -7,9 +7,23 @@ Jevons is invariant to which period you call the "base" and is the
 standard NSI choice for scraped/dynamic price data (Eurostat, ONS).
 
 This is a CHAINED, matched-sample index: on each day we only compare
-carriers whose price is available on BOTH today and yesterday. A
-sold-out flight just drops out of that day's comparison instead of
+carriers whose price is available on BOTH that day and the reference day.
+A sold-out flight just drops out of that day's comparison instead of
 being treated as a price of zero (see handbook §4.2c).
+
+Gap handling
+------------
+Collection days go missing (scheduler skipped, source outage, route not
+served). The reference for a comparison is therefore the most recent day
+that actually had usable prices, not blindly ``t-1``. Without this, one
+missing day silently erases two days of genuine price movement from the
+chain and the loss is permanent -- the index never recovers it.
+
+A day with no usable prices at all leaves the index level flat and keeps
+the previous reference, so the next day with data bridges the gap. A day
+whose carriers do not overlap the reference at all cannot yield a valid
+relative, so the chain restarts from that day's level (no movement is
+invented across a gap that cannot be measured).
 """
 
 import math
@@ -40,15 +54,56 @@ def jevons_ratio(prices_today: dict[str, float], prices_yesterday: dict[str, flo
     return math.exp(log_sum / n_valid)
 
 
-def build_elementary_index(daily_prices: list[dict[str, float]], base_value: float = 100.0) -> list[float]:
+def _has_usable_prices(prices: dict[str, float]) -> bool:
+    """True if at least one carrier has a positive, non-missing price."""
+    return any(p is not None and p > 0 for p in prices.values())
+
+
+def build_elementary_index(
+    daily_prices: list[dict[str, float]],
+    base_value: float = 100.0,
+) -> list[float]:
     """
     daily_prices: chronological list of {carrier_iata: price} dicts, one per day,
                   for a single (route, advance_window) elementary aggregate.
+                  Days with no observations should be passed as ``{}`` so the
+                  series stays aligned to a dense calendar.
     Returns the chained index series, same length, starting at base_value.
     """
+    if not daily_prices:
+        return []
+
     index = [base_value]
+    reference = daily_prices[0]
+
     for t in range(1, len(daily_prices)):
-        ratio = jevons_ratio(daily_prices[t], daily_prices[t - 1])
-        prev = index[-1]
-        index.append(prev if ratio is None else prev * ratio)
+        today = daily_prices[t]
+        prev_level = index[-1]
+
+        if not _has_usable_prices(today):
+            # No observations at all: hold the level, keep the old reference
+            # so a later day can still bridge across this gap.
+            index.append(prev_level)
+            continue
+
+        ratio = jevons_ratio(today, reference)
+        if ratio is None:
+            # Today has prices but shares no carrier with the reference, so
+            # no valid relative exists. Hold the level and re-anchor.
+            index.append(prev_level)
+        else:
+            index.append(prev_level * ratio)
+        reference = today
+
     return index
+
+
+def observation_counts(daily_prices: list[dict[str, float]]) -> list[int]:
+    """
+    Number of usable carrier observations per day. Surfaced alongside the
+    index so consumers can see how thin a given day's matched sample was.
+    """
+    return [
+        sum(1 for p in day.values() if p is not None and p > 0)
+        for day in daily_prices
+    ]
