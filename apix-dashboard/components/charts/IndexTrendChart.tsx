@@ -176,7 +176,7 @@ export function IndexTrendChart({
             India Airfare Index ({timeframe})
           </span>
           <span className="text-[11px] text-[#64748B] ml-2 font-sans">
-            Base ({baseValue.toFixed(1)}) = 100.0
+            Base ({baseValue !== null && baseValue !== undefined ? baseValue.toFixed(1) : "100.0"}) = 100.0
           </span>
         </div>
 
@@ -349,7 +349,7 @@ export function IndexTrendChart({
             <div className="text-[10px] text-slate-300 border-b border-slate-700 pb-1 mb-1">
               {activePoint.date} (Day {activePoint.day})
             </div>
-            {activePoint.index_value !== null ? (
+            {activePoint.index_value !== null && activePoint.index_value !== undefined ? (
               <div className="space-y-0.5">
                 <div className="flex justify-between gap-3">
                   <span className="text-slate-400">Index:</span>
