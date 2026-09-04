@@ -23,3 +23,6 @@ build/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Local raw datasets
+data/raw/
