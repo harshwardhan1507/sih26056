@@ -124,5 +124,12 @@ export function runContractVerifications(): boolean {
     sparkline: [100.0, 102.1, 108.4],
   };
 
-  return Boolean(soldOutQuote && validQuote && sampleSnapshot && sampleRoute);
+  const sampleFilters = {
+    origin: "DEL",
+    destination: "BOM",
+    advance_window_days: 7,
+    limit: 50,
+  };
+
+  return Boolean(soldOutQuote && validQuote && sampleSnapshot && sampleRoute && sampleFilters.limit === 50);
 }

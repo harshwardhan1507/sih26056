@@ -102,6 +102,7 @@ def get_quotes(
     advance_window_days: Optional[int] = None,
     date_from: Optional[date] = None,
     date_to: Optional[date] = None,
+    limit: Optional[int] = None,
 ) -> QuotesResponse:
     """
     Read fare quotes from fare_quote.csv with optional filters (ANDed together).
@@ -182,6 +183,8 @@ def get_quotes(
                     quality_flag=row.get("quality_flag", "ok").strip(),
                 )
             )
+            if limit is not None and len(results) >= limit:
+                break
 
     return QuotesResponse(count=len(results), quotes=results)
 

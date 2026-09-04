@@ -101,6 +101,13 @@ def test_get_quotes_happy_path_and_filters():
         dep = date.fromisoformat(q["departure_date"])
         assert date(2026, 1, 1) <= dep <= date(2026, 1, 3)
 
+    # 5. Limit parameter
+    resp_limit = client.get("/quotes?limit=10")
+    assert resp_limit.status_code == 200
+    data_limit = resp_limit.json()
+    assert data_limit["count"] == 10
+    assert len(data_limit["quotes"]) == 10
+
 
 def test_get_aggregate_index():
     response = client.get("/index/aggregate")
