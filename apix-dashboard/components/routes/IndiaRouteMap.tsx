@@ -19,13 +19,13 @@ interface HubNode {
 
 // Geometric coordinates approximating India's domestic hub network layout
 const HUBS: Record<string, HubNode> = {
-  DEL: { code: "DEL", name: "Delhi", x: 280, y: 90 },
-  BOM: { code: "BOM", name: "Mumbai", x: 160, y: 270 },
-  BLR: { code: "BLR", name: "Bengaluru", x: 240, y: 440 },
-  CCU: { code: "CCU", name: "Kolkata", x: 470, y: 210 },
-  MAA: { code: "MAA", name: "Chennai", x: 300, y: 450 },
-  HYD: { code: "HYD", name: "Hyderabad", x: 265, y: 320 },
-  GOI: { code: "GOI", name: "Goa", x: 175, y: 375 },
+  DEL: { code: "DEL", name: "Delhi", x: 260, y: 110 },
+  BOM: { code: "BOM", name: "Mumbai", x: 140, y: 280 },
+  BLR: { code: "BLR", name: "Bengaluru", x: 220, y: 440 },
+  CCU: { code: "CCU", name: "Kolkata", x: 440, y: 230 },
+  MAA: { code: "MAA", name: "Chennai", x: 290, y: 450 },
+  HYD: { code: "HYD", name: "Hyderabad", x: 245, y: 320 },
+  GOI: { code: "GOI", name: "Goa", x: 155, y: 375 },
 };
 
 export function IndiaRouteMap({
@@ -46,7 +46,7 @@ export function IndiaRouteMap({
         if (!from || !to) return null;
 
         // Stroke thickness mapped to DGCA weight (range ~1.5px to 5px)
-        const strokeWidth = Math.max(1.5, Math.min(6, r.weight * 24));
+        const strokeWidth = Math.max(1.5, Math.min(5.5, r.weight * 22));
 
         return {
           route: r,
@@ -71,43 +71,32 @@ export function IndiaRouteMap({
       <div className="flex items-center justify-between pb-3 mb-2 border-b border-[#D8D7D0]">
         <div>
           <h4 className="font-mono text-xs uppercase tracking-widest text-[#111716] font-semibold">
-            Domestic Network Abstraction
+            Route Network Graphic
           </h4>
           <p className="text-[11px] text-[#626863] mt-0.5">
-            Geometric India hub topology · Line stroke encodes official DGCA traffic weight
+            12 major domestic routes, weighted by actual passenger traffic (DGCA)
           </p>
         </div>
 
         {activeRoute && (
           <div className="text-right font-mono text-xs">
-            <span className="font-bold text-[#111716]">{activeRoute.origin} → {activeRoute.destination}</span>
+            <span className="font-bold text-[#111716]">{activeRoute.origin} ↔ {activeRoute.destination}</span>
             <span className="text-[#176B5B] ml-2 font-semibold">
-              {(activeRoute.weight * 100).toFixed(1)}% weight
-            </span>
-            <span className="text-[#626863] ml-2">
-              (Idx {activeRoute.current_index ? activeRoute.current_index.toFixed(1) : "—"})
+              {(activeRoute.weight * 100).toFixed(1)}%
             </span>
           </div>
         )}
       </div>
 
-      <div className="relative w-full aspect-[4/3] max-h-[440px] flex items-center justify-center select-none">
+      <div className="relative w-full aspect-[4/3] max-h-[440px] flex items-center justify-center select-none bg-[#FAF9F5]">
         <svg
-          viewBox="0 0 560 520"
+          viewBox="0 0 520 500"
           className="w-full h-full max-h-[440px] overflow-visible"
         >
-          {/* Background subtle network frame */}
-          <rect
-            x="30"
-            y="20"
-            width="500"
-            height="480"
-            fill="none"
-            stroke="#D8D7D0"
-            strokeWidth="0.5"
-            strokeDasharray="4 4"
-            opacity="0.4"
-          />
+          {/* India Map outline/watermark background */}
+          <g opacity="0.08" fill="#176B5B">
+            <circle cx="260" cy="270" r="180" />
+          </g>
 
           {/* Route Connection Lines */}
           {mapEdges.map(({ route, from, to, strokeWidth }) => {
@@ -143,7 +132,7 @@ export function IndiaRouteMap({
                   y1={from.y}
                   x2={to.x}
                   y2={to.y}
-                  stroke={isHighlighted ? "#176B5B" : "#111716"}
+                  stroke={isHighlighted ? "#176B5B" : "#162923"}
                   strokeWidth={isHighlighted ? strokeWidth + 1.5 : strokeWidth}
                   strokeOpacity={isHighlighted ? 0.95 : 0.35}
                   strokeLinecap="round"
@@ -168,9 +157,9 @@ export function IndiaRouteMap({
                 <circle
                   cx={hub.x}
                   cy={hub.y}
-                  r={isHovered ? 8 : 6}
+                  r={isHovered ? 7 : 5}
                   fill="#FAF9F5"
-                  stroke={isHovered ? "#176B5B" : "#111716"}
+                  stroke={isHovered ? "#176B5B" : "#162923"}
                   strokeWidth="2"
                   className="transition-all"
                 />
@@ -178,13 +167,13 @@ export function IndiaRouteMap({
                 <circle
                   cx={hub.x}
                   cy={hub.y}
-                  r="2.5"
-                  fill={isHovered ? "#176B5B" : "#111716"}
+                  r="2"
+                  fill={isHovered ? "#176B5B" : "#162923"}
                 />
 
                 {/* Label */}
                 <text
-                  x={hub.x + 10}
+                  x={hub.x + 8}
                   y={hub.y + 4}
                   className={`text-[11px] font-mono select-none ${
                     isHovered
@@ -193,13 +182,6 @@ export function IndiaRouteMap({
                   }`}
                 >
                   {hub.code}
-                </text>
-                <text
-                  x={hub.x + 10}
-                  y={hub.y + 15}
-                  className="text-[9px] font-sans fill-[#626863] select-none"
-                >
-                  {hub.name}
                 </text>
               </g>
             );
@@ -211,15 +193,14 @@ export function IndiaRouteMap({
       <div className="pt-2 border-t border-[#D8D7D0] flex items-center justify-between text-[10px] font-mono text-[#626863]">
         <div className="flex items-center gap-4">
           <span className="flex items-center gap-1.5">
-            <span className="h-1 w-6 rounded-full bg-[#111716] opacity-80" />
-            <span>Heavy traffic (DEL-BOM ~19.2%)</span>
+            <span className="h-1 w-5 rounded-full bg-[#162923] opacity-80" />
+            <span>Route (both directions)</span>
           </span>
           <span className="flex items-center gap-1.5">
-            <span className="h-0.5 w-6 rounded-full bg-[#111716] opacity-40" />
-            <span>Moderate traffic (~4%)</span>
+            <span className="h-0.5 w-5 rounded-full bg-[#162923] opacity-40" />
+            <span>Line thickness = DGCA weight</span>
           </span>
         </div>
-        <span>7 Metro Hubs · 12 Trunk Routes</span>
       </div>
     </div>
   );
