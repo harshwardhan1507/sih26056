@@ -26,3 +26,6 @@ htmlcov/
 
 # Local raw datasets
 data/raw/
+
+# Local tooling & agents
+.claude/
