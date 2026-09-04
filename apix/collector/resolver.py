@@ -88,9 +88,10 @@ class FareResolver(FareSource):
         Performs per-carrier resolution: queries primary sources in order,
         and requests only remaining unquoted carriers from subsequent tiers/fallback.
         """
-        self.metrics.total_requested += len(carriers)
+        normalized_carriers = [c.strip().upper() for c in carriers]
+        self.metrics.total_requested += len(normalized_carriers)
         resolved_quotes: list[FareQuote] = []
-        remaining_carriers = set(carriers)
+        remaining_carriers = set(normalized_carriers)
 
         # 1. Query primary sources sequentially for remaining unquoted carriers
         for source in self.primary_sources:
@@ -105,9 +106,10 @@ class FareResolver(FareSource):
                     carriers=list(remaining_carriers),
                 )
                 for q in quotes:
-                    if q.carrier_iata in remaining_carriers:
+                    c_code = q.carrier_iata.strip().upper()
+                    if c_code in remaining_carriers:
                         resolved_quotes.append(q)
-                        remaining_carriers.remove(q.carrier_iata)
+                        remaining_carriers.remove(c_code)
                         self.metrics.resolved_by_source[source.source_id] = (
                             self.metrics.resolved_by_source.get(source.source_id, 0) + 1
                         )
@@ -133,10 +135,13 @@ class FareResolver(FareSource):
                     carriers=list(remaining_carriers),
                 )
                 for q in fallback_quotes:
-                    resolved_quotes.append(q)
-                    self.metrics.resolved_by_source[self.fallback_source.source_id] = (
-                        self.metrics.resolved_by_source.get(self.fallback_source.source_id, 0) + 1
-                    )
+                    c_code = q.carrier_iata.strip().upper()
+                    if c_code in remaining_carriers:
+                        resolved_quotes.append(q)
+                        remaining_carriers.remove(c_code)
+                        self.metrics.resolved_by_source[self.fallback_source.source_id] = (
+                            self.metrics.resolved_by_source.get(self.fallback_source.source_id, 0) + 1
+                        )
             except Exception as exc:
                 self.logger.error(
                     "Fallback source '%s' raised exception for %s-%s (window %d): %s",

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useRef } from "react";
+import React, { useState, useMemo, useCallback, useRef } from "react";
 import type { IndexPoint } from "@/lib/api/types";
 import { formatINR } from "@/lib/formatters/currency";
 import { formatPercent } from "@/lib/formatters/percentage";
@@ -105,22 +105,31 @@ export function CoordinatedFareChart({
   }, [validFares]);
 
   // Shared horizontal scale
-  const getX = (index: number) => {
-    if (pointsWithFare.length <= 1) return padLeft + chartW / 2;
-    return padLeft + (index / (pointsWithFare.length - 1)) * chartW;
-  };
+  const getX = useCallback(
+    (index: number) => {
+      if (pointsWithFare.length <= 1) return padLeft + chartW / 2;
+      return padLeft + (index / (pointsWithFare.length - 1)) * chartW;
+    },
+    [chartW, padLeft, pointsWithFare.length]
+  );
 
   // Top Chart Y scale
-  const getIndexY = (val: number) => {
-    if (indexBounds.max === indexBounds.min) return padTop + chartH / 2;
-    return padTop + chartH - ((val - indexBounds.min) / (indexBounds.max - indexBounds.min)) * chartH;
-  };
+  const getIndexY = useCallback(
+    (val: number) => {
+      if (indexBounds.max === indexBounds.min) return padTop + chartH / 2;
+      return padTop + chartH - ((val - indexBounds.min) / (indexBounds.max - indexBounds.min)) * chartH;
+    },
+    [chartH, indexBounds.max, indexBounds.min, padTop]
+  );
 
   // Bottom Chart Y scale
-  const getFareY = (val: number) => {
-    if (fareBounds.max === fareBounds.min) return padTop + chartH / 2;
-    return padTop + chartH - ((val - fareBounds.min) / (fareBounds.max - fareBounds.min)) * chartH;
-  };
+  const getFareY = useCallback(
+    (val: number) => {
+      if (fareBounds.max === fareBounds.min) return padTop + chartH / 2;
+      return padTop + chartH - ((val - fareBounds.min) / (fareBounds.max - fareBounds.min)) * chartH;
+    },
+    [chartH, fareBounds.max, fareBounds.min, padTop]
+  );
 
   // Paths: Top Chart (Index)
   const indexPathSegments = useMemo(() => {
@@ -141,7 +150,7 @@ export function CoordinatedFareChart({
     });
     if (current.length > 0) segments.push(current.join(" "));
     return segments;
-  }, [pointsWithFare, indexBounds]);
+  }, [pointsWithFare, getX, getIndexY]);
 
   // Paths: Bottom Chart (Fare)
   const farePathSegments = useMemo(() => {
@@ -162,7 +171,7 @@ export function CoordinatedFareChart({
     });
     if (current.length > 0) segments.push(current.join(" "));
     return segments;
-  }, [pointsWithFare, fareBounds]);
+  }, [pointsWithFare, getX, getFareY]);
 
   // Mouse interaction
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {

@@ -8,14 +8,9 @@ import { formatUTCtoIST } from "../formatters/dates";
 import { config } from "../config";
 import type {
   DataContextMetadata,
-  CollectionMethod,
-  QualityFlag,
   QuoteItem,
   IndexSnapshot,
   RouteSnapshot,
-  RouteDetail,
-  QualitySummary,
-  SourceStatusItem,
 } from "../api/types";
 
 export function runContractVerifications(): boolean {

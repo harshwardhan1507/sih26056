@@ -18,6 +18,8 @@ import {
   RouteSnapshot,
   SourceStatusItem,
   AdvanceWindow,
+  CollectionMethod,
+  QualityFlag,
 } from "./types";
 import { config } from "../config";
 import { formatUTCtoIST } from "../formatters/dates";
@@ -304,8 +306,8 @@ export class FastApiProvider implements ApiXDataProvider {
       fare_class: q.fare_class,
       total_fare_inr: q.total_fare_inr,
       source_id: q.source_id,
-      collection_method: (q.collection_method as any) || "api",
-      quality_flag: (q.quality_flag as any) || "ok",
+      collection_method: (q.collection_method as CollectionMethod) || "api",
+      quality_flag: (q.quality_flag as QualityFlag) || "ok",
       metadata: {
         mode: "live",
         dataset_type: "production",

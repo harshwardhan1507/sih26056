@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { PageHeader } from "@/components/layout/PageHeader";
-import { Copy, Check, ExternalLink, Code2 } from "lucide-react";
+import { Copy, Check, ExternalLink } from "lucide-react";
 
 interface EndpointSpec {
   method: "GET";
