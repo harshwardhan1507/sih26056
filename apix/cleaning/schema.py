@@ -26,6 +26,7 @@ VALID_COLLECTION_METHODS: Set[str] = {
     "api",
     "tariff_sheet",
     "scrape",
+    "historical_panel",  # real but retrospective (e.g. Kaggle EaseMyTrip 2022)
     "simulated",
     "imputed",
 }

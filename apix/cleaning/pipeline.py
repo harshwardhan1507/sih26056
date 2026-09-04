@@ -4,7 +4,7 @@ Unified cleaning pipeline and audit reporting for APIx fare quotes.
 Orchestrates the four core stages of airfare price data hygiene:
   1. Schema Validation & Coercion (schema.py)
   2. Deduplication with Deterministic Precedence (deduplication.py)
-  3. Statistical Outlier Detection on Log-Prices (outliers.py)
+  3. Statistical Outlier Detection on Log Price RELATIVES (outliers.py)
   4. Optional CPI Missing Price Imputation (imputation.py)
 
 Emits cleaned, provenance-audited FareQuotes and an actionable CleaningReport.
@@ -49,7 +49,7 @@ class CleaningPipeline:
         strict_windows: bool = False,
         deduplicate: bool = True,
         detect_outliers: bool = True,
-        outlier_method: str = "tukey",
+        outlier_method: str = "relative",
         outlier_k: float = 2.0,
         outlier_mad_threshold: float = 3.5,
         impute_missing: bool = False,

@@ -104,6 +104,26 @@ def is_in_period(year: int, month: int, start_period: str, end_period: str) -> b
     return start_period <= period_str <= end_period
 
 
+def latest_t12m_window(periods: Sequence[str]) -> Tuple[str, str]:
+    """
+    Trailing-12-month window ending at the newest period present in the data.
+
+    The CLI defaults used to hardcode 2025-06..2026-05, so re-running the
+    script a year later silently reproduced a stale window and quietly
+    published year-old weights as current.
+    """
+    if not periods:
+        raise ValueError("No YYYY-MM periods found in the DGCA CSV.")
+    end = max(periods)
+    end_year, end_month = (int(x) for x in end.split("-"))
+    start_month = end_month + 1
+    start_year = end_year - 1
+    if start_month > 12:
+        start_month -= 12
+        start_year += 1
+    return f"{start_year:04d}-{start_month:02d}", end
+
+
 def derive_weights_from_reader(
     reader: csv.DictReader,
     start_period: str = "2025-06",
@@ -169,9 +189,10 @@ def build_weight_payload(
     weights: Dict[str, float],
     route_pax: Dict[str, int],
     total_basket_pax: int,
-    coverage_month: str = "2026-05",
-    t12m_start: str = "2025-06",
-    t12m_end: str = "2026-05",
+    coverage_month: str,
+    t12m_start: str,
+    t12m_end: str,
+    all_domestic_pax: int = 0,
 ) -> Dict:
     """Build canonical JSON payload matching apix/data/route_weights.json schema."""
     sorted_weights = dict(sorted(weights.items(), key=lambda item: item[1], reverse=True))
@@ -190,6 +211,14 @@ def build_weight_payload(
             f"CHENNAI=MAA, HYDERABAD=HYD, GOA/GOA(DABOLIM,SOUTH GOA)/GOA(MOPA,NORTH GOA)/MOPA,GOA/DABOLIM=GOI."
         ),
         "total_basket_pax": total_basket_pax,
+        "all_domestic_pax": all_domestic_pax,
+        # Recorded rather than only printed: "what share of the market does
+        # your basket cover?" is the first question a reviewer asks, and the
+        # answer belongs in the artifact, not in a console log that is gone.
+        "basket_share_of_domestic_pct": (
+            round(total_basket_pax / all_domestic_pax * 100, 2)
+            if all_domestic_pax > 0 else None
+        ),
         "weights": sorted_weights,
     }
 
@@ -245,13 +274,15 @@ def main() -> int:
     )
     parser.add_argument(
         "--start-period",
-        default="2025-06",
-        help="Start of T12M period in YYYY-MM (default: 2025-06).",
+        default=None,
+        help="Start of T12M window in YYYY-MM. Defaults to the trailing 12 "
+             "months ending at the newest period in the data.",
     )
     parser.add_argument(
         "--end-period",
-        default="2026-05",
-        help="End of T12M period in YYYY-MM (default: 2026-05).",
+        default=None,
+        help="End of T12M window in YYYY-MM. Defaults to the newest period "
+             "present in the data.",
     )
     args = parser.parse_args()
 
@@ -275,29 +306,41 @@ def main() -> int:
             )
             return 1
 
-    if csv_content is not None:
-        reader = csv.DictReader(StringIO(csv_content))
-    else:
+    if csv_content is None:
         print(f"Reading local DGCA CSV from: {csv_path}")
-        f = open(csv_path, "r", encoding="utf-8", newline="")
-        reader = csv.DictReader(f)
+        # Read once into memory. The previous code kept a bare file handle and
+        # closed it via `"f" in locals()`, which leaked the handle whenever
+        # derivation raised.
+        csv_content = Path(csv_path).read_text(encoding="utf-8", errors="replace")
+
+    # Resolve the T12M window from the data unless the caller pinned one.
+    periods = {
+        f"{int(row['Year']):04d}-{int(row['Month']):02d}"
+        for row in csv.DictReader(StringIO(csv_content))
+        if row.get("Year", "").strip().isdigit() and row.get("Month", "").strip().isdigit()
+    }
+    if args.start_period and args.end_period:
+        start_period, end_period = args.start_period, args.end_period
+    else:
+        auto_start, auto_end = latest_t12m_window(sorted(periods))
+        start_period = args.start_period or auto_start
+        end_period = args.end_period or auto_end
+    print(f"T12M window: {start_period} to {end_period}")
 
     weights, route_pax, total_basket_pax, all_domestic_pax = derive_weights_from_reader(
-        reader,
-        start_period=args.start_period,
-        end_period=args.end_period,
+        csv.DictReader(StringIO(csv_content)),
+        start_period=start_period,
+        end_period=end_period,
     )
-
-    if csv_path is not None and "f" in locals():
-        f.close()
 
     payload = build_weight_payload(
         weights=weights,
         route_pax=route_pax,
         total_basket_pax=total_basket_pax,
-        coverage_month=args.end_period,
-        t12m_start=args.start_period,
-        t12m_end=args.end_period,
+        coverage_month=end_period,
+        t12m_start=start_period,
+        t12m_end=end_period,
+        all_domestic_pax=all_domestic_pax,
     )
 
     args.output.parent.mkdir(parents=True, exist_ok=True)

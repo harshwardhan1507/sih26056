@@ -244,8 +244,26 @@ class KaggleFlightRecord:
     collected_at_utc: Optional[datetime] = None
     departure_date: Optional[date] = None
     source_id: str = "kaggle_easemytrip_v1"
-    collection_method: str = "scrape"
+    collection_method: str = "historical_panel"
     quality_flag: str = "ok"
+
+    @property
+    def observation_date(self) -> Optional[date]:
+        """
+        The day the fare was OBSERVED (the panel's `date` column), as
+        distinct from the day it departs.
+
+        An airfare index compares the T+7 price seen today against the T+7
+        price seen yesterday, so the time axis is the observation date.
+        Keying on departure_date instead only happens to work within a
+        single window (it is a constant shift) and breaks the moment two
+        windows are placed on a shared calendar.
+        """
+        if self.collected_at_utc is not None:
+            return self.collected_at_utc.date()
+        if self.departure_date is not None:
+            return self.departure_date - timedelta(days=self.advance_window_days)
+        return None
 
     def to_fare_quote(self, as_of_date: Optional[date] = None) -> FareQuote:
         """
@@ -321,8 +339,22 @@ def normalize_row(
             return None
 
         window_tag = window_to_tag(window)
-        anchor_date = as_of_date or KAGGLE_PANEL_BASE_DATE
-        departure_date = anchor_date + timedelta(days=days_left)
+        if "date" in row and row["date"].strip():
+            try:
+                anchor_date = date.fromisoformat(row["date"].strip())
+            except ValueError:
+                anchor_date = as_of_date or KAGGLE_PANEL_BASE_DATE
+        else:
+            anchor_date = as_of_date or KAGGLE_PANEL_BASE_DATE
+
+        if "departure_date" in row and row["departure_date"].strip():
+            try:
+                departure_date = date.fromisoformat(row["departure_date"].strip())
+            except ValueError:
+                departure_date = anchor_date + timedelta(days=days_left)
+        else:
+            departure_date = anchor_date + timedelta(days=days_left)
+
         collected_at = datetime.combine(anchor_date, datetime.min.time(), tzinfo=timezone.utc)
 
         return KaggleFlightRecord(
@@ -345,7 +377,7 @@ def normalize_row(
             collected_at_utc=collected_at,
             departure_date=departure_date,
             source_id="kaggle_easemytrip_v1",
-            collection_method="scrape",
+            collection_method="historical_panel",
             quality_flag="ok",
         )
     except (ValueError, KeyError):
@@ -499,6 +531,58 @@ class KaggleDatasetLoader:
 
         return daily_series
 
+    @staticmethod
+    def to_dated_carrier_prices(
+        records: Sequence[KaggleFlightRecord],
+        origin_iata: str,
+        destination_iata: str,
+        window_days: int,
+        fare_class: str = "Economy",
+        agg_func: str = "min",
+    ) -> Dict[date, Dict[str, float]]:
+        """
+        Same aggregation as ``to_daily_carrier_prices`` but keyed by calendar
+        date instead of collapsed into a dense list.
+
+        The list form silently loses which days are missing, so two
+        (route, window) strata with different coverage produce series of
+        different lengths that cannot be aggregated together. Callers that
+        aggregate across strata must build a common date axis, which needs
+        the dates.
+        """
+        target_orig = origin_iata.strip().upper()
+        target_dest = destination_iata.strip().upper()
+        target_class = normalize_class(fare_class)
+
+        grouped: Dict[date, Dict[str, List[float]]] = {}
+        for rec in records:
+            if (rec.origin_iata == target_orig and
+                rec.destination_iata == target_dest and
+                rec.advance_window_days == window_days and
+                rec.fare_class == target_class):
+
+                obs = rec.observation_date or KAGGLE_PANEL_BASE_DATE
+                grouped.setdefault(obs, {}).setdefault(rec.carrier_iata, []).append(rec.price_inr)
+
+        dated: Dict[date, Dict[str, float]] = {}
+        for obs, carriers in grouped.items():
+            carrier_map: Dict[str, float] = {}
+            for carrier, prices in carriers.items():
+                if agg_func == "min":
+                    carrier_map[carrier] = min(prices)
+                elif agg_func == "median":
+                    sorted_p = sorted(prices)
+                    mid = len(sorted_p) // 2
+                    carrier_map[carrier] = (
+                        sorted_p[mid] if len(sorted_p) % 2 != 0
+                        else (sorted_p[mid - 1] + sorted_p[mid]) / 2.0
+                    )
+                else:
+                    carrier_map[carrier] = sum(prices) / len(prices)
+            dated[obs] = carrier_map
+
+        return dated
+
 
 # --- FareSource Adapter for APIx Pipeline ---
 
@@ -509,7 +593,9 @@ class KaggleFareSource(FareSource):
     """
 
     source_id = "kaggle_easemytrip_v1"
-    collection_method = "scrape"
+    # Retrospective panel (2022 observations), NOT a live scrape. Mislabelling
+    # it "scrape" made /sources/status report stale history as live collection.
+    collection_method = "historical_panel"
 
     def __init__(
         self,

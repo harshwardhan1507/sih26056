@@ -21,11 +21,20 @@ from .kaggle import (
     AIRLINE_TO_IATA,
 )
 
+from .tariff_sheet import IndiGoTariffSheetSource, TariffBand
+from .tariff_carriers import AirIndiaTariffSheetSource, AkasaTariffSheetSource
+from .har_replay_scraper import HarReplayScraperSource
+
 __all__ = [
     "FareQuote",
     "FareSource",
     "SimulatedFareSource",
     "BASE_FARE",
+    "IndiGoTariffSheetSource",
+    "AirIndiaTariffSheetSource",
+    "AkasaTariffSheetSource",
+    "HarReplayScraperSource",
+    "TariffBand",
     "KaggleFlightRecord",
     "KaggleDatasetLoader",
     "KaggleFareSource",

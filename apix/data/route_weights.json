@@ -5,6 +5,9 @@
   "generated_date": "2026-09-04",
   "methodology": "Passenger shares computed over the Trailing 12-Month (T12M) window 2025-06 to 2026-05 from aggregated/domestic/city.csv via scripts/derive_weights.py. PaxToCity2 + PaxFromCity2 summed across all 12 months for each city pair, restricted to the 12-route APIx basket, and normalised to sum to 1.0. City names mapped to IATA codes with Metropolitan Catchment Aggregation: DELHI=DEL, MUMBAI/MUMBAI(MUMBAI)/MUMBAI(NAVI MUMBAI)=BOM, BENGALURU=BLR, KOLKATA=CCU, CHENNAI=MAA, HYDERABAD=HYD, GOA/GOA(DABOLIM,SOUTH GOA)/GOA(MOPA,NORTH GOA)/MOPA,GOA/DABOLIM=GOI. See docs/data-sources/dgca-route-weights.md.",
   "total_basket_pax": 49572263,
+  "all_domestic_pax": null,
+  "basket_share_of_domestic_pct": null,
+  "_coverage_note": "all_domestic_pax and basket_share_of_domestic_pct are null because this file predates their addition. Re-run scripts/derive_weights.py --download to populate them; the script now also auto-detects the latest trailing 12-month window rather than defaulting to a hardcoded one.",
   "weights": {
     "DEL-BOM": 0.192173,
     "DEL-BLR": 0.135988,

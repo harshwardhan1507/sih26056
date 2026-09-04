@@ -669,3 +669,81 @@ if __name__ == "__main__":
     test_cleaning_integration_with_elementary_index()
     test_cleaning_pipeline_on_kaggle_sample()
     print("All cleaning unit tests passed successfully!")
+
+
+# ---------------------------------------------------------------------------
+# Outlier basis regression tests
+#
+# Outlier screening used to run on the daily CROSS-SECTION of carriers, which
+# flags a carrier for being priced differently from its competitors. That is a
+# genuine market feature, not a data error, and excluding it biases the index
+# toward the cheapest carrier. Screening now runs on each carrier's own
+# period-to-period price relatives.
+# ---------------------------------------------------------------------------
+
+def _series_quote(day: int, carrier: str, price, window: int = 7) -> FareQuote:
+    return FareQuote(
+        collected_at_utc=datetime(2026, 1, 1, tzinfo=timezone.utc),
+        departure_date=date(2026, 1, day),
+        advance_window_days=window,
+        origin_iata="DEL",
+        destination_iata="BOM",
+        carrier_iata=carrier,
+        fare_class="Economy",
+        total_fare_inr=price,
+        source_id="test",
+        collection_method="api",
+        quality_flag="ok",
+    )
+
+
+def _stable_two_carrier_panel(days: int = 12):
+    """A cheap LCC and a persistently pricier full-service carrier. No errors."""
+    quotes = []
+    for d in range(1, days + 1):
+        quotes.append(_series_quote(d, "6E", 5000.0 + d * 10))
+        quotes.append(_series_quote(d, "AI", 9000.0 + d * 10))
+    return quotes
+
+
+def test_relative_method_does_not_flag_legitimate_carrier_premium():
+    """A carrier that is simply pricier than its rivals is not an outlier."""
+    from apix.cleaning.outliers import detect_outliers
+
+    _, flagged = detect_outliers(_stable_two_carrier_panel(), method="relative")
+    assert flagged == 0, (
+        f"Flagged {flagged} quotes on a panel containing only legitimate, "
+        "stable carrier price dispersion."
+    )
+
+
+def test_relative_method_flags_a_genuine_price_spike():
+    """A single carrier jumping 6x against its own history is an outlier."""
+    from apix.cleaning.outliers import detect_outliers
+
+    quotes = _stable_two_carrier_panel()
+    quotes.append(_series_quote(13, "6E", 31000.0))   # ~6x its own level
+    quotes.append(_series_quote(13, "AI", 9130.0))    # normal continuation
+
+    result, flagged = detect_outliers(quotes, method="relative")
+    assert flagged == 1, f"Expected exactly one outlier, got {flagged}."
+
+    tagged = [q for q in result if q.quality_flag == "outlier"]
+    assert tagged[0].carrier_iata == "6E"
+    assert tagged[0].total_fare_inr == 31000.0
+
+
+def test_outliers_are_tagged_never_deleted():
+    """Screening must preserve every row for audit."""
+    from apix.cleaning.outliers import detect_outliers
+
+    quotes = _stable_two_carrier_panel()
+    quotes.append(_series_quote(13, "6E", 31000.0))
+    result, _ = detect_outliers(quotes, method="relative")
+    assert len(result) == len(quotes)
+
+
+def test_pipeline_defaults_to_relative_outlier_basis():
+    from apix.cleaning.pipeline import CleaningPipeline
+
+    assert CleaningPipeline().outlier_method == "relative"

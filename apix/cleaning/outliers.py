@@ -140,28 +140,123 @@ def identify_outlier_indices_mad(
     return outlier_indices
 
 
+def detect_outliers_by_relative(
+    quotes: Sequence[FareQuote],
+    mad_threshold: float = 5.0,
+    min_sample_size: int = 5,
+) -> Set[int]:
+    """
+    Flag extreme PERIOD-TO-PERIOD price movements, per carrier.
+
+    This is the basis a price index actually needs. Each carrier's own series
+    within a (route, advance_window, fare_class) stratum is ordered by
+    departure date, log relatives ln(p_t / p_{t-1}) are computed, and relatives
+    that are extreme against that carrier's own history are flagged.
+
+    Why not the cross-section: comparing carriers against each other on one day
+    flags a carrier for being *priced differently from its competitors*. That
+    is a real market feature -- Air India costing more than IndiGo is a genuine
+    price, not a data error -- and excluding it biases the index toward the
+    cheapest carrier. Eurostat and ONS guidance for scraped price data screens
+    period-to-period relatives, not cross-vendor level differences.
+
+    The failure mode this replaces is concrete: once regulatory tariff-band
+    fares (~INR 14,000) sat in the same daily group as market fares
+    (~INR 5,000), the cross-sectional fence was fitting a bimodal sample and
+    flagging essentially at random.
+
+    Returns the set of indices in ``quotes`` to flag.
+    """
+    SeriesKey = Tuple[str, str, int, str, str]
+    series: Dict[SeriesKey, List[Tuple[date, int, float]]] = {}
+
+    for idx, q in enumerate(quotes):
+        if q.total_fare_inr is None or q.total_fare_inr <= 0:
+            continue
+        key: SeriesKey = (
+            q.origin_iata.upper(),
+            q.destination_iata.upper(),
+            q.advance_window_days,
+            q.carrier_iata.upper(),
+            q.fare_class.title(),
+        )
+        series.setdefault(key, []).append((q.departure_date, idx, q.total_fare_inr))
+
+    flagged: Set[int] = set()
+
+    for observations in series.values():
+        if len(observations) < min_sample_size:
+            continue
+        observations.sort(key=lambda t: (t[0], t[1]))
+
+        log_relatives: List[float] = []
+        relative_owner: List[int] = []
+        for i in range(1, len(observations)):
+            prev_price = observations[i - 1][2]
+            curr_price = observations[i][2]
+            if prev_price <= 0 or curr_price <= 0:
+                continue
+            log_relatives.append(math.log(curr_price / prev_price))
+            relative_owner.append(observations[i][1])
+
+        if len(log_relatives) < min_sample_size - 1:
+            continue
+
+        med = compute_median(sorted(log_relatives))
+        mad = compute_median(sorted(abs(lr - med) for lr in log_relatives))
+        if mad <= 1e-6:
+            continue
+
+        for lr, owner_idx in zip(log_relatives, relative_owner):
+            if 0.6745 * abs(lr - med) / mad > mad_threshold:
+                flagged.add(owner_idx)
+
+    return flagged
+
+
 def detect_outliers(
     quotes: Sequence[FareQuote],
-    method: str = "tukey",
+    method: str = "relative",
     k: float = 2.0,
     mad_threshold: float = 3.5,
     min_sample_size: int = 4,
 ) -> Tuple[List[FareQuote], int]:
     """
-    Detect statistical outliers across quotes grouped by market segment:
-    (origin_iata, destination_iata, advance_window_days, departure_date, fare_class).
+    Tag statistical outliers, never delete them.
 
     Args:
         quotes: Sequence of FareQuote objects.
-        method: "tukey" (default) or "mad".
-        k: Multiplier for Tukey fence (default 2.0).
-        mad_threshold: Threshold for MAD modified z-score (default 3.5).
-        min_sample_size: Minimum segment size required (default 4).
+        method:
+            ``"relative"`` (default) screens each carrier's own period-to-period
+            price movements -- the basis appropriate to a price index.
+            ``"tukey"`` and ``"mad"`` screen the daily CROSS-SECTION of carriers
+            on one route/window/day. Those flag legitimate carrier price
+            dispersion as error; keep them for diagnostics, not for production
+            index input.
+        k: Tukey fence multiplier (cross-sectional methods only).
+        mad_threshold: Modified z-score threshold.
+        min_sample_size: Minimum observations required before screening.
 
     Returns:
         (result_quotes, total_outliers_flagged)
     """
-    # Group quotes by market segment
+    if method.lower() == "relative":
+        flagged_indices = detect_outliers_by_relative(
+            quotes,
+            mad_threshold=max(mad_threshold, 5.0),
+            min_sample_size=max(min_sample_size, 5),
+        )
+        results: List[FareQuote] = []
+        outlier_count = 0
+        for idx, q in enumerate(quotes):
+            if idx in flagged_indices:
+                outlier_count += 1
+                results.append(replace(q, quality_flag="outlier"))
+            else:
+                results.append(q)
+        return results, outlier_count
+
+    # Cross-sectional methods (diagnostic).
     SegmentKey = Tuple[str, str, int, date, str]
     segments: Dict[SegmentKey, List[int]] = {}
 

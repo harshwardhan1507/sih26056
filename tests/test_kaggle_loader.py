@@ -238,7 +238,9 @@ def test_to_fare_quote_conversion():
     assert fq.fare_class == rec.fare_class
     assert fq.total_fare_inr == rec.price_inr
     assert fq.source_id == "kaggle_easemytrip_v1"
-    assert fq.collection_method == "scrape"
+    # A 2022 retrospective panel is not a live scrape; mislabelling it made
+    # /sources/status report stale history as current collection.
+    assert fq.collection_method == "historical_panel"
     assert fq.quality_flag == "ok"
 
     row = rec.to_row()
@@ -284,7 +286,7 @@ def test_kaggle_fare_source_get_quotes():
         assert q.total_fare_inr is not None
         assert q.total_fare_inr > 0
         assert q.source_id == "kaggle_easemytrip_v1"
-        assert q.collection_method == "scrape"
+        assert q.collection_method == "historical_panel"
 
 
 def test_kaggle_daily_prices_to_elementary_index():

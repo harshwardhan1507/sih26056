@@ -5,7 +5,7 @@ All tests run against the pre-committed CSV fixture so no network access and
 no pdfplumber memory issues are needed during CI.
 """
 
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 import math
 import sys
@@ -15,6 +15,7 @@ if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
 from apix.collector.adapters.tariff_sheet import (
+    bucket_for_window,
     TariffBand,
     IndiGoTariffSheetSource,
     parse_indigo_tariff_csv,
@@ -116,27 +117,72 @@ def test_adapter_from_fixture_returns_fare_quotes():
     assert q.total_fare_inr is not None and q.total_fare_inr > 0
 
 
-def test_adapter_fare_is_midpoint():
-    """The returned fare is the midpoint of the Minimum band's [min, max]."""
+def test_adapter_fare_is_bucket_midpoint():
+    """
+    The returned fare is the midpoint of the Minimum-row and Maximum-row
+    fares AT THE BUCKET selected for the requested advance window.
+
+    Previously this adapter used the Minimum row's overall [min, max]
+    midpoint while the Air India / Akasa adapters used the Maximum row's
+    midpoint, so carriers sat on different price definitions inside the same
+    matched sample.
+    """
     src = _fixture_source()
     bands = parse_indigo_tariff_csv(FIXTURE_CSV, source_url=str(FIXTURE_CSV))
 
-    # Find the Minimum band for DEL-BOM (or BOM-DEL)
-    min_band = next(
-        (b for b in bands
-         if b.row_type == "Minimum"
-         and {b.origin_iata, b.destination_iata} == {"DEL", "BOM"}),
-        None,
-    )
-    assert min_band is not None, "DEL-BOM Minimum band not found in fixture"
+    window = 30
+    idx = bucket_for_window(window) - 1
 
-    expected_midpoint = round((min_band.min_fare_inr + min_band.max_fare_inr) / 2.0, 2)
+    def _row(row_type):
+        return next(
+            (b for b in bands
+             if b.row_type == row_type
+             and {b.origin_iata, b.destination_iata} == {"DEL", "BOM"}),
+            None,
+        )
 
-    quotes = src.get_quotes("DEL", "BOM", date(2026, 9, 4), 30, ["6E"])
+    min_band, max_band = _row("Minimum"), _row("Maximum")
+    assert min_band is not None and max_band is not None, "DEL-BOM bands not in fixture"
+
+    expected = round((min_band.fares[idx] + max_band.fares[idx]) / 2.0, 2)
+
+    quotes = src.get_quotes("DEL", "BOM", date(2026, 9, 4), window, ["6E"])
     assert len(quotes) == 1
-    assert math.isclose(quotes[0].total_fare_inr, expected_midpoint, rel_tol=1e-4), (
-        f"Expected midpoint {expected_midpoint}, got {quotes[0].total_fare_inr}"
+    assert math.isclose(quotes[0].total_fare_inr, expected, rel_tol=1e-4), (
+        f"Expected bucket-{idx + 1} midpoint {expected}, got {quotes[0].total_fare_inr}"
     )
+
+
+def test_adapter_fare_varies_by_advance_window():
+    """
+    A tariff quote must respond to the advance window.
+
+    All five windows used to return one identical number, so 6E contributed a
+    price relative of exactly 1.0 every day while still occupying a slot in
+    the matched sample and damping the index.
+    """
+    src = _fixture_source()
+    fares = [
+        src.get_quotes("DEL", "BOM", date(2026, 9, 4), w, ["6E"])[0].total_fare_inr
+        for w in (45, 30, 15, 7, 1)
+    ]
+
+    assert len(set(fares)) == len(fares), f"Windows returned duplicate fares: {fares}"
+    assert fares == sorted(fares), (
+        f"Fares must rise as departure approaches (T+45 -> T+1); got {fares}"
+    )
+
+
+def test_adapter_departure_date_reflects_advance_window():
+    """The flight quoted today departs advance_window_days later, not today."""
+    src = _fixture_source()
+    as_of = date(2026, 9, 4)
+    for window in (1, 7, 15, 30, 45):
+        quote = src.get_quotes("DEL", "BOM", as_of, window, ["6E"])[0]
+        assert quote.departure_date == as_of + timedelta(days=window), (
+            f"T+{window} quote departs {quote.departure_date}, expected "
+            f"{as_of + timedelta(days=window)}"
+        )
 
 
 def test_adapter_reverse_direction_works():

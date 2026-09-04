@@ -17,7 +17,8 @@ not vibes.
 
 import hashlib
 import random
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
+from typing import Optional
 
 from .base import FareQuote, FareSource
 
@@ -65,6 +66,19 @@ class SimulatedFareSource(FareSource):
     source_id = "simulated_v1"
     collection_method = "simulated"
 
+    def __init__(self, collected_at: Optional[datetime] = None) -> None:
+        """
+        collected_at:
+            Pin the ``collected_at_utc`` stamp so a re-run reproduces the
+            output file byte for byte. Left as None, every run stamps
+            ``datetime.now()``, which made the "deterministic" simulator
+            produce a different CSV each time.
+        """
+        self._collected_at = collected_at
+
+    def _stamp(self) -> datetime:
+        return self._collected_at or datetime.now(timezone.utc)
+
     def get_quotes(
         self,
         origin: str,
@@ -77,10 +91,18 @@ class SimulatedFareSource(FareSource):
         if base is None:
             return []
 
-        departure_date = as_of_date  # caller offsets this by the window if needed
+        # The quote observed on as_of_date is for a flight departing
+        # advance_window_days later. Deriving it here (rather than leaving the
+        # caller to patch it afterwards) keeps every emitted quote internally
+        # consistent, and means the weekend premium lands on the DEPARTURE day
+        # where it actually applies. Computing it from as_of_date gave all five
+        # advance windows the same weekend multiplier on any given day, so the
+        # simulation could not express a weekend effect at all.
+        departure_date = as_of_date + timedelta(days=advance_window_days)
         weekend_mult = 1.10 if departure_date.weekday() in (4, 5, 6) else 1.0
         window_mult = WINDOW_MULTIPLIER.get(advance_window_days, 1.0)
 
+        collected_at = self._stamp()
         quotes = []
         for carrier in carriers:
             rng = _seeded_random(origin, destination, carrier,
@@ -88,7 +110,7 @@ class SimulatedFareSource(FareSource):
 
             if rng.random() < SOLD_OUT_PROB:
                 quotes.append(FareQuote(
-                    collected_at_utc=datetime.now(timezone.utc),
+                    collected_at_utc=collected_at,
                     departure_date=departure_date,
                     advance_window_days=advance_window_days,
                     origin_iata=origin, destination_iata=destination,
@@ -109,7 +131,7 @@ class SimulatedFareSource(FareSource):
                 quality_flag = "outlier"
 
             quotes.append(FareQuote(
-                collected_at_utc=datetime.now(timezone.utc),
+                collected_at_utc=collected_at,
                 departure_date=departure_date,
                 advance_window_days=advance_window_days,
                 origin_iata=origin, destination_iata=destination,

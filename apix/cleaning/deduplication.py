@@ -21,9 +21,10 @@ from apix.collector.adapters.base import FareQuote
 
 # Source hierarchy: higher numerical rank takes precedence
 SOURCE_TIER_PRIORITY: Dict[str, int] = {
-    "api": 4,
-    "tariff_sheet": 3,
-    "scrape": 2,
+    "api": 5,
+    "tariff_sheet": 4,
+    "scrape": 3,
+    "historical_panel": 2,  # real observations, but retrospective
     "simulated": 1,
     "imputed": 0,
 }

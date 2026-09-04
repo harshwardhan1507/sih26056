@@ -39,10 +39,18 @@ Known limitations (documented per issue #11)
 |                                   | states "excl. mandatory taxes/fees"      |
 | Route direction not differentiated| Sheet states "v.v." (both directions);   |
 |                                   | adapter emits same band for both dirs    |
-| Advance window not specified      | Band applies to all advance windows;     |
-|                                   | adapter uses requested window unchanged  |
-| Only carrier 6E (IndiGo)          | IndiGo only; other carriers need their  |
-|                                   | own adapters when tariff pages are found |
+| Advance window not published      | Window is mapped to a fare BUCKET via    |
+|                                   | ADVANCE_WINDOW_TO_BUCKET (stated         |
+|                                   | assumption, see that constant)           |
+| Constant within a calendar month  | A sheet is republished monthly, so this  |
+|                                   | tier contributes no day-to-day price     |
+|                                   | signal. It is a level reference and a    |
+|                                   | coverage backstop, NOT a daily series.   |
+| Declared band, not transacted fare| Values are regulatory floor/ceiling      |
+|                                   | midpoints, typically well above the fare |
+|                                   | a consumer actually pays                 |
+| Only carrier 6E here              | Air India and Akasa live in              |
+|                                   | tariff_carriers.py, sharing this logic   |
 """
 
 from __future__ import annotations
@@ -52,7 +60,7 @@ import logging
 import re
 import urllib.request
 from dataclasses import dataclass, field
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
 
@@ -97,6 +105,35 @@ _IATA_TO_CITY: dict[str, str] = {v: k for k, v in _CITY_TO_IATA.items()}
 
 # Number of fare buckets per row in the IndiGo tariff sheet
 _N_FARE_BUCKETS = 21
+
+# ---------------------------------------------------------------------------
+# Advance window -> fare bucket
+# ---------------------------------------------------------------------------
+# The sheet's own semantics (see module docstring): bucket 1 is the cheapest
+# inventory and bucket 21 the dearest, with bucket number rising as departure
+# approaches. Selecting a bucket by advance window is therefore the only way a
+# tariff sheet can express advance-purchase structure at all.
+#
+# Without this, every advance window returned the SAME number, so 6E/AI/QP
+# contributed a price relative of exactly 1.0 on every single day while still
+# occupying a slot in the matched sample — silently damping the index.
+#
+# The specific bucket per window is a STATED ASSUMPTION, not an estimate: the
+# sheet does not publish an inventory-to-lead-time map. It is chosen to span
+# the published band monotonically. Revisit against booking-curve data.
+ADVANCE_WINDOW_TO_BUCKET: dict[int, int] = {
+    45: 3,    # early booking -> low inventory bucket
+    30: 5,
+    15: 8,
+    7: 12,
+    1: 17,    # last minute -> high inventory bucket
+}
+_DEFAULT_BUCKET = 8
+
+
+def bucket_for_window(advance_window_days: int) -> int:
+    """1-based fare bucket index used to price a given advance window."""
+    return ADVANCE_WINDOW_TO_BUCKET.get(advance_window_days, _DEFAULT_BUCKET)
 
 
 # ---------------------------------------------------------------------------
@@ -183,12 +220,17 @@ def parse_indigo_tariff_pdf(
     """
     try:
         import pdfplumber  # optional dependency, imported lazily
-    except ImportError:
-        logger.warning(
-            "pdfplumber is not installed; tariff sheet parsing unavailable. "
-            "Install it with: pip install pdfplumber"
-        )
-        return []
+    except ImportError as exc:
+        # Raise rather than return []. Returning an empty list made a missing
+        # dependency indistinguishable from "this route isn't in the sheet":
+        # the resolver quietly fell through to the simulator and the run
+        # reported 100% simulated data with no visible cause.
+        raise RuntimeError(
+            "pdfplumber is required to parse live tariff sheet PDFs but is not "
+            "installed. Install it with `pip install pdfplumber` (it is listed "
+            "in requirements.txt), or use the committed CSV fixture with "
+            "use_fixture=True."
+        ) from exc
 
     retrieved_at = datetime.now(timezone.utc)
     effective_month = _extract_effective_month(str(pdf_path))
@@ -353,6 +395,88 @@ def _parse_line(
 # FareSource adapter
 # ---------------------------------------------------------------------------
 
+def find_band(
+    bands: list[TariffBand],
+    origin: str,
+    destination: str,
+    row_type: str,
+) -> Optional[TariffBand]:
+    """
+    Locate one route row of the requested type, in either direction.
+
+    Tariff sheets state routes as "v.v." (both directions), so a reverse match
+    is a legitimate hit rather than a fallback.
+    """
+    orig = origin.strip().upper()
+    dest = destination.strip().upper()
+    for band in bands:
+        if band.row_type != row_type:
+            continue
+        if (
+            (band.origin_iata == orig and band.destination_iata == dest)
+            or (band.origin_iata == dest and band.destination_iata == orig)
+        ):
+            return band
+    return None
+
+
+def band_fare_for_window(
+    bands: list[TariffBand],
+    origin: str,
+    destination: str,
+    advance_window_days: int,
+) -> Optional[float]:
+    """
+    Representative declared fare for a (route, advance window) from a tariff sheet.
+
+    Takes the midpoint of the Minimum-row and Maximum-row fares AT THE BUCKET
+    corresponding to the advance window. The published band is a permitted
+    range, so its midpoint is the neutral point estimate within it.
+
+    This is the single definition shared by every carrier adapter. Previously
+    the IndiGo adapter used the Minimum row's overall floor while the Air
+    India / Akasa adapters used the Maximum row's overall midpoint, which put
+    carriers on different price definitions inside the same matched sample and
+    showed up as a spurious level difference between them.
+
+    Returns None when the route is not in the sheet or the bucket is blank.
+    """
+    max_band = find_band(bands, origin, destination, "Maximum")
+    min_band = find_band(bands, origin, destination, "Minimum")
+    if max_band is None and min_band is None:
+        return None
+
+    idx = bucket_for_window(advance_window_days) - 1
+
+    def _at(band: Optional[TariffBand]) -> Optional[float]:
+        if band is None or idx >= len(band.fares):
+            return None
+        return band.fares[idx]
+
+    hi = _at(max_band)
+    lo = _at(min_band)
+
+    # Blank buckets are common ("NA" in the PDF). Fall back along the row to
+    # the nearest populated bucket rather than dropping the route entirely.
+    if hi is None and max_band is not None:
+        hi = _nearest_populated(max_band.fares, idx)
+    if lo is None and min_band is not None:
+        lo = _nearest_populated(min_band.fares, idx)
+
+    if lo is not None and hi is not None:
+        return (lo + hi) / 2.0 if hi >= lo else (hi + lo) / 2.0
+    return hi if hi is not None else lo
+
+
+def _nearest_populated(fares: list[Optional[float]], idx: int) -> Optional[float]:
+    """Nearest non-empty bucket to ``idx``, searching outward in both directions."""
+    for offset in range(1, len(fares)):
+        for probe in (idx - offset, idx + offset):
+            if 0 <= probe < len(fares) and fares[probe] is not None:
+                return fares[probe]
+    return None
+
+
 class IndiGoTariffSheetSource(FareSource):
     """
     Tier 2 FareSource backed by IndiGo's DGCA-mandated tariff sheet.
@@ -419,7 +543,8 @@ class IndiGoTariffSheetSource(FareSource):
         tariff sheet.  Returns [] if the carrier list doesn't include 6E,
         if the route has no band, or if any error occurs.
         """
-        if _CARRIER_IATA not in carriers:
+        normalized = [c.strip().upper() for c in carriers]
+        if _CARRIER_IATA not in normalized:
             return []
 
         try:
@@ -428,26 +553,22 @@ class IndiGoTariffSheetSource(FareSource):
             logger.warning("%s: failed to load bands: %s", self.source_id, exc)
             return []
 
-        band = self._find_band(bands, origin, destination)
-        if band is None:
+        fare = band_fare_for_window(bands, origin, destination, advance_window_days)
+        if fare is None:
             # Route not in tariff sheet — resolver falls back
             return []
 
-        midpoint = self._band_midpoint(band)
-        if midpoint is None:
-            return []
-
-        departure_date = as_of_date  # caller handles window offset if needed
         return [
             FareQuote(
                 collected_at_utc=datetime.now(timezone.utc),
-                departure_date=departure_date,
+                # The flight quoted today departs advance_window_days later.
+                departure_date=as_of_date + timedelta(days=advance_window_days),
                 advance_window_days=advance_window_days,
-                origin_iata=origin,
-                destination_iata=destination,
+                origin_iata=origin.strip().upper(),
+                destination_iata=destination.strip().upper(),
                 carrier_iata=_CARRIER_IATA,
                 fare_class="Economy",
-                total_fare_inr=round(midpoint, 2),
+                total_fare_inr=round(fare, 2),
                 source_id=self.source_id,
                 collection_method=self.collection_method,
                 quality_flag="ok",
