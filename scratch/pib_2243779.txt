@@ -1,0 +1,912 @@
+
+
+
+
+	Press Release Page | Press Information Bureau
+
+      
+        /* Stamps the saved theme on  before the page paints. The
+           switcher in js/accessibility.js settles the rest, but on inner
+           pages it does not run until the end of the body and inside the
+           release frame it is a separate download - either way the reader
+           would otherwise watch a light page turn dark in front of them. */
+        (function (d) {
+            var t = "";
+            try {
+                t = window.localStorage.getItem("pibStyle") || "";
+            } catch (e) {
+                t = "";
+            }
+            if (t === "orange") {
+                t = "yellow";
+            }
+            var c = t === "change" ? " pib-hc"
+                : t === "green" ? " pib-theme-green"
+                : t === "yellow" ? " pib-theme-yellow" : "";
+            d.documentElement.className += c + " pib-a11y-content";
+        }(document));
+      
+
+
+      
+      
+      
+
+      
+            $(document).ready(function () {
+                  function getParameterByName(name) {
+                        var url = window.location.href;
+                        name = name.replace(/[\[\]]/g, '\\$&');
+                        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                              results = regex.exec(url);
+                        if (!results) return null;
+                        if (!results[2]) return '';
+                        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+                  }
+                  // Get the IDs from the current page's URL
+                  let prid = parseInt(getParameterByName('PRID'), 10);
+
+                  if (!isNaN(prid) && prid > 0) {
+                        $.ajax({
+                              type: "POST",
+                              url: "AjaxMethod.aspx/UpdatePRHitCount",
+                              async: false,
+                              data: JSON.stringify({ 'PermId': prid }),
+                              contentType: "application/json; charset=utf-8",
+                              dataType: "json",
+                              success: function (response) {
+                                    console.log(response);
+                              },
+                              error: function (error) {
+                                    console.log("Error in AJAX request", error);
+                              }
+                        });
+                  } else {
+                        console.log("Invalid parameters:", prid);
+                  }
+
+            });
+      
+      
+            .table-responsive {
+                  width: 100%;
+                  overflow-x: auto;
+            }
+
+            .banner {
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  background-color: #000;
+                  color: #fff;
+                  padding: 20px;
+            }
+
+            full-width {
+                  width: 100%;
+            }
+
+            .logo-left, .logo-center, .countdown {
+                  display: flex;
+                  align-items: center;
+            }
+
+                  .logo-left img, .logo-center img {
+                        height: 70px;
+                  }
+
+            .countdown {
+                  text-align: center;
+                  background-color: #444;
+                  border-radius: 10px;
+                  padding: 10px;
+                  border: 2px solid grey;
+            }
+
+            .firstnumber {
+                  color: #000000;
+                  position: absolute;
+                  top: 50px;
+                  right: 90px;
+                  font-size: 30px;
+            }
+
+            .secondnumber {
+                  position: absolute;
+                  color: #000000;
+                  right: 45px;
+                  top: 50px;
+                  font-size: 30px;
+            }
+
+            .countdown .days {
+                  font-size: 35px;
+                  color: gold;
+            }
+
+            .countdown p {
+                  margin: 0;
+            }
+
+            .countdown .text {
+                  font-size: 16px;
+            }
+
+            a {
+                  word-break: break-all;
+            }
+
+            iframe, img {
+                  max-width: 100%;
+            }
+
+            @media(max-width:1199px) {
+                  .firstnumber {
+                        top: 40px;
+                        right: 72px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 35px;
+                        top: 40px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:990px) {
+                  .firstnumber {
+                        top: 25px;
+                        right: 54px;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 25px;
+                        top: 25px;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:768px) {
+                  .countdown, .days {
+                        font-size: 12px !important;
+                  }
+
+
+                  .firstnumber {
+                        top: 25%;
+                        right: 8%;
+                        font-size: 30px;
+                  }
+
+                  .secondnumber {
+                        right: 4.5%;
+                        top: 25%;
+                        font-size: 30px;
+                  }
+            }
+
+            @media(max-width:475px) {
+                  .countdown, .days {
+                        font-size: 10px !important;
+                        top: 20%;
+                  }
+
+                  .bannerimgdiv {
+                        padding: 0 !important;
+                  }
+
+                  .bannerimg {
+                        width: 108% !important;
+                  }
+            }
+      
+      
+            $(function () {
+                  $("[id*=printPDF]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+            $(function () {
+                  $("[id*=printPDFEvent]").click(function () {
+                        $("[id*=hfGridHtml]").val($("#PdfDiv").html());
+                  });
+            });
+      
+
+      
+      
+
+            window.dataLayer = window.dataLayer || [];
+
+            function gtag() { dataLayer.push(arguments); }
+
+            gtag('js', new Date());
+
+
+
+            gtag('config', 'UA-112591026-1');
+
+      
+
+
+                                !function(e){var n="https://s.go-mpulse.net/boomerang/";if("False"=="True")e.BOOMR_config=e.BOOMR_config||{},e.BOOMR_config.PageParams=e.BOOMR_config.PageParams||{},e.BOOMR_config.PageParams.pci=!0,n="https://s2.go-mpulse.net/boomerang/";if(window.BOOMR_API_key="C4E7H-KSCMC-422L4-W3EM5-U36MF",function(){function e(){if(!i){var e=document.createElement("script");e.id="boomr-scr-as",e.src=window.BOOMR.url,e.async=!0,o.parentNode.appendChild(e),i=!0}}function t(e){i=!0;var n,t,a,r,d=document,O=window;if(window.BOOMR.snippetMethod=e?"if":"i",t=function(e,n){var t=d.createElement("script");t.id=n||"boomr-if-as",t.src=window.BOOMR.url,BOOMR_lstart=(new Date).getTime(),e=e||d.body,e.appendChild(t)},!window.addEventListener&&window.attachEvent&&navigator.userAgent.match(/MSIE [67]\./))return window.BOOMR.snippetMethod="s",void t(o.parentNode,"boomr-async");a=document.createElement("IFRAME"),a.src="about:blank",a.title="",a.role="presentation",a.loading="eager",r=(a.frameElement||a).style,r.width=0,r.height=0,r.border=0,r.display="none",o.parentNode.appendChild(a);try{O=a.contentWindow,d=O.document.open()}catch(_){n=document.domain,a.src="javascript:var d=document.open();d.domain='"+n+"';void(0);",O=a.contentWindow,d=O.document.open()}if(n)d._boomrl=function(){this.domain=n,t()},d.write("");else if(O._boomrl=function(){t()},O.addEventListener)O.addEventListener("load",O._boomrl,!1);else if(O.attachEvent)O.attachEvent("onload",O._boomrl);d.close()}function a(e){window.BOOMR_onload=e&&e.timeStamp||(new Date).getTime()}if(!window.BOOMR||!window.BOOMR.version&&!window.BOOMR.snippetExecuted){window.BOOMR=window.BOOMR||{},window.BOOMR.snippetStart=(new Date).getTime(),window.BOOMR.snippetExecuted=!0,window.BOOMR.snippetVersion=12,window.BOOMR.url=n+"C4E7H-KSCMC-422L4-W3EM5-U36MF";var o=document.currentScript||document.getElementsByTagName("script")[0],i=!1,r=document.createElement("link");if(r.relList&&"function"==typeof r.relList.supports&&r.relList.supports("preload")&&"as"in r)window.BOOMR.snippetMethod="p",r.href=window.BOOMR.url,r.rel="preload",r.as="script",r.addEventListener("load",e),r.addEventListener("error",function(){t(!0)}),setTimeout(function(){if(!i)t(!0)},3e3),BOOMR_lstart=(new Date).getTime(),o.parentNode.appendChild(r);else t(!1);if(window.addEventListener)window.addEventListener("load",a,!1);else if(window.attachEvent)window.attachEvent("onload",a)}}(),"".length>0)if(e&&"performance"in e&&e.performance&&"function"==typeof e.performance.setResourceTimingBufferSize)e.performance.setResourceTimingBufferSize();!function(){if(BOOMR=e.BOOMR||{},BOOMR.plugins=BOOMR.plugins||{},!BOOMR.plugins.AK){var n=""=="true"?1:0,t="",a="m4sh5ytii46kg2u23eia-f-e206c59ae-clientnsv4-s.akamaihd.net",o="false"=="true"?2:1,i={"ak.v":"41","ak.cp":"1825201","ak.ai":parseInt("1215205",10),"ak.ol":"0","ak.cr":4,"ak.ipv":4,"ak.proto":"http/1.1","ak.rid":"d9d400b","ak.r":40094,"ak.a2":n,"ak.m":"dscb","ak.n":"ff","ak.cport":54750,"ak.gh":"104.71.60.159","ak.quicv":"","ak.tlsv":"tls1.3","ak.0rtt":"","ak.0rtt.ed":"","ak.csrc":"-","ak.acc":"bbr","ak.t":"1788533008","ak.ak":"hOBiQwZUYzCg5VSAfCLimQ==WmT2npAJwcFV29iC7pDIc1MM5NOVyCjd00S5H/6B1CHbQxvuxcnt9gxonS3cp4MPEBMtIv7n778DhFzAkiOqgUr1W7JwT3x+KfmC5FMbZQMkJ+Actdx3xMQijZRmysjt/x6cIjlZaIRjYkYrBqvC8unmc40XwGYcVBCrQxNqENtVuBA1rmUQY/oOP0jvmhfVGJvpimn3J06PD+ROgJX1FLTJ5+zhAIoN8KUhfaA3WIHaLuAD2NPip3NnBBYz2Xed5i/uQ1ToLWSJ3iRMuDXEuFecs/4SMXnStKI/HP5qlBPa8uaDL1VNexGb5tWnlz8/kz89a/VJXqhbbkGTk/vb69WZ30t1x9aIbpMAW0s8iLjxyhUS956dFjpM1rqw8xpdSG0aFZu+k+zjypI0kr5DZ5HiV9bt6l56WaoY/Q2ci0o=","ak.pv":"9","ak.dpoabenc":"","ak.tf":o};if(""!==t)i["ak.ruds"]=t;var r={i:!1,av:function(n){var t="http.initiator";if(n&&(!n[t]||"spa_hard"===n[t]))i["ak.feo"]=void 0!==e.aFeoApplied?1:0,BOOMR.addVar(i)},rv:function(){var e=["ak.cport","ak.cr","ak.csrc","ak.gh","ak.ipv","ak.m","ak.n","ak.ol","ak.proto","ak.quicv","ak.tlsv","ak.0rtt","ak.0rtt.ed","ak.r","ak.acc","ak.t","ak.tf"];BOOMR.removeVar(e)}};BOOMR.plugins.AK={akVars:i,akDNSPreFetchDomain:a,init:function(){if(!r.i){var e=BOOMR.subscribe;e("before_beacon",r.av,null,null),e("onbeacon",r.rv,null,null),r.i=!0}return this},is_complete:function(){return!0}}}}()}(window);
+
+      
+
+
+
+
+
+
+
+
+//
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+
+                              
+            
+            
+//
+
+
+            
+            
+                  
+
+                        
+                        
+                              
+                              
+                              
+                              
+
+
+
+                        
+                  
+                  
+                  
+
+
+
+                  
+
+                        
+                              Ministry of Statistics & Programme Implementation
+                        
+                        
+                           
+
+
+
+
+
+                        
+                              
+                              
+                                    Ministry of Statistics & Programme Implementation has strengthened the measurement framework of the Consumer Price Index (CPI) through a comprehensive base revision from 2012=100 to 2024=100
+                              
+                              
+                                    MoSPI is using the latest Household Consumption Expenditure Survey (HCES) 2023–24 to update the CPI item basket and weights
+                              
+                        
+
+                        
+                              Posted On:
+                23 MAR 2026 1:17PM by PIB Delhi
+                        
+                        
+                        
+                        
+                        
+                        
+                        The Ministry of Statistics &amp; Programme Implementation (MoSPI) has strengthened the measurement framework of the Consumer Price Index (CPI) through a comprehensive base revision from 2012=100 to 2024=100, using the latest Household Consumption Expenditure Survey (HCES) 2023&ndash;24 to update the CPI item basket and weights. The key enhancements in base revision exercise include expansion in coverage, methodological refinements, adoption of international classification system and inclusion of administrative and e-commerce data in CPI to make CPI more robust and representative. Keeping in view the adequate representativeness and feasibility of data collection, the sample markets in both rural and urban areas are increased from 2295 to 2860 in CPI 2024 series. As capturing the price trends on the e-commerce platforms has become important because of its growing use by the Indian households, 12 online markets are also added across 12 biggest towns of the country, having more than 25 lakh population as per census 2011 to capture price variations of the items on the e-commerce/online platforms
+
+The prices of items are collected through online/e- commerce platforms on weekly basis. All items of CPI baskets are mapped with the corresponding most popular e-commerce platform for price collection by the respective regional offices of Field Operations Division (FOD) of MoSPI. Keeping in view the volatility of prices on e-commerce platforms, prices are collected in all four weeks on identified days and time slot. A monthly average price using these weekly transaction price observations are used in CPI compilation.
+
+This information was given by the Minister of State (Independent Charge) of the Ministry of Statistics and Programme Implementation, Minister of State (Independent Charge) of the Ministry of Planning and Minister of State in the Ministry of Culture Rao Inderjit Singh in the Rajya Sabha today.
+
+******
+
+
+Samrat
+
+
+                        
+                        
+                        
+
+
+
+                        
+                        
+                        (Release ID: 2243779)
+                        Visitor Counter : 1044
+                        
+                              
+                        
+                        
+
+                        
+
+                        
+                              
+                        
+                        
+                              
+                        
+                        Read this release in: 
+                        
+                                    
+                                    
+                                          Urdu 
+                              
+                                    ,
+                              
+                                    
+                                    
+                                          हिन्दी 
+                              
+                        
+
+                        
+                              
+                                    
+                              
+                        
+                        
+                        
+                        
+                              
+                                    
+                                    
+                              
+                        
+                        
+                              
+                        
+                  
+
+                  
+	
+                              
+                              
+                              
+		
+                                    
+                                          
+                                    
+                                    
+                                    
+                                    
+                                          
+                                                
+                                                
+                                                
+                                          
+                                    
+                                    
+                                    
+                                    
+                                    
+                              
+	
+                        
+
+            
+            
+            
+                  
+                        
+                              
+                                    Ministry of Statistics & Programme Implementation
+                                    
+                                    
+                                    
+                                          Ministry of Statistics & Programme Implementation has strengthened the measurement framework of the Consumer Price Index (CPI) through a comprehensive base revision from 2012=100 to 2024=100
+                                    
+                                    
+                                    
+                                    
+                                          MoSPI is using the latest Household Consumption Expenditure Survey (HCES) 2023–24 to update the CPI item basket and weights
+                                    
+                                    
+                                    
+                                    
+                                          Posted On:
+                        23 MAR 2026 1:17PM by PIB Delhi
+                                    
+                                    
+                                    
+                                    
+                                          The Ministry of Statistics &amp; Programme Implementation (MoSPI) has strengthened the measurement framework of the Consumer Price Index (CPI) through a comprehensive base revision from 2012=100 to 2024=100, using the latest Household Consumption Expenditure Survey (HCES) 2023&ndash;24 to update the CPI item basket and weights. The key enhancements in base revision exercise include expansion in coverage, methodological refinements, adoption of international classification system and inclusion of administrative and e-commerce data in CPI to make CPI more robust and representative. Keeping in view the adequate representativeness and feasibility of data collection, the sample markets in both rural and urban areas are increased from 2295 to 2860 in CPI 2024 series. As capturing the price trends on the e-commerce platforms has become important because of its growing use by the Indian households, 12 online markets are also added across 12 biggest towns of the country, having more than 25 lakh population as per census 2011 to capture price variations of the items on the e-commerce/online platforms
+
+The prices of items are collected through online/e- commerce platforms on weekly basis. All items of CPI baskets are mapped with the corresponding most popular e-commerce platform for price collection by the respective regional offices of Field Operations Division (FOD) of MoSPI. Keeping in view the volatility of prices on e-commerce platforms, prices are collected in all four weeks on identified days and time slot. A monthly average price using these weekly transaction price observations are used in CPI compilation.
+
+This information was given by the Minister of State (Independent Charge) of the Ministry of Statistics and Programme Implementation, Minister of State (Independent Charge) of the Ministry of Planning and Minister of State in the Ministry of Culture Rao Inderjit Singh in the Rajya Sabha today.
+
+******
+
+
+Samrat
+
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                          (Release ID: 2243779)
+                                    
+                                    
+                                    
+                              
+                        
+                        
+                              
+                        
+                  
+            
+            
+            
+
+            
+
+            
+                  
+                         
+                  
+                  
+                         
+                  
+            
+            
+            MoSPI is using the latest Household Consumption Expenditure Survey (HCES) 2023–24 to update the CPI item basket and weights&lt;br/>" />
+            &lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;color:black&quot;>The Ministry of Statistics &amp;amp; Programme Implementation (MoSPI) has strengthened the measurement framework of the Consumer Price Index (CPI) through a comprehensive base revision from 2012=100 to 2024=100, using the latest Household Consumption Expenditure Survey (HCES) 2023&amp;ndash;24 to update the CPI item basket and weights. The key enhancements in base revision exercise include expansion in coverage, methodological refinements, adoption of international classification system and inclusion of administrative and e-commerce data in CPI to make CPI more robust and representative. &lt;/span>Keeping in view the adequate representativeness and feasibility of data collection, the sample markets in both rural and urban areas are increased from 2295 to 2860 in CPI 2024 series. As capturing the price trends on the e-commerce platforms has become important because of its growing use by the Indian households, 12 online markets are also added across 12 biggest towns of the country, having more than 25 lakh population as per census 2011 to capture price variations of the items on the e-commerce/online platforms&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;margin-left:0in; margin-right:0in; text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>The prices of items are collected through online/e- commerce platforms on weekly basis. All items of CPI baskets are mapped with the corresponding most popular e-commerce platform for price collection by the respective regional offices of Field Operations Division (FOD) of MoSPI. Keeping in view the volatility of prices on e-commerce platforms, prices are collected in all four weeks on identified days and time slot. A monthly average price using these weekly transaction price observations are used in CPI compilation.&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:justify&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;color:#333333&quot;>This information was given by the Minister of State (Independent Charge) of the Ministry of Statistics and Programme Implementation, Minister of State (Independent Charge) of the Ministry of Planning and Minister of State in the Ministry of Culture Rao Inderjit Singh in the Rajya Sabha today.&lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p style=&quot;text-align:center&quot;>&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;color:#333333&quot;>******&lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+
+&lt;p>&lt;br />
+&lt;span style=&quot;font-family:Times New Roman,Times,serif&quot;>&lt;span style=&quot;font-size:16px&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;background-color:white&quot;>&lt;span style=&quot;color:#333333&quot;>Samrat&lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;/span>&lt;/p>
+" />
+            
+                  var mPlayer = document.getElementById("background_music");
+                  var mPlayAction = document.getElementById("playbutton");
+
+                  var isPlaying = false;
+
+                  function playAudio() {
+                        mPlayer.play();
+                        isPlaying = true;
+                        document.getElementById('stopA').style.display = "block";
+                        document.getElementById('playA').style.display = "none";
+                  }
+
+                  function pauseAudio() {
+                        mPlayer.pause();
+                        isPlaying = false;
+                        document.getElementById('playA').style.display = "block";
+                        document.getElementById('stopA').style.display = "none";
+                  }
+                  //function HandleAudio() {
+                  //    if (isPlaying == true) {
+                  //        //Playing already Pause it
+                  //        pauseAudio();
+                  //    } else {
+                  //        //Play the music
+                  //        playAudio();
+                  //    }
+                  //}
+            
+            
+                  var synth = window.speechSynthesis;
+
+            
+                  function CleanHtml(html) {
+
+                        html = html.replace(/<script[\s\S]*?/gi, '');
+
+                        return html;
+                  }
+                  function stripHtml(html) {
+                        let tmp = document.createElement("DIV");
+                        tmp.innerHTML = CleanHtml(html);
+                        return tmp.textContent || tmp.innerText || "";
+                  }
+            
+            
+                  $(document).ready(function () {
+                        //for responsive tables
+                        $("table").each(function () {
+                              if (!$(this).closest(".table-responsive").length) {
+                                    $(this).wrap("");
+                              }
+                        });
+
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            
+            
+                  $(document).ready(function () {
+                        var width = $(window).width();
+                        if (width < 768) {
+
+                              // Extra Small Device
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+
+                        } else if (width < 991) {
+                              document.getElementById('frst_t').style.display = "block";
+                              document.getElementById('second_t').style.display = "none";
+                              // Small Device
+
+                        } else if (width < 1199) {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Medium Device
+
+                        } else {
+                              document.getElementById('frst_t').style.display = "none";
+                              document.getElementById('second_t').style.display = "block";
+                              // Large Device
+
+                        }
+                  });
+            
+            
+            
+                  @media print {
+                        .sticky-social, .sticky-social_mb, .pull-right, #printPDF {
+                              display: none !important;
+                        }
+                  }
+
+                  .f_vl {
+                        padding-right: 30px;
+                        font-size: 17px;
+                        cursor: pointer;
+                  }
+
+                  .log_oo {
+                        // width: 20%;
+                        display: flex;
+                        justify-content: space-between;
+                  }
+
+                        .log_oo img {
+                              width: 150px;
+                              /*width: 100%;
+                    height: auto;*/
+                        }
+
+                  .sticky-social_mb {
+                        position: fixed;
+                        bottom: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                        width: 100%;
+                  }
+
+                  .social_mb {
+                        list-style: none;
+                        display: flex;
+                        width: 100%;
+                        margin-bottom: -8px;
+                  }
+
+                        .social_mb a {
+                              padding: 8px 0px;
+                              font-size: 30px;
+                              transition: all 0.8s ease-in-out;
+                              width: 20% !important;
+                              text-align: center;
+                        }
+            
+            
+                  .section1 {
+                        position: relative;
+                        padding: 10px 0px;
+                        width: 100%;
+                  }
+
+
+
+                  .sticky-social {
+                        position: fixed;
+                        top: 20px;
+                        left: 0px;
+                        padding: 0px;
+                        margin: 0px;
+                  }
+
+                  .social {
+                        list-style: none;
+                  }
+
+                        .social a li {
+                              padding: 8px 12px;
+                              font-size: 25px;
+                              transition: all 0.8s ease-in-out;
+                        }
+
+                              .social a li:hover {
+                                    margin-right: -30px;
+                                    box-shadow: 2px 5px 10px grey;
+                              }
+
+                                    .social a li:hover .fa {
+                                          margin-left: 20px;
+                                    }
+
+                  .fb_b {
+                        /* background-color: rgb(59, 89, 152);*/
+                        background-color: rgba(65,103,178,255);
+                  }
+
+                  .twitter_r {
+                        /* background-color: rgb(29, 161, 242);*/
+                        background-color: #000000;
+                  }
+
+                  .whatsapp_r {
+                        /* background-color: rgb(77, 194, 71);*/
+                        background-color: rgba(13,191,67,255);
+                  }
+
+                  .fa-envelope_r {
+                        /* background-color: rgb(219, 68, 55);*/
+                        background-color: #e2123d;
+                  }
+
+                  .fa-linkedin_r {
+                        background-color: rgb(0, 119, 181);
+                  }
+            
+            
+                  @media only screen and (max-device-width: 767px) {
+                        p span img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        p img {
+                              max-width: 90% !important;
+                              height: auto !important;
+                        }
+
+                        h2 {
+                              font-size: 20px !important;
+                              font-weight: 600 !important;
+                        }
+
+                        h3 {
+                              font-size: 18px !important;
+                              font-weight: 600 !important;
+                        }
+                  }
+            
+            
+                  /* === Film Roll Badge Styling(IFFI2025 countdown) === */
+                  .film-roll-badge {
+                        position: absolute;
+                        top:82%;
+                        right: 20px;
+                        width: 230px;
+                        height: 70px;
+                        background: repeating-linear-gradient( to right, #9a2375 0px, #9a2375 18px, #6e2b8b 18px, #6e2b8b 36px );
+                        border-top: 8px solid #9a2375;
+                        border-bottom: 8px solid #9a2375;
+                        border-radius: 8px;
+                        overflow: hidden;
+                        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+                        animation: moveFilm 8s linear infinite;
+                        z-index: 10;
+                  }
+
+                        /* film sprocket holes */
+                        .film-roll-badge::before,
+                        .film-roll-badge::after {
+                              content: "";
+                              position: absolute;
+                              width: 100%;
+                              height: 10px;
+                              background: repeating-linear-gradient( to right, #9a2375 0px, #9a2375 10px, #fff 10px, #fff 20px );
+                              left: 0;
+                              z-index: 2;
+                        }
+
+                        .film-roll-badge::before {
+                              top: -4px;
+                        }
+
+                        .film-roll-badge::after {
+                              bottom: -4px;
+                        }
+
+                  .film-roll-inner {
+                        position: relative;
+                        height: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        animation: flicker 2s infinite ease-in-out;
+                  }
+
+                  .countdown-text {
+                        font-size: 1.3rem;
+                        font-weight: 700;
+                        color: #fff;
+                        text-shadow: 0 0 6px rgba(255, 255, 255, 0.4), 0 0 10px #000;
+                        white-space: nowrap;
+                  }
+
+                  /* === Animations === */
+                  @keyframes moveFilm {
+                        0% {
+                              background-position: 0 0;
+                        }
+
+                        100% {
+                              background-position: 120px 0;
+                        }
+                  }
+
+                  @keyframes flicker {
+                        0%, 100% {
+                              opacity: 1;
+                        }
+
+                        50% {
+                              opacity: 0.9;
+                        }
+
+                        25% {
+                              opacity: 0.95;
+                        }
+
+                        75% {
+                              opacity: 0.85;
+                        }
+                  }
+
+                  /* === Responsive Adjustments === */
+                  @media (max-width: 1500px) {
+                        .film-roll-badge {
+                              top: 68%;
+                              right: 18px;
+                              /* width: 220px; */
+                              height: 65px;
+                              font-size: 0.85rem;
+                        }
+
+                        .press-section {
+                              margin-top: 35px;
+                        }
+                  }
+
+                  @media (max-width: 992px) {
+                        .film-roll-badge {
+                              top: 52%;
+                              right: 10px;
+                               width: 200px; 
+                              height: 60px;
+                        }
+                  }
+
+                  @media (max-width: 768px) {
+                        .film-roll-badge {
+                              top: 56%;
+                              right: 10px;
+                               width: 124px; 
+                              height: 55px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.9rem;
+                        }
+                  }
+
+                  @media (max-width: 576px) {
+                        .film-roll-badge {
+                              top: 59%;
+                              right: 5px;
+                              /* width: 160px; */
+                              height: 50px;
+                        }
+
+                        .countdown-text {
+                              font-size: 0.85rem;
+                        }
+                  }
+            
+          
+                const festivalStart = new Date("2025-11-20T00:00:00").getTime();
+                const festivalEnd = new Date("2025-11-28T23:59:59").getTime();
+
+                const countdownElement = document.getElementById("countdown");
+
+                const interval = setInterval(() => {
+                      const now = new Date().getTime();
+
+                      // BEFORE FESTIVAL — show days + hours left
+                      if (now = festivalStart && now  el.style.width = "350px");
+
+                            clearInterval(interval);
+                      }
+
+                }, 1000);
+          
+ 
+
+               const miffStart = new Date("2026-06-15T00:00:00").getTime();
+               const miffEnd = new Date("2026-06-15T23:59:59").getTime();
+
+               const miffElement = document.getElementById("miff");
+
+               if (miffElement) {
+
+                   const miffInterval = setInterval(() => {
+
+                       const now = new Date().getTime();
+
+                       // Before MIFF
+                       if (now = miffStart && now  el.style.width = "350px");
+
+                           clearInterval(miffInterval);
+                       }
+
+                   }, 1000);
+               }
+
+
+
+      
+
+
+//
+
+
+
+
+

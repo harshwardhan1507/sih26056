@@ -1,0 +1,269 @@
+=== PAGE 1 ===
+Page 1 of 7 
+ 
+ 
+Frequently Asked Questions (FAQs) on CPI 2024 Series 
+ 
+1. What is Consumer Price Index? 
+ 
+Ans: The Consumer Price Index (CPI) is designed to measure the changes over time in general level of retail 
+prices of selected goods and services that households purchase for the purpose of consumption. 
+ 
+2. How inflation is calculated using CPI? 
+ 
+Ans: Inflation is calculated as the year-on-year percentage change in CPI. 
+  
+Inflation Rate (%) = 
+𝐼𝑡−𝐼𝑡−12
+𝐼𝑡−12
+× 100 , where 𝐼𝑡  is the CPI for the month ‘t’. 𝐼𝑡−12 is the CPI for the t month of the 
+previous year. 
+ 
+3. What is Base Year and why it is important? 
+ 
+Ans: The Base Year is a chosen year taken as a reference point (index = 100) to compare prices over time. It is 
+important because it helps measure how much prices have increased or decreased and keeps inflation figures 
+relevant and easy to understand. 
+ 
+4. What is the Base Year of new CPI series? 
+Ans: The base year of the new CPI series is 2024=100. 
+5. What is the base updation exercise? 
+Ans: The base updation exercise mainly involves revising the CPI item basket and updating item weights 
+based on the latest House hold Consumption Expenditure Survey (HCES). This base updation exercise 
+encompasses fresh market survey, base price collection and other methodological refinements.  
+6. On which HCES, the new CPI series is updated? 
+ 
+Ans: The latest Household Consumption Expenditure Survey (HCES) 2023-24 is used for updating item basket 
+and weights of CPI 2024 series. 
+ 
+7. How many markets & towns are covered in CPI 2024? 
+Ans: CPI 2024 series covers 1,465 rural markets and 1,395 urban markets across 434 towns. In addition, 12 
+online markets are covered across 12 towns having a population of more than 25 lakh. 
+8. How often is price data collected for CPI? 
+Ans: Price data are collected monthly from rural and urban markets. Online prices are collected on weekly 
+basis. 
+9. What are Index reference period, Weight reference period and Price reference period? 
+ 
+Ans:  
+=== PAGE 2 ===
+Page 2 of 7 
+ 
+Index reference period: It is the period for which index equals 100. For the current CPI, the index reference 
+period is 2024=100. 
+ 
+Weight reference period:  It is the period for on the basis of which weights are calculated. For CPI 2024, 
+Household Consumption Expenditure Survey 2023-24 data is used for deriving the weights.   
+ 
+Price reference period: It is the period during which the base prices are collected. The price reference for the 
+current CPI series is calendar year 2024. 
+ 
+10. What are the major changes in CPI 2024 series? 
+ 
+Ans: Major changes in CPI 2024 includes revising item baskets and weights as per HCES 2023-24, adoption of 
+COICOP - 2018 Framework, refinement in Index compilation methodology, inclusion of alternative data 
+sources, use of modern technology and more granular data dissemination. 
+ 
+ 
+11. When the Consumer Price Index ( Rural, urban and combined)  has been started releasing in India b y 
+MoSPI? 
+ 
+Ans: The Consumer Price Index ( Rural, urban and combined) has been started releasing by the Ministry of 
+Statistics and Programme Implementation (MoSPI) since January 2011 with base year 2010=100.  
+ 
+12. Are weights for CPI 2024 available in public domain? 
+Ans: Weights (All India, State, Sector, Division, Group and Item wise) for CPI 2024 series are available at 
+“www. mospi.gov.in” and https://www.cpi.mospi.gov.in in announcement tab. 
+13. What is the main role of the Expert Group constituted for the Base Revision of   CPI 2024? 
+Ans: The main role of the Expert Group is to provide guidance and recommendations on the CPI base 
+updation including sample selection and methodology. 
+14. Have online markets been included in the CPI 2024 series? 
+Ans: Twelve online markets  have been added across 12 towns with a population of more than 25 lakh  to 
+capture price variations of items sold on e-commerce and online platforms . In addition, price collection for 
+airfare, telephone and OTT are also collected through online platforms. 
+15. How has the number of weighted items changed in the CPI 2024 series compared to CPI 2012? 
+Ans: At All-India level, the total weighted items have been increased from 299 to 358. Specifically, goods items 
+have risen from 259 to 308, and services items from 40 to 50. 
+16. Which organization collects CPI price data for MoSPI? 
+Ans: Field Operations Division of National Sample Survey (NSS), MoSPI collects monthly price data for CPI.  
+17. How are prices collected under the CPI 2024 series? 
+=== PAGE 3 ===
+Page 3 of 7 
+ 
+Ans: In the CPI 2024 series , prices are collected using a tablet-based software application via Computer 
+Assisted Personal Interview (CAPI), replacing the traditional paper-based method. 
+18. What is COICOP? Why its adoption is important for CPI 2024? 
+Ans: The Classification of Individual Consumption According to Purpose (COICOP) is the international 
+classification of household expenditure developed by United Nations Statistics Division. The objective of the 
+COICOP is to provide a framework of homogeneous categories of goods and services from the point of view 
+of its usage by the households. Its adoption ensures that India’s CPI is comparable with CPIs worldwide. 
+19. What is the hierarchical structure of CPI 2024 after adopting COICOP 2018? 
+Ans: CPI 2024 has 12 Divisions, 43 Groups, 92 Classes, and 162 Sub-classes as per COICOP 2018.  
+20. Which method is used for elementary index compilation in the CPI 2024 series? 
+Ans: The Jevons index (Short index formula) is used for compiling elementary indices in the CPI 2024 series. 
+21. Which method is used for higher level index compilation in the CPI 2024 series? 
+Ans: The Young/Modified Laspeyres’ index is used for compiling higher level indices in the CPI 2024 series.   
+22.  What is the sample size of dwellings for house rent collection in CPI 2024 series? 
+Ans: Total 19039 dwellings, including 15715 in urban and 3324 in rural, are identified for rent collection in CPI 
+2024. In view of use of chain-based index, more dwellings, if available, may be added in future.  
+23. Is rural housing covered in CPI 2024? 
+Ans: Yes 
+24. What is weight of rural housing in CPI 2024? 
+Ans: The weight of rural housing in CPI 2024 series is 11.764%. This includes Housing, water, electricity, gas 
+and other fuels. However, House rent share for rural sector is 2.4572. 
+25. Why free social transfers expenditure is not considered in the CPI? 
+Ans: By definition, CPI should include only items on which households actually spend money. IMF’s manual 
+on CPI also suggests that social transfer in kind should not be considered in CPI compilation. In view of this, 
+free social transfers are excluded from CPI.  
+26. What alternative data sources are being used in the CPI 2024 series? 
+ 
+Ans: In the CPI 2024 series, alternative data sources such as administrative data and e-commerce/online price 
+data are used.  
+ 
+27. How the prices for airfares are collected in the CPI 2024 series? 
+ 
+Ans: Airfares are collected through well-known online platforms.  
+=== PAGE 4 ===
+Page 4 of 7 
+ 
+ 
+28. How online media and streaming services prices are collected in the CPI 2024 series?  
+ 
+Ans: Prices for services like Amazon Prime Video, Netflix, Jio Hotstar, SonyLiv, YouTube Premium, and Zee5 
+are collected online directly from the service providers’ websites. 
+ 
+29. Will both prepaid and postpaid mobile plans be included in CPI 2024? 
+ 
+Ans:  Yes. Two plans for both pre -paid and post -paid are included for compilation of telephone 
+charges(mobile) index. Administrative data on subscriber shares is taken from the report of TRAI. 
+ 
+ 
+30. What is source of data for postal and money order charges in the CPI 2024 series? 
+ 
+Ans: Postage and money order charges are collected from administrative data provided by the Department of 
+Posts. 
+ 
+31. What is source of data for rail fare in the CPI 2024 series?  
+ 
+Ans: Rail fares are collected using administrative data from the Ministry of Railways. 
+ 
+32. What is source of data for fuel prices (i.e. for Petrol, Diesel, LPG, CNG, PNG) in the CPI2024 series?  
+ 
+Ans: Retail selling prices (RSP) of fuel items are  collected from the Petroleum Planning and Analysis Cell 
+(PPAC), Ministry of Petroleum & Natural Gas. 
+ 
+33. Will all India item level indices at (Rural/ Urban/Combined) be released? 
+ 
+Ans: All India General, combined, rural, urban wise indices for Divisions, Groups, Classes, Sub -classes and 
+items will be released every month. 
+ 
+34. Will state level CPI also be released? 
+ 
+Ans: State level General, combined, rural, urban wise indices for Divisions, Groups, Classes, Sub-classes and 
+items will be released every month for all States/UTs. 
+35. From where can CPI 2024 data be accessed? 
+ Ans: CPI 2024 data can be accessed from the e-Sankhyiki portal (MoSPI)  at: 
+https://esankhyiki.mospi.gov.in/macroindicators?product=cpi 
+36. Will Back Series data will be released? 
+ 
+Ans:  The back series will be calculated on the basis of linking factor. Following Back Series for Base 2024=100 
+will be published on 12th February, 2026; 
+o  All India Indices for Rural, Urban and Combined sectors for the period of January 2013 to December 2024. 
+o Annual Inflation rates based on all India Indices for Rural, Urban and Combined sectors for the period of 
+January 2014 to December 2024. 
+=== PAGE 5 ===
+Page 5 of 7 
+ 
+37. How is the linking factor calculated for back series? 
+Ans: The linking factor  is calculated to connect the two series over a common overlapping period. The 
+overlapping period here is 2025, during which both CPI 2012 and CPI 2024 indices are available. This 
+overlapping year forms the basis for linking the two series. 
+Formula for CPI Linking Factor (Annual Overlapping) is as follows:  
+Let 𝐴𝑣𝑔 𝐼𝑦𝑛𝑒𝑤: denote the annual average (Geometric Mean) CPI of the new series for the overlapping year y;  
+𝐴𝑣𝑔 𝐼𝑦𝑜𝑙𝑑: denote the annual average (Geometric Mean) CPI of the old series for the same overlapping year y. 
+ The Linking Factor (LF) is given by:  
+LF = 𝑨𝒗𝒈 𝑰𝒚𝒏𝒆𝒘 / 𝑨𝒗𝒈 𝑰𝒚𝒐𝒍𝒅 
+The linked CPI for the earlier month t is obtained as: 
+𝐼𝑡
+𝑙𝑖𝑛𝑘𝑒𝑑 = 𝐼𝑡
+𝑂𝑙𝑑× LF (where month t implies earlier period than y) 
+ 𝐼𝑡
+𝑂𝑙𝑑 is the CPI for month t from the CPI 2012 series and 𝐼𝑡
+𝑙𝑖𝑛𝑘𝑒𝑑 is the corresponding CPI for month t with base 
+2024.  “y” denotes year 2025.  
+38. What is the linking factors at general level for CPI at base 2024=100? 
+Ans: Following linking factor is used to calculate back series at general level; 
+S. no.  CPI General Level Linking factor 
+1.  Rural 0.5222 
+2.  Urban 0.5320 
+3.  Combined  0.5267 
+39. What are group and division wise change in weights in CPI 2012 & CPI 2024? 
+ 
+Ans:  Group-wise weights as per CPI 2012 structure are given in table below: 
+Group 
+Rural Urban Combined 
+2012 2024 2012 2024 2012 2024 
+Food and Beverages 54.180 44.801 36.287 34.264 45.863 40.104 
+Pan, Tobacco 
+&Intoxicants 3.263 3.733 1.363 2.065 2.380 2.989 
+Clothing and footwear 7.357 7.123 5.571 5.464 6.527 6.383 
+Housing NA 5.527 21.664 19.778 10.070 11.881 
+Fuel and Light 7.940 5.957 5.580 4.907 6.843 5.489 
+Miscellaneous 27.260 32.858 29.535 33.523 28.317 33.154 
+ 
+=== PAGE 6 ===
+Page 6 of 7 
+ 
+Division-wise weights as per new (2024) structure are given in table below: 
+Divisions 
+Rural Urban Combined 
+CPI 2012 CPI 2024 CPI 2012 CPI 2024 CPI 2012 CPI 2024 
+Food and beverages 50.922 41.983 32.811 30.251 42.617 36.753 
+Paan, tobacco and 
+intoxicants 3.263 3.733 1.363 2.065 2.380 2.989 
+Clothing and footwear 7.357 7.123 5.571 5.464 6.527 6.383 
+Housing, water, 
+electricity, gas and 
+other fuels 
+7.983 11.764 27.294 25.000 16.888 17.665 
+Furnishings, household 
+equipment and routine 
+household maintenance 
+3.632 4.609 3.701 4.296 3.656 4.469 
+Health 6.839 6.764 4.820 5.275 5.900 6.100 
+Transport 5.645 8.644 7.129 8.985 6.394 8.796 
+Information and 
+communication 2.818 3.647 3.906 3.563 3.323 3.609 
+Recreation, sport and 
+culture 1.463 1.359 1.634 1.710 1.547 1.516 
+Education Services 2.468 2.383 4.720 4.515 3.513 3.333 
+Restaurants and 
+accommodation 
+services 
+3.248 2.841 3.489 3.978 3.246 3.348 
+Personal care, social 
+protection and 
+miscellaneous goods 
+and services 
+4.362 5.150 3.566 4.899 4.006 5.038 
+ 
+40. What is the extent of change in the weight of “Food & Beverages” in CPI 2024 series? 
+Ans: If the CPI 2012 classification system were followed, the share of Food and Beverages would have declined 
+from 45.86% to 40.10%. As per the CPI 2024 classification structure, the share of Food and Beverages, which 
+currently stands at 36.75% for 2024 series, would have been around 42.62% for the 2012 series. The change in 
+structure between both the series is due to adoption of Classification of Individual Consumption According 
+to Purpose (COICOP) 2018 Framework of United Nations Statistics Division (UNSD).  
+41. What is the actual share of Education in CPI 2024 series? 
+ 
+Ans: The weight of education services in CPI 2024 is 3.3%. Under COICOP 2018, books and stationery are 
+classified separately from education services. When education services are combined with books and 
+stationery, the effective “Education” share in CPI 2024 is 4.0%, compared with 4.46% in CPI 2012. 
+=== PAGE 7 ===
+Page 7 of 7 
+ 
+42. How often will base revisions occur in the future? 
+Ans: The Ministry plans to institutionalize base revisions at regular intervals. As per global practices, it should 
+be done every three to  five years, depending on the availability of Household Consumption Expenditure 
+Survey (HCES) data. 
+For more details, Expert Group Report on Comprehensive Updation of Consumer Price Index may be seen 
+on this link. 
+****** 
