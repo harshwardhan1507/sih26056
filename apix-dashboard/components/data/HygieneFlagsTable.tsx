@@ -38,7 +38,7 @@ export function HygieneFlagsTable({
       treatment: "Included in Jevons",
       description: "Clean fare observation verified within schema bounds and outlier fences. Enters geometric mean price relative.",
       icon: CheckCircle2,
-      colorClass: "text-[#176B5B] bg-[#176B5B]/10 border-[#176B5B]/30",
+      colorClass: "text-[#1E3A8A] bg-blue-50 border-[#1E3A8A]/30",
     },
     {
       flag: "outlier",
@@ -68,7 +68,7 @@ export function HygieneFlagsTable({
       treatment: "Unobserved Carrier Cell",
       description: "Carrier not scheduling flights on this city-pair/horizon during collection cycle.",
       icon: HelpCircle,
-      colorClass: "text-stone-800 bg-stone-100 border-stone-300",
+      colorClass: "text-slate-800 bg-slate-100 border-slate-300",
     },
     {
       flag: "imputed",
@@ -84,13 +84,13 @@ export function HygieneFlagsTable({
 
   return (
     <div
-      className={`border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm p-4 ${className}`}
+      className={`border border-[#E2E8F0] bg-white rounded-sm p-4 shadow-xs ${className}`}
     >
-      <div className="pb-3 mb-3 border-b border-[#D8D7D0]">
-        <h4 className="font-mono text-xs uppercase tracking-widest text-[#111716] font-semibold">
+      <div className="pb-3 mb-3 border-b border-[#E2E8F0]">
+        <h4 className="font-mono text-xs uppercase tracking-widest text-[#0F172A] font-semibold">
           Data Quality Flag Specification & Treatment
         </h4>
-        <p className="text-[11px] text-[#626863] mt-0.5">
+        <p className="text-[11px] text-[#64748B] mt-0.5">
           Standardized handling rules for observations across collection, cleaning, and indexing
         </p>
       </div>
@@ -98,19 +98,19 @@ export function HygieneFlagsTable({
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse text-xs">
           <thead>
-            <tr className="border-b border-[#D8D7D0] text-[10px] font-mono text-[#626863] uppercase tracking-wider">
-              <th className="py-2 px-2 font-semibold">Flag</th>
-              <th className="py-2 px-2 font-semibold">Observations</th>
-              <th className="py-2 px-2 font-semibold">Index Treatment</th>
-              <th className="py-2 px-2 font-semibold">Hygiene Rationale</th>
+            <tr className="border-b border-[#E2E8F0] text-[10px] font-mono text-[#64748B] uppercase tracking-wider bg-slate-50/70">
+              <th className="py-2.5 px-3 font-semibold">Flag</th>
+              <th className="py-2.5 px-3 font-semibold">Observations</th>
+              <th className="py-2.5 px-3 font-semibold">Index Treatment</th>
+              <th className="py-2.5 px-3 font-semibold">Hygiene Rationale</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#D8D7D0]/60 font-sans">
+          <tbody className="divide-y divide-[#E2E8F0] font-sans">
             {flags.map((item) => {
               const Icon = item.icon;
               return (
-                <tr key={item.flag} className="hover:bg-[#F4F2EC] transition-colors">
-                  <td className="py-3 px-2">
+                <tr key={item.flag} className="hover:bg-slate-50 transition-colors">
+                  <td className="py-3 px-3">
                     <span
                       className={`inline-flex items-center gap-1 font-mono text-[11px] px-2 py-0.5 rounded-xs border font-medium ${item.colorClass}`}
                     >
@@ -118,16 +118,16 @@ export function HygieneFlagsTable({
                       <span>{item.name}</span>
                     </span>
                   </td>
-                  <td className="py-3 px-2 font-mono text-xs tabular-nums text-[#111716]">
+                  <td className="py-3 px-3 font-mono text-xs tabular-nums text-[#0F172A]">
                     <span className="font-bold">{item.count}</span>
-                    <span className="text-[#626863] ml-1.5 text-[10px]">
+                    <span className="text-[#64748B] ml-1.5 text-[10px]">
                       ({item.sharePct.toFixed(1)}%)
                     </span>
                   </td>
-                  <td className="py-3 px-2 font-mono text-xs font-semibold text-[#111716]">
+                  <td className="py-3 px-3 font-mono text-xs font-semibold text-[#0F172A]">
                     {item.treatment}
                   </td>
-                  <td className="py-3 px-2 text-xs text-[#626863] leading-relaxed max-w-md">
+                  <td className="py-3 px-3 text-xs text-[#64748B] leading-relaxed max-w-md">
                     {item.description}
                   </td>
                 </tr>

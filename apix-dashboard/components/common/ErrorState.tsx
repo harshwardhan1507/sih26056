@@ -18,15 +18,15 @@ export function ErrorState({
 }: ErrorStateProps) {
   return (
     <div
-      className={`py-12 px-6 border border-[#B54343]/30 bg-rose-50/50 rounded-sm text-center flex flex-col items-center justify-center ${className}`}
+      className={`py-12 px-6 border border-rose-200 bg-rose-50/60 rounded-sm text-center flex flex-col items-center justify-center ${className}`}
     >
-      <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center text-[#B54343] mb-3">
+      <div className="h-10 w-10 rounded-full bg-rose-100 flex items-center justify-center text-rose-600 mb-3">
         <AlertCircle className="h-5 w-5" />
       </div>
-      <h4 className="font-mono text-xs uppercase tracking-widest text-[#B54343] font-bold">
+      <h4 className="font-mono text-xs uppercase tracking-widest text-rose-700 font-bold">
         {title}
       </h4>
-      <p className="text-xs text-[#626863] mt-1 max-w-md leading-relaxed">
+      <p className="text-xs text-[#64748B] mt-1 max-w-md leading-relaxed">
         {message}
       </p>
 
@@ -35,7 +35,7 @@ export function ErrorState({
           <button
             type="button"
             onClick={onRetry}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#FAF9F5] border border-[#D8D7D0] rounded-xs text-xs font-mono text-[#111716] hover:bg-[#F4F2EC] cursor-pointer transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-[#E2E8F0] rounded-xs text-xs font-mono text-[#0F172A] hover:bg-slate-50 cursor-pointer transition-colors"
           >
             <RefreshCw className="h-3.5 w-3.5" />
             <span>Retry Connection</span>
@@ -46,7 +46,7 @@ export function ErrorState({
           <button
             type="button"
             onClick={onSwitchToDemo}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#176B5B] text-[#FAF9F5] rounded-xs text-xs font-mono hover:bg-[#176B5B]/90 cursor-pointer transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#1E3A8A] text-white rounded-xs text-xs font-mono hover:bg-[#1E3A8A]/90 cursor-pointer transition-colors shadow-xs"
           >
             <span>Switch to Local Demo</span>
           </button>

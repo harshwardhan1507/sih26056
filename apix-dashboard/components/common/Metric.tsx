@@ -25,18 +25,18 @@ export function Metric({
 
   return (
     <div className={`flex flex-col ${className}`}>
-      <span className="text-[11px] uppercase tracking-wider font-mono text-[#626863] font-medium mb-1">
+      <span className="text-[11px] uppercase tracking-wider font-mono text-[#64748B] font-medium mb-1">
         {label}
       </span>
 
       <div className="flex items-baseline gap-3">
         <span
-          className={`font-serif tracking-tight text-[#111716] tabular-nums ${
+          className={`tracking-tight text-[#0F172A] tabular-nums font-bold ${
             size === "hero"
-              ? "text-5xl md:text-6xl font-bold"
+              ? "text-5xl md:text-6xl"
               : size === "medium"
-              ? "text-3xl font-semibold"
-              : "text-xl font-semibold"
+              ? "text-3xl"
+              : "text-xl"
           }`}
         >
           {value}
@@ -44,12 +44,12 @@ export function Metric({
 
         {delta !== undefined && delta !== null && (
           <span
-            className={`inline-flex items-center gap-0.5 text-xs font-mono font-medium px-1.5 py-0.5 rounded-sm ${
+            className={`inline-flex items-center gap-0.5 text-xs font-mono font-semibold px-1.5 py-0.5 rounded-sm ${
               polarity === "positive"
-                ? "bg-[#1C806B]/10 text-[#1C806B]"
+                ? "bg-blue-50 text-[#1D4ED8]"
                 : polarity === "negative"
-                ? "bg-[#B54343]/10 text-[#B54343]"
-                : "bg-stone-200 text-[#626863]"
+                ? "bg-rose-50 text-[#DC2626]"
+                : "bg-slate-100 text-[#64748B]"
             }`}
           >
             {polarity === "positive" && <ArrowUpRight className="h-3 w-3" />}
@@ -61,7 +61,7 @@ export function Metric({
       </div>
 
       {(deltaLabel || subtext) && (
-        <span className="text-xs text-[#626863] mt-1 font-sans">
+        <span className="text-xs text-[#64748B] mt-1 font-sans">
           {deltaLabel && <span className="mr-1">{deltaLabel}</span>}
           {subtext && <span className="opacity-90">{subtext}</span>}
         </span>

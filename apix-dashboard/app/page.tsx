@@ -101,14 +101,14 @@ export default function OverviewPage() {
   return (
     <div className="space-y-8">
       {/* Hero Headline & Editorial Photo Block */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch pb-6 border-b border-[#D8D7D0]">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch pb-6 border-b border-[#E2E8F0]">
         {/* Left Column: Index Title and Big Number */}
         <div className="lg:col-span-7 flex flex-col justify-between">
           <div>
-            <h2 className="font-serif text-4xl sm:text-5xl font-normal text-[#111716] tracking-tight uppercase">
+            <h2 className="text-4xl sm:text-5xl font-bold text-[#0F172A] tracking-tight uppercase">
               India Airfare Index
             </h2>
-            <p className="text-xs text-[#626863] mt-2 max-w-lg">
+            <p className="text-xs text-[#64748B] mt-2 max-w-lg">
               A daily measure of domestic airfare movement across 12 major passenger routes.
             </p>
           </div>
@@ -125,20 +125,20 @@ export default function OverviewPage() {
           </div>
         </div>
 
-        {/* Right Column: Editorial Hero Visual Card */}
-        <div className="lg:col-span-5 relative rounded-sm overflow-hidden border border-[#D8D7D0] bg-[#162923] min-h-[220px] flex flex-col justify-end p-5 shadow-xs">
+        {/* Right Column: Editorial Hero Visual Card with Dark Blue Theme */}
+        <div className="lg:col-span-5 relative rounded-sm overflow-hidden border border-[#E2E8F0] bg-[#0B1E36] min-h-[220px] flex flex-col justify-end p-5 shadow-xs">
           <img
             src="/hero_aviation.jpg"
             alt="Aviation over clouds"
-            className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity"
+            className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-luminosity"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#162923] via-[#162923]/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E36] via-[#0B1E36]/50 to-transparent" />
           
-          <div className="relative z-10 text-[#FAF9F5] space-y-1">
-            <span className="text-[10px] font-mono tracking-widest uppercase text-emerald-300 font-semibold block">
+          <div className="relative z-10 text-white space-y-1">
+            <span className="text-[10px] font-mono tracking-widest uppercase text-sky-300 font-semibold block">
               National Air Corridor Basket
             </span>
-            <p className="font-serif text-lg leading-snug text-white max-w-xs">
+            <p className="text-lg font-semibold leading-snug text-white max-w-xs">
               Higher frequencies, a more connected India.
             </p>
           </div>

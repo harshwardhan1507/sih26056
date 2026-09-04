@@ -18,7 +18,7 @@ export function CarrierBreakdownTable({
   if (!carriers || carriers.length === 0) {
     return (
       <div
-        className={`border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm p-6 text-center text-[#626863] font-mono text-xs ${className}`}
+        className={`border border-[#E2E8F0] bg-white rounded-sm p-6 text-center text-[#64748B] font-mono text-xs ${className}`}
       >
         No carrier observations recorded for this advance window.
       </div>
@@ -27,20 +27,20 @@ export function CarrierBreakdownTable({
 
   return (
     <div
-      className={`border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm p-4 ${className}`}
+      className={`border border-[#E2E8F0] bg-white rounded-sm p-4 shadow-xs ${className}`}
     >
-      <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#D8D7D0]">
+      <div className="flex items-center justify-between pb-3 mb-3 border-b border-[#E2E8F0]">
         <div>
-          <h4 className="font-mono text-xs uppercase tracking-widest text-[#111716] font-semibold">
+          <h4 className="font-mono text-xs uppercase tracking-widest text-[#0F172A] font-semibold">
             Carrier Fare Distribution
           </h4>
-          <p className="text-[11px] text-[#626863] mt-0.5">
+          <p className="text-[11px] text-[#64748B] mt-0.5">
             Scheduled airlines operating on this domestic segment
           </p>
         </div>
         {windowMeanFare && (
-          <span className="text-[11px] font-mono text-[#626863]">
-            Segment Mean: <strong className="text-[#111716]">{formatINR(windowMeanFare)}</strong>
+          <span className="text-[11px] font-mono text-[#64748B]">
+            Segment Mean: <strong className="text-[#0F172A]">{formatINR(windowMeanFare)}</strong>
           </span>
         )}
       </div>
@@ -48,15 +48,15 @@ export function CarrierBreakdownTable({
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse text-xs">
           <thead>
-            <tr className="border-b border-[#D8D7D0] text-[10px] font-mono text-[#626863] uppercase tracking-wider">
-              <th className="py-2 px-2 font-semibold">Carrier</th>
-              <th className="py-2 px-2 font-semibold">Observed Fare</th>
-              <th className="py-2 px-2 font-semibold">Period Δ</th>
-              <th className="py-2 px-2 font-semibold">Dispersion vs Mean</th>
-              <th className="py-2 px-2 font-semibold text-right">Status</th>
+            <tr className="border-b border-[#E2E8F0] text-[10px] font-mono text-[#64748B] uppercase tracking-wider bg-slate-50/70">
+              <th className="py-2.5 px-3 font-semibold">Carrier</th>
+              <th className="py-2.5 px-3 font-semibold">Observed Fare</th>
+              <th className="py-2.5 px-3 font-semibold">Period Δ</th>
+              <th className="py-2.5 px-3 font-semibold">Dispersion vs Mean</th>
+              <th className="py-2.5 px-3 font-semibold text-right">Status</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#D8D7D0]/60 font-sans">
+          <tbody className="divide-y divide-[#E2E8F0] font-sans">
             {carriers.map((c) => {
               const polarity = getMovementPolarity(c.change_pct);
               const hasFare = c.fare !== null && c.fare !== undefined;
@@ -66,32 +66,32 @@ export function CarrierBreakdownTable({
                   : null;
 
               return (
-                <tr key={c.carrier} className="hover:bg-[#F4F2EC] transition-colors">
+                <tr key={c.carrier} className="hover:bg-slate-50 transition-colors">
                   {/* Carrier Code & Name */}
-                  <td className="py-2.5 px-2">
-                    <div className="font-mono font-bold text-xs text-[#111716]">
+                  <td className="py-2.5 px-3">
+                    <div className="font-mono font-bold text-xs text-[#0F172A]">
                       {c.name}
                     </div>
-                    <div className="text-[10px] font-mono text-[#626863]">
+                    <div className="text-[10px] font-mono text-[#64748B]">
                       IATA: {c.carrier}
                     </div>
                   </td>
 
                   {/* Observed Fare */}
-                  <td className="py-2.5 px-2 font-serif font-bold text-sm tabular-nums text-[#111716]">
+                  <td className="py-2.5 px-3 font-bold text-sm tabular-nums text-[#0F172A]">
                     {formatINR(c.fare)}
                   </td>
 
                   {/* Period Change */}
-                  <td className="py-2.5 px-2">
+                  <td className="py-2.5 px-3">
                     {c.change_pct !== null && c.change_pct !== undefined ? (
                       <span
                         className={`inline-flex items-center gap-0.5 text-xs font-mono font-semibold ${
                           polarity === "positive"
-                            ? "text-[#1C806B]"
+                            ? "text-[#1D4ED8]"
                             : polarity === "negative"
-                            ? "text-[#B54343]"
-                            : "text-[#626863]"
+                            ? "text-[#DC2626]"
+                            : "text-[#64748B]"
                         }`}
                       >
                         {polarity === "positive" && <ArrowUpRight className="h-3.5 w-3.5" />}
@@ -100,17 +100,17 @@ export function CarrierBreakdownTable({
                         {formatPercent(c.change_pct)}
                       </span>
                     ) : (
-                      <span className="text-[10px] font-mono text-[#626863]">—</span>
+                      <span className="text-[10px] font-mono text-[#64748B]">—</span>
                     )}
                   </td>
 
                   {/* Dispersion vs Window Mean */}
-                  <td className="py-2.5 px-2 font-mono text-xs tabular-nums text-[#626863]">
+                  <td className="py-2.5 px-3 font-mono text-xs tabular-nums text-[#64748B]">
                     {dispersionPct !== null ? (
                       Number(dispersionPct) > 0 ? (
-                        <span className="text-[#B54343]">+{dispersionPct}%</span>
+                        <span className="text-[#DC2626]">+{dispersionPct}%</span>
                       ) : (
-                        <span className="text-[#1C806B]">{dispersionPct}%</span>
+                        <span className="text-[#1D4ED8]">{dispersionPct}%</span>
                       )
                     ) : (
                       "—"
@@ -118,9 +118,9 @@ export function CarrierBreakdownTable({
                   </td>
 
                   {/* Status Indicator */}
-                  <td className="py-2.5 px-2 text-right">
+                  <td className="py-2.5 px-3 text-right">
                     {c.status === "available" && (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-mono text-[#176B5B] bg-[#176B5B]/10 border border-[#176B5B]/30 px-1.5 py-0.5 rounded-xs">
+                      <span className="inline-flex items-center gap-1 text-[10px] font-mono text-[#1E3A8A] bg-blue-50 border border-[#1E3A8A]/30 px-1.5 py-0.5 rounded-xs">
                         <CheckCircle2 className="h-3 w-3" />
                         <span>Active</span>
                       </span>
@@ -134,7 +134,7 @@ export function CarrierBreakdownTable({
                     )}
 
                     {c.status === "unavailable" && (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-mono text-[#626863] bg-stone-100 border border-stone-300 px-1.5 py-0.5 rounded-xs">
+                      <span className="inline-flex items-center gap-1 text-[10px] font-mono text-[#64748B] bg-slate-100 border border-slate-300 px-1.5 py-0.5 rounded-xs">
                         <HelpCircle className="h-3 w-3" />
                         <span>Unavailable</span>
                       </span>

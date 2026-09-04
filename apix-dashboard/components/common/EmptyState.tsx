@@ -16,15 +16,15 @@ export function EmptyState({
 }: EmptyStateProps) {
   return (
     <div
-      className={`py-12 px-6 border border-dashed border-[#D8D7D0] bg-[#FAF9F5] rounded-sm text-center flex flex-col items-center justify-center ${className}`}
+      className={`py-12 px-6 border border-dashed border-[#E2E8F0] bg-white rounded-sm text-center flex flex-col items-center justify-center ${className}`}
     >
-      <div className="h-10 w-10 rounded-full bg-[#D8D7D0]/40 flex items-center justify-center text-[#626863] mb-3">
+      <div className="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center text-[#64748B] mb-3">
         <Inbox className="h-5 w-5" />
       </div>
-      <h4 className="font-mono text-xs uppercase tracking-widest text-[#111716] font-semibold">
+      <h4 className="font-mono text-xs uppercase tracking-widest text-[#0F172A] font-semibold">
         {title}
       </h4>
-      <p className="text-xs text-[#626863] mt-1 max-w-sm leading-relaxed">
+      <p className="text-xs text-[#64748B] mt-1 max-w-sm leading-relaxed">
         {description}
       </p>
       {action && <div className="mt-4">{action}</div>}

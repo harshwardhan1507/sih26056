@@ -51,15 +51,15 @@ export function QuoteBrowserTable({
 
   return (
     <div
-      className={`border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm p-4 ${className}`}
+      className={`border border-[#E2E8F0] bg-white rounded-sm p-4 shadow-xs ${className}`}
     >
       {/* Table Header & Search/Filters */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 mb-4 border-b border-[#D8D7D0]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 mb-4 border-b border-[#E2E8F0]">
         <div>
-          <h4 className="font-mono text-xs uppercase tracking-widest text-[#111716] font-semibold">
+          <h4 className="font-mono text-xs uppercase tracking-widest text-[#0F172A] font-semibold">
             Quote-Level Observation Registry
           </h4>
-          <p className="text-[11px] text-[#626863] mt-0.5">
+          <p className="text-[11px] text-[#64748B] mt-0.5">
             Full provenance audit trail for individual daily price observations
           </p>
         </div>
@@ -69,7 +69,7 @@ export function QuoteBrowserTable({
           <select
             value={methodFilter}
             onChange={(e) => setMethodFilter(e.target.value)}
-            className="bg-[#F4F2EC] border border-[#D8D7D0] rounded-xs px-2 py-1 text-xs font-mono text-[#111716] focus:outline-none"
+            className="bg-slate-50 border border-[#E2E8F0] rounded-xs px-2 py-1 text-xs font-mono text-[#0F172A] focus:outline-none focus:border-[#1E3A8A]"
           >
             <option value="ALL">All Methods</option>
             <option value="api">API Direct</option>
@@ -82,7 +82,7 @@ export function QuoteBrowserTable({
           <select
             value={qualityFilter}
             onChange={(e) => setQualityFilter(e.target.value)}
-            className="bg-[#F4F2EC] border border-[#D8D7D0] rounded-xs px-2 py-1 text-xs font-mono text-[#111716] focus:outline-none"
+            className="bg-slate-50 border border-[#E2E8F0] rounded-xs px-2 py-1 text-xs font-mono text-[#0F172A] focus:outline-none focus:border-[#1E3A8A]"
           >
             <option value="ALL">All Flags</option>
             <option value="ok">Valid Only</option>
@@ -92,13 +92,13 @@ export function QuoteBrowserTable({
 
           {/* Search */}
           <div className="relative w-48">
-            <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-[#626863]" />
+            <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-[#64748B]" />
             <input
               type="text"
               placeholder="Search quotes..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-[#F4F2EC] border border-[#D8D7D0] rounded-xs pl-8 pr-2 py-1 text-xs font-mono text-[#111716] placeholder-[#626863]/60 focus:outline-none"
+              className="w-full bg-slate-50 border border-[#E2E8F0] rounded-xs pl-8 pr-2 py-1 text-xs font-mono text-[#0F172A] placeholder-[#64748B]/60 focus:outline-none focus:border-[#1E3A8A]"
             />
           </div>
         </div>
@@ -108,21 +108,21 @@ export function QuoteBrowserTable({
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse text-xs">
           <thead>
-            <tr className="border-b border-[#D8D7D0] text-[10px] font-mono text-[#626863] uppercase tracking-wider bg-[#FAF9F5]">
-              <th className="py-2 px-2 font-semibold">Quote ID</th>
-              <th className="py-2 px-2 font-semibold">Segment</th>
-              <th className="py-2 px-2 font-semibold">Window</th>
-              <th className="py-2 px-2 font-semibold">Carrier</th>
-              <th className="py-2 px-2 font-semibold">Fare (INR)</th>
-              <th className="py-2 px-2 font-semibold">Method</th>
-              <th className="py-2 px-2 font-semibold">Quality</th>
-              <th className="py-2 px-2 font-semibold text-right">Audit</th>
+            <tr className="border-b border-[#E2E8F0] text-[10px] font-mono text-[#64748B] uppercase tracking-wider bg-slate-50/70">
+              <th className="py-2.5 px-3 font-semibold">Quote ID</th>
+              <th className="py-2.5 px-3 font-semibold">Segment</th>
+              <th className="py-2.5 px-3 font-semibold">Window</th>
+              <th className="py-2.5 px-3 font-semibold">Carrier</th>
+              <th className="py-2.5 px-3 font-semibold">Fare (INR)</th>
+              <th className="py-2.5 px-3 font-semibold">Method</th>
+              <th className="py-2.5 px-3 font-semibold">Quality</th>
+              <th className="py-2.5 px-3 font-semibold text-right">Audit</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#D8D7D0]/60 font-sans">
+          <tbody className="divide-y divide-[#E2E8F0] font-sans">
             {filtered.length === 0 ? (
               <tr>
-                <td colSpan={8} className="py-8 text-center text-[#626863] font-mono text-xs">
+                <td colSpan={8} className="py-8 text-center text-[#64748B] font-mono text-xs">
                   No quotes match the selected filters.
                 </td>
               </tr>
@@ -131,37 +131,37 @@ export function QuoteBrowserTable({
                 <tr
                   key={q.id}
                   onClick={() => onInspectQuote(q)}
-                  className="hover:bg-[#F4F2EC] transition-colors cursor-pointer group"
+                  className="hover:bg-slate-50 transition-colors cursor-pointer group"
                 >
-                  <td className="py-2.5 px-2 font-mono text-xs font-bold text-[#111716] group-hover:text-[#176B5B]">
+                  <td className="py-2.5 px-3 font-mono text-xs font-bold text-[#0F172A] group-hover:text-[#1E3A8A]">
                     {q.id}
                   </td>
-                  <td className="py-2.5 px-2 font-mono text-xs text-[#111716]">
+                  <td className="py-2.5 px-3 font-mono text-xs text-[#0F172A]">
                     {q.origin_iata} → {q.destination_iata}
                   </td>
-                  <td className="py-2.5 px-2 font-mono text-xs text-[#626863]">
+                  <td className="py-2.5 px-3 font-mono text-xs text-[#64748B]">
                     T+{q.advance_window_days}
                   </td>
-                  <td className="py-2.5 px-2 font-mono text-xs font-semibold text-[#111716]">
+                  <td className="py-2.5 px-3 font-mono text-xs font-semibold text-[#0F172A]">
                     {q.carrier_iata}
                   </td>
-                  <td className="py-2.5 px-2 font-serif text-xs font-bold tabular-nums text-[#111716]">
+                  <td className="py-2.5 px-3 text-xs font-bold tabular-nums text-[#0F172A]">
                     {formatINR(q.total_fare_inr)}
                   </td>
-                  <td className="py-2.5 px-2">
+                  <td className="py-2.5 px-3">
                     <StatusBadge type="method" value={q.collection_method} size="sm" />
                   </td>
-                  <td className="py-2.5 px-2">
+                  <td className="py-2.5 px-3">
                     <StatusBadge type="quality" value={q.quality_flag} size="sm" />
                   </td>
-                  <td className="py-2.5 px-2 text-right">
+                  <td className="py-2.5 px-3 text-right">
                     <button
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
                         onInspectQuote(q);
                       }}
-                      className="inline-flex items-center gap-1 text-[11px] font-mono text-[#176B5B] hover:underline font-medium cursor-pointer"
+                      className="inline-flex items-center gap-1 text-[11px] font-mono text-[#1E3A8A] hover:underline font-medium cursor-pointer"
                     >
                       <Eye className="h-3 w-3" />
                       <span>Inspect</span>
