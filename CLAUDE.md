@@ -28,6 +28,11 @@ py tests/test_index.py
 py tests/test_derive_weights.py
 py tests/test_kaggle_loader.py
 py tests/test_resolver.py
+py tests/test_cleaning.py
+py tests/test_api.py
+
+# Run FastAPI local server for dashboard and external consumers
+py -m uvicorn apix.api.main:app --reload --port 8000
 
 # Run a single test function with pytest
 py -m pytest tests/test_index.py -k "test_jevons_ratio"
