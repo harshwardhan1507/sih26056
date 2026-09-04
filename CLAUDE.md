@@ -20,8 +20,15 @@ cd apix && py backfill_demo.py
 
 # Run tests
 py tests/test_index.py
+py tests/test_derive_weights.py
+py tests/test_kaggle_loader.py
+py tests/test_resolver.py
 # Or with pytest once installed:
 py -m pytest tests/ -v
+
+# Derive DGCA route weights from domestic city-pair traffic
+py scripts/derive_weights.py --help
+py scripts/derive_weights.py --download
 
 # Run Python module or script
 py path/to/script.py

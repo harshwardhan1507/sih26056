@@ -3,7 +3,7 @@
   "source": "Vonter/india-aviation-traffic (https://github.com/Vonter/india-aviation-traffic), licensed ODbL-1.0. Data sourced from DGCA.",
   "coverage_month": "2026-05",
   "generated_date": "2026-09-04",
-  "methodology": "Passenger shares computed over the 12-month window 2025-01 to 2026-05 from aggregated/domestic/city.csv. PaxToCity2 + PaxFromCity2 summed across all months for each city pair, then restricted to the 12-route APIx basket and normalised to sum to 1.0. City names mapped to IATA codes: DELHI=DEL, MUMBAI/MUMBAI(MUMBAI)/MUMBAI(NAVI MUMBAI)=BOM, BENGALURU=BLR, KOLKATA=CCU, CHENNAI=MAA, HYDERABAD=HYD, GOA/GOA(DABOLIM,SOUTH GOA)/GOA(MOPA,NORTH GOA)/MOPA,GOA=GOI.",
+  "methodology": "Passenger shares computed over the Trailing 12-Month (T12M) window 2025-06 to 2026-05 from aggregated/domestic/city.csv via scripts/derive_weights.py. PaxToCity2 + PaxFromCity2 summed across all 12 months for each city pair, restricted to the 12-route APIx basket, and normalised to sum to 1.0. City names mapped to IATA codes with Metropolitan Catchment Aggregation: DELHI=DEL, MUMBAI/MUMBAI(MUMBAI)/MUMBAI(NAVI MUMBAI)=BOM, BENGALURU=BLR, KOLKATA=CCU, CHENNAI=MAA, HYDERABAD=HYD, GOA/GOA(DABOLIM,SOUTH GOA)/GOA(MOPA,NORTH GOA)/MOPA,GOA/DABOLIM=GOI. See docs/data-sources/dgca-route-weights.md.",
   "total_basket_pax": 49572263,
   "weights": {
     "DEL-BOM": 0.192173,

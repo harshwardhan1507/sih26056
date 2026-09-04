@@ -3,7 +3,9 @@ Route weight loader for the APIx aggregate index.
 
 Weights are stored in an external JSON file so that PSD/MoSPI-supplied weights
 can replace the DGCA-derived defaults without touching any source code.
-See handbook §1.6 and §3.2 for the design rationale.
+See handbook §1.6, §3.2, and docs/data-sources/dgca-route-weights.md for the
+design rationale, legal compliance (ODbL-1.0), and derivation methodology.
+Run `scripts/derive_weights.py` to regenerate weights from DGCA city-pair traffic.
 
 Weight file schema:
     {

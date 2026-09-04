@@ -93,19 +93,6 @@ def test_build_aggregate_index():
     assert math.isclose(agg[2], 106.0 * 1.06, rel_tol=1e-6)
 
 
-if __name__ == "__main__":
-    test_jevons_ratio_single_carrier()
-    test_jevons_ratio_multiple_carriers()
-    test_jevons_ratio_matched_sample_drops_unmatched()
-    test_jevons_ratio_no_overlap()
-    test_build_elementary_index_constant_prices()
-    test_build_elementary_index_chained()
-    test_build_aggregate_index()
-    test_weights_sum_to_one()
-    test_weights_required_routes_present()
-    print("All unit tests passed successfully!")
-
-
 # ---------------------------------------------------------------------------
 # Weight file tests (issue #10 acceptance criteria)
 # ---------------------------------------------------------------------------
@@ -124,3 +111,16 @@ def test_weights_required_routes_present():
     weights = load_weights(DEFAULT_WEIGHT_FILE)
     missing = [r for r in BASKET_ROUTES if r not in weights]
     assert not missing, f"Missing routes in weight file: {missing}"
+
+
+if __name__ == "__main__":
+    test_jevons_ratio_single_carrier()
+    test_jevons_ratio_multiple_carriers()
+    test_jevons_ratio_matched_sample_drops_unmatched()
+    test_jevons_ratio_no_overlap()
+    test_build_elementary_index_constant_prices()
+    test_build_elementary_index_chained()
+    test_build_aggregate_index()
+    test_weights_sum_to_one()
+    test_weights_required_routes_present()
+    print("All unit tests passed successfully!")
