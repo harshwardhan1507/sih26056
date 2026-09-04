@@ -16,11 +16,11 @@ export function Header({
   onToggleMode,
   lastUpdated,
 }: HeaderProps) {
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = React.useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
 
   const istDate = lastUpdated || (mounted ? getCurrentISTHeaderDate() : "04 Sep 2026 · 17:32 IST");
 

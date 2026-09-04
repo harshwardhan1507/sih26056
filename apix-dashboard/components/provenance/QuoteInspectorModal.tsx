@@ -5,7 +5,7 @@ import type { QuoteItem } from "@/lib/api/types";
 import { formatINR } from "@/lib/formatters/currency";
 import { formatUTCtoIST } from "@/lib/formatters/dates";
 import { StatusBadge } from "@/components/common/StatusBadge";
-import { X, ShieldCheck, Database, Calendar, Plane, AlertCircle } from "lucide-react";
+import { X, AlertCircle } from "lucide-react";
 
 interface QuoteInspectorModalProps {
   quote: QuoteItem | null;

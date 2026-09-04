@@ -266,6 +266,11 @@ def get_elementary_index(
             if date_to and dep_date > date_to:
                 continue
 
+            # Exclude flagged outliers from elementary price relatives
+            quality_flag = row.get("quality_flag", "ok").strip().lower()
+            if quality_flag == "outlier":
+                continue
+
             raw_fare = row.get("total_fare_inr")
             if raw_fare and raw_fare.strip() not in ("", "None", "null"):
                 try:

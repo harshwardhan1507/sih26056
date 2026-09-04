@@ -29,7 +29,7 @@ function formatPercent(val, options = {}) {
 
 // 3. Date & Timezone Formatter Logic (UTC to IST)
 function formatUTCtoIST(utcIsoString, options = {}) {
-  const { format = "full", fallback = "—" } = options;
+  const { fallback = "—" } = options;
   if (!utcIsoString) return fallback;
   try {
     const d = new Date(utcIsoString);

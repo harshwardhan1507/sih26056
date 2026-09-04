@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { ArrowRight, CheckCircle2, ChevronDown, ChevronUp } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
 interface PipelineStage {
   step: number;
