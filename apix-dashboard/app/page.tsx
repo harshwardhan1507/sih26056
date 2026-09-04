@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { useData } from "@/lib/api/dataContext";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Metric } from "@/components/common/Metric";
@@ -73,7 +74,7 @@ export default function OverviewPage() {
         <PageHeader
           eyebrow="National Chained Series"
           title="India Airfare Index"
-          subtitle="A daily measure of domestic airfare movement across India's major passenger routes."
+          subtitle="A daily measure of domestic airfare movement across 12 major passenger routes."
         />
         <LoadingState label="Loading national airfare index and market drivers..." rows={5} />
       </div>
@@ -86,7 +87,7 @@ export default function OverviewPage() {
         <PageHeader
           eyebrow="National Chained Series"
           title="India Airfare Index"
-          subtitle="A daily measure of domestic airfare movement across India's major passenger routes."
+          subtitle="A daily measure of domestic airfare movement across 12 major passenger routes."
         />
         <ErrorState
           title="INDEX DATA UNAVAILABLE"
@@ -99,23 +100,49 @@ export default function OverviewPage() {
 
   return (
     <div className="space-y-8">
-      {/* Editorial Page Header */}
-      <PageHeader
-        eyebrow="National Chained Series"
-        title="India Airfare Index"
-        subtitle="A daily measure of domestic airfare movement across India's major passenger routes."
-      />
+      {/* Hero Headline & Editorial Photo Block */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch pb-6 border-b border-[#D8D7D0]">
+        {/* Left Column: Index Title and Big Number */}
+        <div className="lg:col-span-7 flex flex-col justify-between">
+          <div>
+            <h2 className="font-serif text-4xl sm:text-5xl font-normal text-[#111716] tracking-tight uppercase">
+              India Airfare Index
+            </h2>
+            <p className="text-xs text-[#626863] mt-2 max-w-lg">
+              A daily measure of domestic airfare movement across 12 major passenger routes.
+            </p>
+          </div>
 
-      {/* Hero Metric: The Headline Number */}
-      <div className="border-b border-[#D8D7D0] pb-6">
-        <Metric
-          size="hero"
-          label="Airfare Price Index"
-          value={snapshot.value.toFixed(1)}
-          delta={snapshot.change_pct}
-          deltaLabel="vs previous collection period"
-          subtext={`Base (${snapshot.base.toFixed(1)}) = 100.0 · ${snapshot.date}`}
-        />
+          <div className="my-6">
+            <Metric
+              size="hero"
+              label="Headline Index"
+              value={snapshot.value.toFixed(1)}
+              delta={snapshot.change_pct}
+              deltaLabel="vs previous collection period"
+              subtext={`Base (Aug 2026) = 100.0 · Last updated: 04 Sep 2026 · 17:32 IST`}
+            />
+          </div>
+        </div>
+
+        {/* Right Column: Editorial Hero Visual Card */}
+        <div className="lg:col-span-5 relative rounded-sm overflow-hidden border border-[#D8D7D0] bg-[#162923] min-h-[220px] flex flex-col justify-end p-5 shadow-xs">
+          <img
+            src="/hero_aviation.jpg"
+            alt="Aviation over clouds"
+            className="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#162923] via-[#162923]/40 to-transparent" />
+          
+          <div className="relative z-10 text-[#FAF9F5] space-y-1">
+            <span className="text-[10px] font-mono tracking-widest uppercase text-emerald-300 font-semibold block">
+              National Air Corridor Basket
+            </span>
+            <p className="font-serif text-lg leading-snug text-white max-w-xs">
+              Higher frequencies, a more connected India.
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Hero Chart: Chained Laspeyres Index Trend */}
@@ -128,22 +155,27 @@ export default function OverviewPage() {
         />
       </div>
 
-      {/* Middle Grid: What's Driving the Index & Collection Coverage */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <TopMovers routes={routes} limit={5} />
+      {/* Middle Grid: What's Driving the Index & Market Snapshot */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <div className="lg:col-span-7">
+          <MarketSnapshot
+            averageFare={snapshot.average_fare}
+            quotesCount={snapshot.quotes}
+            routesCount={snapshot.routes}
+            qualityScore={snapshot.quality_score}
+          />
+        </div>
+
+        <div className="lg:col-span-5">
+          <TopMovers routes={routes} limit={5} />
+        </div>
+      </div>
+
+      {/* Ingestion Method Coverage Distribution */}
+      <div>
         <CollectionCoverage
           byMethod={quality?.by_method}
           totalQuotes={snapshot.quotes}
-        />
-      </div>
-
-      {/* Bottom Row: Market Snapshot Cluster */}
-      <div>
-        <MarketSnapshot
-          averageFare={snapshot.average_fare}
-          quotesCount={snapshot.quotes}
-          routesCount={snapshot.routes}
-          qualityScore={snapshot.quality_score}
         />
       </div>
     </div>

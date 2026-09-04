@@ -94,7 +94,6 @@ export function IndexTrendChart({
           currentSegment.push(`L ${x} ${y}`);
         }
       } else {
-        // Gap encountered -> finish current segment
         if (currentSegment.length > 0) {
           segments.push(currentSegment.join(" "));
           currentSegment = [];
@@ -107,6 +106,29 @@ export function IndexTrendChart({
     }
 
     return segments;
+  }, [points, minVal, maxVal]);
+
+  // Area path for gradient fill
+  const areaPath = useMemo(() => {
+    if (points.length === 0) return "";
+    const validPts: { x: number; y: number }[] = [];
+    points.forEach((p, idx) => {
+      if (p.index_value !== null && p.index_value !== undefined) {
+        validPts.push({ x: getX(idx), y: getY(p.index_value) });
+      }
+    });
+    if (validPts.length < 2) return "";
+
+    const first = validPts[0];
+    const last = validPts[validPts.length - 1];
+    const bottomY = padTop + chartH;
+
+    let path = `M ${first.x} ${bottomY} L ${first.x} ${first.y}`;
+    for (let i = 1; i < validPts.length; i++) {
+      path += ` L ${validPts[i].x} ${validPts[i].y}`;
+    }
+    path += ` L ${last.x} ${bottomY} Z`;
+    return path;
   }, [points, minVal, maxVal]);
 
   // Hover interaction
@@ -142,10 +164,10 @@ export function IndexTrendChart({
   return (
     <div className={`flex flex-col ${className}`}>
       {/* Header with Timeframe Tabs */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-3">
         <div>
-          <span className="font-mono text-xs text-[#626863] uppercase tracking-wider font-semibold">
-            Index Trend Series
+          <span className="font-mono text-xs text-[#111716] uppercase tracking-wider font-semibold">
+            India Airfare Index ({timeframe})
           </span>
           <span className="text-[11px] text-[#626863] ml-2 font-sans">
             Base ({baseValue.toFixed(1)}) = 100.0
@@ -167,7 +189,7 @@ export function IndexTrendChart({
       {/* SVG Container */}
       <div
         ref={containerRef}
-        className="relative w-full border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm p-2 select-none"
+        className="relative w-full border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm p-3 select-none"
       >
         <svg
           viewBox={`0 0 ${width} ${height}`}
@@ -175,6 +197,13 @@ export function IndexTrendChart({
           onMouseMove={handleMouseMove}
           onMouseLeave={() => setHoverIndex(null)}
         >
+          <defs>
+            <linearGradient id="indexGradient" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#176B5B" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#176B5B" stopOpacity="0.0" />
+            </linearGradient>
+          </defs>
+
           {/* Horizontal Grid & Y-Axis Labels */}
           {yTicks.map((tick) => {
             const y = getY(tick);
@@ -212,7 +241,10 @@ export function IndexTrendChart({
             Base
           </text>
 
-          {/* Render Line Segments (breaks on gaps) */}
+          {/* Area gradient under line */}
+          {areaPath && <path d={areaPath} fill="url(#indexGradient)" />}
+
+          {/* Render Line Segments */}
           {pathSegments.map((d, i) => (
             <path
               key={i}

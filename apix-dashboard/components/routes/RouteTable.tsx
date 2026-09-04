@@ -101,9 +101,9 @@ export function RouteTable({
               key={hub}
               type="button"
               onClick={() => setSelectedHub(hub)}
-              className={`px-2 py-1 rounded-xs transition-colors cursor-pointer text-xs ${
+              className={`px-2 py-0.5 rounded text-xs transition-colors cursor-pointer ${
                 selectedHub === hub
-                  ? "bg-[#111716] text-[#FAF9F5] font-semibold"
+                  ? "bg-[#162923] text-white font-semibold"
                   : "text-[#626863] hover:bg-[#F4F2EC] hover:text-[#111716]"
               }`}
             >
@@ -113,14 +113,14 @@ export function RouteTable({
         </div>
 
         {/* Search Input */}
-        <div className="relative w-full sm:w-64">
+        <div className="relative w-full sm:w-56">
           <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-[#626863]" />
           <input
             type="text"
             placeholder="Search route or city..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-[#F4F2EC] border border-[#D8D7D0] rounded-xs pl-8 pr-3 py-1.5 text-xs text-[#111716] placeholder-[#626863]/60 focus:outline-none focus:border-[#176B5B] font-mono"
+            className="w-full bg-[#F4F2EC] border border-[#D8D7D0] rounded pl-8 pr-3 py-1.5 text-xs text-[#111716] placeholder-[#626863]/60 focus:outline-none focus:border-[#176B5B] font-mono"
           />
         </div>
       </div>
@@ -136,7 +136,7 @@ export function RouteTable({
                 className="py-2.5 px-3 font-semibold cursor-pointer hover:text-[#111716] transition-colors"
               >
                 <div className="flex items-center gap-1">
-                  <span>DGCA Weight</span>
+                  <span>Weight (DGCA)</span>
                   {sortField === "weight" ? (
                     sortDir === "desc" ? (
                       <ArrowDown className="h-3 w-3 text-[#176B5B]" />
@@ -170,7 +170,7 @@ export function RouteTable({
                 className="py-2.5 px-3 font-semibold cursor-pointer hover:text-[#111716] transition-colors"
               >
                 <div className="flex items-center gap-1">
-                  <span>Period Δ</span>
+                  <span>Change (30D)</span>
                   {sortField === "change_pct" ? (
                     sortDir === "desc" ? (
                       <ArrowDown className="h-3 w-3 text-[#176B5B]" />
@@ -199,15 +199,14 @@ export function RouteTable({
                   )}
                 </div>
               </th>
-              <th className="py-2.5 px-3 font-semibold">Sample</th>
               <th className="py-2.5 px-3 font-semibold">Trend</th>
-              <th className="py-2.5 px-3 font-semibold text-right">Details</th>
+              <th className="py-2.5 px-3 font-semibold text-right">Action</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-[#D8D7D0]/60 font-sans">
             {filteredAndSortedRoutes.length === 0 ? (
               <tr>
-                <td colSpan={8} className="py-8 text-center text-[#626863] font-mono text-xs">
+                <td colSpan={7} className="py-8 text-center text-[#626863] font-mono text-xs">
                   No routes matching "{searchTerm}"
                 </td>
               </tr>
@@ -238,7 +237,7 @@ export function RouteTable({
 
                     {/* DGCA Weight */}
                     <td className="py-3 px-3 font-mono tabular-nums text-xs text-[#111716]">
-                      {(r.weight * 100).toFixed(2)}%
+                      {(r.weight * 100).toFixed(1)}%
                     </td>
 
                     {/* Current Route Index */}
@@ -267,23 +266,6 @@ export function RouteTable({
                     {/* Average Fare */}
                     <td className="py-3 px-3 font-mono tabular-nums text-xs font-medium text-[#111716]">
                       {formatINR(r.average_fare)}
-                    </td>
-
-                    {/* Sample Size & Coverage */}
-                    <td className="py-3 px-3">
-                      <div className="flex items-center gap-1.5 font-mono text-[11px]">
-                        {r.coverage_status === "complete" ? (
-                          <span className="inline-flex items-center gap-1 text-[#176B5B]">
-                            <CheckCircle2 className="h-3 w-3" />
-                            <span>{r.matched_observations || 30} obs</span>
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center gap-1 text-amber-700 bg-amber-50 px-1.5 py-0.2 rounded-xs border border-amber-300">
-                            <AlertCircle className="h-3 w-3" />
-                            <span>{r.matched_observations || 18} obs (partial)</span>
-                          </span>
-                        )}
-                      </div>
                     </td>
 
                     {/* Sparkline */}
