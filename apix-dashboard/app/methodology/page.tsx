@@ -117,24 +117,27 @@ export default function MethodologyPage() {
             PILLAR 03
           </span>
           <h3 className="text-2xl font-bold text-[#0F172A]">
-            Upper-Level Aggregation: Chained Laspeyres with DGCA Traffic Weights
+            Upper-Level Aggregation: Fixed-Base Laspeyres with DGCA Traffic Weights
           </h3>
         </div>
 
         <p className="text-xs text-[#64748B] leading-relaxed">
-          Elementary indices for each route are aggregated into the national APIx index using a chained Laspeyres aggregation model weighted by domestic passenger traffic shares reported by the Directorate General of Civil Aviation (DGCA).
+          Elementary indices for each route are aggregated into the national APIx index using a fixed-base Laspeyres model weighted by domestic passenger traffic shares reported by the Directorate General of Civil Aviation (DGCA). Every day is compared against the base period, not against the previous day.
         </p>
 
         {/* Laspeyres Formula */}
         <div className="p-5 bg-white border border-[#E2E8F0] rounded-xs font-mono text-xs space-y-3 shadow-xs">
           <div className="text-[11px] text-[#1E3A8A] uppercase font-semibold">
-            Chained Laspeyres Aggregation Formula:
+            Fixed-Base Laspeyres Aggregation Formula:
           </div>
           <div className="p-3 bg-slate-50 border border-[#E2E8F0] rounded-xs text-sm text-[#0F172A] overflow-x-auto text-center font-mono font-medium italic">
-            I_APIx^t = I_APIx^(t-1) × ∑_(r=1)^12 [ w_r × ( I_(r,t) / I_(r,t-1) ) ]
+            I_APIx^t = 100 × ∑_(r=1)^12 [ w_r × ( I_(r,t) / I_(r,0) ) ]
           </div>
           <p className="text-[11px] text-[#64748B] font-sans leading-relaxed">
-            Where <em>w_r</em> is the official passenger traffic weight of route <em>r</em> derived from DGCA Trailing 12-Month city-pair statistics (normalised to sum to 1.0), and <em>I_(r,t)</em> is the elementary price relative for route <em>r</em> on day <em>t</em>.
+            Where <em>w_r</em> is the official passenger traffic weight of route <em>r</em> derived from DGCA Trailing 12-Month city-pair statistics (normalised to sum to 1.0), and <em>I_(r,t)</em> is the elementary index for route <em>r</em> on day <em>t</em>.
+          </p>
+          <p className="text-[11px] text-[#64748B] font-sans leading-relaxed border-t border-[#E2E8F0] pt-3">
+            <strong>Why not a daily chain.</strong> A daily-chained index multiplies a weighted <em>arithmetic</em> mean of price relatives at every step. By Jensen&apos;s inequality that mean exceeds 1 for noisy trendless prices — by exp(σ²) per link, which compounds to exp(nσ²). At airfare dispersion (σ ≈ 0.08) that is roughly <strong>+0.64% per day of purely spurious inflation</strong>. This is the documented high-frequency chain-drift problem (Ivancic, Diewert &amp; Fox 2011; Eurostat 2022; ONS 2023), and it is why CPI itself is not daily-chained. Under the fixed-base form, prices that rise and return to their starting level return the index to exactly 100.
           </p>
         </div>
 
@@ -169,7 +172,7 @@ export default function MethodologyPage() {
             PILLAR 04
           </span>
           <h3 className="text-2xl font-bold text-[#0F172A]">
-            Quality Hygiene, IQR Outliers & Catchment Normalization
+            Quality Hygiene, Outlier Screening & Catchment Normalization
           </h3>
         </div>
 
@@ -189,12 +192,12 @@ export default function MethodologyPage() {
 
           <div className="p-4 bg-white border border-[#E2E8F0] rounded-xs space-y-2 shadow-xs">
             <h4 className="font-mono text-xs font-semibold text-[#0F172A] uppercase">
-              IQR Outlier Fences & Sold-Out Handling
+              Outlier Screening & Sold-Out Handling
             </h4>
             <ul className="space-y-1.5">
               <li className="flex items-start gap-2">
                 <span className="text-[#1E3A8A] font-mono font-bold">›</span>
-                <span><strong>Interquartile Range (IQR) Fences:</strong> Observations exceeding Q3 + 3.0 × IQR for a specific (route, window) cell are flagged as price outliers and excluded from index calculation to prevent fare scrapes from introducing spurious noise.</span>
+                <span><strong>Time-Relative Screening:</strong> Each carrier&apos;s own period-to-period price relatives are screened by median absolute deviation on log relatives. Screening is deliberately <em>not</em> cross-sectional: flagging a carrier for being priced differently from its rivals treats genuine market dispersion as error and biases the index toward the cheapest carrier. Outliers are tagged, never deleted, and excluded from price relatives downstream.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-[#1E3A8A] font-mono font-bold">›</span>

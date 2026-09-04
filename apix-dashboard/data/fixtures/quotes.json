@@ -9,8 +9,8 @@
     "carrier_iata": "6E",
     "fare_class": "Economy",
     "total_fare_inr": 9120.0,
-    "source_id": "tripjack_api_v2",
-    "collection_method": "api",
+    "source_id": "indigo_tariff_v1",
+    "collection_method": "tariff_sheet",
     "quality_flag": "ok"
   },
   {
@@ -23,8 +23,8 @@
     "carrier_iata": "AI",
     "fare_class": "Economy",
     "total_fare_inr": 9480.0,
-    "source_id": "tbo_air_v1",
-    "collection_method": "api",
+    "source_id": "air_india_tariff_v1",
+    "collection_method": "tariff_sheet",
     "quality_flag": "ok"
   },
   {
@@ -37,8 +37,8 @@
     "carrier_iata": "QP",
     "fare_class": "Economy",
     "total_fare_inr": 8940.0,
-    "source_id": "tripjack_api_v2",
-    "collection_method": "api",
+    "source_id": "akasa_tariff_v1",
+    "collection_method": "tariff_sheet",
     "quality_flag": "ok"
   },
   {
@@ -51,8 +51,8 @@
     "carrier_iata": "SG",
     "fare_class": "Economy",
     "total_fare_inr": null,
-    "source_id": "playwright_ota_scrape",
-    "collection_method": "scrape",
+    "source_id": "simulated_v1",
+    "collection_method": "simulated",
     "quality_flag": "sold_out",
     "quality_reason": "Sold out: No fare available at collection time"
   },
@@ -66,8 +66,8 @@
     "carrier_iata": "IX",
     "fare_class": "Economy",
     "total_fare_inr": 8650.0,
-    "source_id": "air_india_tariff_sheet",
-    "collection_method": "tariff_sheet",
+    "source_id": "simulated_v1",
+    "collection_method": "simulated",
     "quality_flag": "ok"
   },
   {
@@ -80,8 +80,8 @@
     "carrier_iata": "6E",
     "fare_class": "Economy",
     "total_fare_inr": 7650.0,
-    "source_id": "tripjack_api_v2",
-    "collection_method": "api",
+    "source_id": "indigo_tariff_v1",
+    "collection_method": "tariff_sheet",
     "quality_flag": "ok"
   },
   {
@@ -94,8 +94,8 @@
     "carrier_iata": "AI",
     "fare_class": "Economy",
     "total_fare_inr": 8050.0,
-    "source_id": "tbo_air_v1",
-    "collection_method": "api",
+    "source_id": "air_india_tariff_v1",
+    "collection_method": "tariff_sheet",
     "quality_flag": "ok"
   },
   {
@@ -108,8 +108,8 @@
     "carrier_iata": "QP",
     "fare_class": "Economy",
     "total_fare_inr": 7420.0,
-    "source_id": "tripjack_api_v2",
-    "collection_method": "api",
+    "source_id": "akasa_tariff_v1",
+    "collection_method": "tariff_sheet",
     "quality_flag": "ok"
   },
   {
@@ -122,8 +122,8 @@
     "carrier_iata": "SG",
     "fare_class": "Economy",
     "total_fare_inr": 7280.0,
-    "source_id": "playwright_ota_scrape",
-    "collection_method": "scrape",
+    "source_id": "simulated_v1",
+    "collection_method": "simulated",
     "quality_flag": "ok"
   },
   {
@@ -136,8 +136,8 @@
     "carrier_iata": "IX",
     "fare_class": "Economy",
     "total_fare_inr": 7190.0,
-    "source_id": "air_india_tariff_sheet",
-    "collection_method": "tariff_sheet",
+    "source_id": "simulated_v1",
+    "collection_method": "simulated",
     "quality_flag": "ok"
   },
   {
@@ -150,8 +150,8 @@
     "carrier_iata": "6E",
     "fare_class": "Economy",
     "total_fare_inr": 6340.0,
-    "source_id": "tripjack_api_v2",
-    "collection_method": "api",
+    "source_id": "indigo_tariff_v1",
+    "collection_method": "tariff_sheet",
     "quality_flag": "ok"
   },
   {
@@ -164,8 +164,8 @@
     "carrier_iata": "AI",
     "fare_class": "Economy",
     "total_fare_inr": 6720.0,
-    "source_id": "tbo_air_v1",
-    "collection_method": "api",
+    "source_id": "air_india_tariff_v1",
+    "collection_method": "tariff_sheet",
     "quality_flag": "ok"
   },
   {
@@ -178,8 +178,8 @@
     "carrier_iata": "QP",
     "fare_class": "Economy",
     "total_fare_inr": 28500.0,
-    "source_id": "playwright_ota_scrape",
-    "collection_method": "scrape",
+    "source_id": "akasa_tariff_v1",
+    "collection_method": "tariff_sheet",
     "quality_flag": "outlier",
     "quality_reason": "Price exceeds 3.5x IQR upper fence for route-window segment"
   },
@@ -193,8 +193,8 @@
     "carrier_iata": "6E",
     "fare_class": "Economy",
     "total_fare_inr": 4980.0,
-    "source_id": "tripjack_api_v2",
-    "collection_method": "api",
+    "source_id": "indigo_tariff_v1",
+    "collection_method": "tariff_sheet",
     "quality_flag": "ok"
   },
   {
@@ -207,7 +207,7 @@
     "carrier_iata": "AI",
     "fare_class": "Economy",
     "total_fare_inr": 5120.0,
-    "source_id": "air_india_tariff_sheet",
+    "source_id": "air_india_tariff_v1",
     "collection_method": "tariff_sheet",
     "quality_flag": "ok"
   },

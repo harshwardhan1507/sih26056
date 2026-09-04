@@ -44,7 +44,7 @@ export function QualityScoreHero({
           </div>
 
           <p className="text-sm text-[#64748B] mt-2 max-w-xl leading-relaxed">
-            Data quality index reflects price hygiene, IQR outlier isolation, and sold-out missing value handling across {totalQuotes} daily trunk route observations.
+            Data quality index reflects price hygiene, time-relative outlier isolation, and sold-out missing value handling across {totalQuotes} daily trunk route observations.
           </p>
         </div>
 
@@ -72,7 +72,7 @@ export function QualityScoreHero({
               {outlierCount}
             </div>
             <div className="text-[10px] text-[#64748B]">
-              Excluded via IQR fence
+              Excluded via time-relative screen
             </div>
           </div>
 
@@ -113,7 +113,7 @@ export function QualityScoreHero({
               Simulated Fallback Engine Active ({fallbackSimulatedPct.toFixed(1)}%)
             </p>
             <p className="text-amber-800 font-sans leading-relaxed">
-              {Math.round((fallbackSimulatedPct / 100) * totalQuotes)} of {totalQuotes} observations were fulfilled via Tier 4 advance-decay simulation due to upstream API rate limits. All simulated observations maintain transparent collection_method=&quot;simulated&quot; metadata.
+              {Math.round((fallbackSimulatedPct / 100) * totalQuotes)} of {totalQuotes} observations were fulfilled by the Tier 4 advance-decay simulator, because no higher tier covers those carriers — SpiceJet and Air India Express have no tariff-sheet adapter, and no Tier 1 API access has been granted. Not an outage. Every simulated observation carries collection_method=&quot;simulated&quot;.
             </p>
           </div>
         </div>

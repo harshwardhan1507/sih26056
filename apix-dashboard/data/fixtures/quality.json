@@ -7,12 +7,12 @@
   "missing_count": 0,
   "imputed_count": 0,
   "by_method": {
-    "api": 126,
-    "tariff_sheet": 93,
-    "scrape": 54,
-    "simulated": 27
+    "api": 0,
+    "tariff_sheet": 180,
+    "scrape": 0,
+    "simulated": 120
   },
-  "fallback_simulated_pct": 9.0,
+  "fallback_simulated_pct": 40.0,
   "collection_runs": [
     {
       "run_id": "RUN-20260904-01",
@@ -21,7 +21,7 @@
       "valid": 291,
       "outliers": 6,
       "sold_out": 3,
-      "simulated_count": 27,
+      "simulated_count": 120,
       "status": "ok"
     },
     {
@@ -31,7 +31,7 @@
       "valid": 289,
       "outliers": 7,
       "sold_out": 4,
-      "simulated_count": 30,
+      "simulated_count": 120,
       "status": "ok"
     },
     {
@@ -41,7 +41,7 @@
       "valid": 296,
       "outliers": 3,
       "sold_out": 1,
-      "simulated_count": 25,
+      "simulated_count": 120,
       "status": "ok"
     },
     {
@@ -51,7 +51,7 @@
       "valid": 290,
       "outliers": 6,
       "sold_out": 4,
-      "simulated_count": 28,
+      "simulated_count": 120,
       "status": "ok"
     }
   ],
@@ -59,7 +59,7 @@
     "mode": "demo",
     "dataset_type": "synthetic",
     "generated_at": "2026-09-04T12:02:00Z",
-    "last_updated_ist": "04 Sep 2026 · 17:32 IST",
+    "last_updated_ist": "04 Sep 2026 \u00b7 17:32 IST",
     "stale": false
   }
 }

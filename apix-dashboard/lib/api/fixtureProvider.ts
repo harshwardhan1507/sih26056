@@ -16,6 +16,7 @@ import {
   QuoteItem,
   RouteDetail,
   RouteSnapshot,
+  CollectionMethod,
   SourceStatusItem,
 } from "./types";
 
@@ -26,6 +27,44 @@ import routeDetailsFixture from "@/data/fixtures/route-details.json";
 import quotesFixture from "@/data/fixtures/quotes.json";
 import qualityFixture from "@/data/fixtures/quality.json";
 import sourcesFixture from "@/data/fixtures/sources.json";
+
+const COLLECTION_METHODS: CollectionMethod[] = [
+  "api",
+  "tariff_sheet",
+  "scrape",
+  "historical_panel",
+  "simulated",
+  "imputed",
+  "unknown",
+];
+
+const SOURCE_STATUSES: SourceStatusItem["status"][] = [
+  "active",
+  "fallback",
+  "degraded",
+  "failed",
+  "not_integrated",
+];
+
+/** Narrow one raw fixture row into the typed contract, defaulting safely. */
+function toSourceStatusItem(raw: Record<string, unknown>): SourceStatusItem {
+  const method = COLLECTION_METHODS.find((m) => m === raw.type) ?? "unknown";
+  const status = SOURCE_STATUSES.find((s) => s === raw.status) ?? "not_integrated";
+  const num = (v: unknown): number | null => (typeof v === "number" ? v : null);
+
+  return {
+    source_id: String(raw.source_id ?? "unknown"),
+    name: String(raw.name ?? raw.source_id ?? "Unknown source"),
+    type: method,
+    status,
+    quotes_contributed: num(raw.quotes_contributed) ?? 0,
+    share_pct: num(raw.share_pct) ?? 0,
+    last_check_utc: String(raw.last_check_utc ?? ""),
+    success_rate: num(raw.success_rate),
+    latency_ms: num(raw.latency_ms),
+    note: typeof raw.note === "string" ? raw.note : undefined,
+  };
+}
 
 export class FixtureDataProvider implements ApiXDataProvider {
   async getHealth(): Promise<HealthStatus> {
@@ -191,7 +230,13 @@ export class FixtureDataProvider implements ApiXDataProvider {
   }
 
   async getSources(): Promise<SourceStatusItem[]> {
-    return sourcesFixture as SourceStatusItem[];
+    // Normalised at the boundary rather than asserted. The previous
+    // `sourcesFixture as SourceStatusItem[]` silenced the compiler entirely,
+    // so adding required fields to SourceStatusItem left this fixture stale
+    // and the Sources page crashed on undefined.toLocaleString(). TypeScript
+    // widens imported JSON string literals to `string`, so a mapper is the
+    // only way to actually validate the shape.
+    return sourcesFixture.map(toSourceStatusItem);
   }
 }
 

@@ -30,7 +30,7 @@ export function AnalyticalSummary({
           Analytical Summary ({timeframeLabel})
         </h4>
         <span className="text-[10px] font-mono text-[#64748B]">
-          Matched Chained Laspeyres Behavior
+          Matched Fixed-Base Laspeyres Behavior
         </span>
       </div>
 

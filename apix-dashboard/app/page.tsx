@@ -145,7 +145,7 @@ export default function OverviewPage() {
         </div>
       </div>
 
-      {/* Hero Chart: Chained Laspeyres Index Trend */}
+      {/* Hero Chart: Fixed-Base Laspeyres Index Trend */}
       <div>
         <IndexTrendChart
           data={history}

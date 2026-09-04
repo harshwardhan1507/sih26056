@@ -49,13 +49,13 @@ const ENDPOINTS: EndpointSpec[] = [
     method: "GET",
     path: "/quotes",
     summary: "Filterable fare quote records with provenance",
-    description: "Queries collected price observations. Supports filtering by origin, destination, advance window, and departure date.",
+    description: "Queries collected price observations. Filters by origin, destination, advance window, and OBSERVATION date (departure minus the advance window), which is the index time axis.",
     params: [
       { name: "origin", type: "string", required: false, description: "3-letter IATA origin code (e.g. 'DEL')" },
       { name: "destination", type: "string", required: false, description: "3-letter IATA destination code (e.g. 'BOM')" },
       { name: "advance_window_days", type: "integer", required: false, description: "Lead window: 1, 7, 15, 30, 45" },
-      { name: "date_from", type: "string (YYYY-MM-DD)", required: false, description: "Filter departure date >= date_from" },
-      { name: "date_to", type: "string (YYYY-MM-DD)", required: false, description: "Filter departure date <= date_to" },
+      { name: "date_from", type: "string (YYYY-MM-DD)", required: false, description: "Filter observation date >= date_from" },
+      { name: "date_to", type: "string (YYYY-MM-DD)", required: false, description: "Filter observation date <= date_to" },
     ],
     curlExample: "curl -s 'http://localhost:8000/quotes?origin=DEL&destination=BOM&advance_window_days=7'",
     responseExample: {
@@ -64,6 +64,7 @@ const ENDPOINTS: EndpointSpec[] = [
         {
           id: "Q-20260904-001",
           collected_at_utc: "2026-09-04T12:02:15Z",
+          observation_date: "2026-09-04",
           departure_date: "2026-09-11",
           advance_window_days: 7,
           origin_iata: "DEL",
@@ -71,8 +72,8 @@ const ENDPOINTS: EndpointSpec[] = [
           carrier_iata: "6E",
           fare_class: "Economy",
           total_fare_inr: 7650.0,
-          source_id: "tripjack_api_v2",
-          collection_method: "api",
+          source_id: "indigo_tariff_v1",
+          collection_method: "tariff_sheet",
           quality_flag: "ok",
         },
       ],
@@ -105,7 +106,7 @@ const ENDPOINTS: EndpointSpec[] = [
   {
     method: "GET",
     path: "/index/aggregate",
-    summary: "Chained Laspeyres aggregate index series",
+    summary: "Fixed-base Laspeyres aggregate index series",
     description: "Returns official APIx aggregate national series weighted by DGCA route traffic shares.",
     curlExample: "curl -s http://localhost:8000/index/aggregate",
     responseExample: {
@@ -163,7 +164,7 @@ export default function ApiDocsPage() {
       <PageHeader
         eyebrow="Developer & Institutional Access"
         title="API Reference & Integration"
-        subtitle="Complete specification of FastAPI REST endpoints serving route baskets, price quotes, Jevons elementary series, chained Laspeyres aggregates, and data-quality metrics."
+        subtitle="Complete specification of FastAPI REST endpoints serving route baskets, price quotes, Jevons elementary series, fixed-base Laspeyres aggregates, and data-quality metrics. Every data response states whether its rows were observed or simulated."
         actions={
           <div className="flex items-center gap-2">
             <a

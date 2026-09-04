@@ -16,12 +16,12 @@ const STAGES: PipelineStage[] = [
     step: 1,
     title: "Multi-Tier Ingestion",
     tag: "Collection & Resolver",
-    shortDesc: "Prioritized fallback: Direct APIs → Tariff Sheets → Playwright Scraping → Simulation Engine.",
+    shortDesc: "Prioritized fallback: Licensed APIs → Tariff Sheets → HAR Replay → Simulation Engine.",
     details: [
-      "Tier 1: B2B Aggregator APIs (TripJack / TBO) provide structured GDS feeds.",
+      "Tier 1: B2B aggregator APIs (TripJack / TBO). Slot reserved — access requests pending, no adapter implemented yet.",
       "Tier 2: Airline Tariff Sheets parsed for declared commercial fare bands.",
-      "Tier 3: Playwright browser automation extracts public consumer web fares with HAR recording.",
-      "Tier 4: Simulated fallback applies advance-purchase decay curves when upstream APIs throttle.",
+      "Tier 3: Replays captured HAR archives under per-host rate limiting, robots.txt checks and an off-peak window. No live scraper exists yet.",
+      "Tier 4: Simulated fallback applies advance-purchase decay curves for carriers no higher tier reaches. Always tagged collection_method 'simulated'.",
       "Carrier-aware fallback ensures missing airline quotes query lower tiers without duplicating found carriers.",
     ],
   },
@@ -53,9 +53,9 @@ const STAGES: PipelineStage[] = [
     step: 4,
     title: "Quality Controls",
     tag: "Hygiene & Fences",
-    shortDesc: "IQR price fences isolate outliers; sold-out flights safely flagged as null, never ₹0.",
+    shortDesc: "Time-relative screening isolates outliers; sold-out flights flagged as null, never ₹0.",
     details: [
-      "IQR Outlier Fences: Identifies price spikes exceeding Q3 + 3.0 * IQR per (route, window) cell.",
+      "Time-Relative Outlier Screening: flags a carrier's own price movements that are extreme against its own history, not carriers that merely cost more than rivals.",
       "Outliers flagged with quality_flag='outlier' and excluded from index calculation.",
       "Sold-out flights: Explicitly recorded with total_fare_inr = null. NEVER replaced with 0.00.",
       "Drops unavailable flights from matched pairs to avoid artificial deflationary spikes.",
@@ -79,7 +79,7 @@ const STAGES: PipelineStage[] = [
     tag: "DGCA Route Weighted",
     shortDesc: "Chains elementary series using official DGCA passenger-traffic weights over Trailing 12-Month period.",
     details: [
-      "Chained Laspeyres formula weights each route by its passenger traffic share in the 12-route basket.",
+      "Fixed-base Laspeyres weights each route by its passenger traffic share in the 12-route basket. Not daily-chained, which would compound noise into drift.",
       "Weights derived from DGCA city-pair data over Trailing 12-Month window (June 2025 - May 2026).",
       "Route weights sum to 1.0 (DEL-BOM 19.2%, DEL-BLR 13.6%, down to BOM-GOI 3.9%).",
       "Produces the final national APIx headline series for MoSPI CPI augmentation.",
@@ -99,7 +99,7 @@ export function PipelineFlow({ className = "" }: { className?: string }) {
           Econometric Pipeline Architecture
         </h4>
         <p className="text-[11px] text-[#64748B] mt-0.5">
-          From raw multi-tier ingestion through IQR hygiene to chained Laspeyres index aggregation
+          From raw multi-tier ingestion through hygiene screening to fixed-base Laspeyres aggregation
         </p>
       </div>
 

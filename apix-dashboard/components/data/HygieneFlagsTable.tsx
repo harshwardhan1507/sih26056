@@ -46,7 +46,7 @@ export function HygieneFlagsTable({
       count: counts.outlier,
       sharePct: total > 0 ? (counts.outlier / total) * 100 : 0,
       treatment: "Excluded from Relative",
-      description: "Fare exceeds 3.0x IQR upper fence for (route, window) market cell. Isolated to prevent spurious volatility spikes.",
+      description: "Carrier's own price movement is extreme against its history (MAD on log relatives). Tagged, never deleted; excluded from price relatives.",
       icon: AlertTriangle,
       colorClass: "text-amber-800 bg-amber-50 border-amber-300",
     },
