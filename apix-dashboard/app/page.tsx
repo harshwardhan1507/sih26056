@@ -125,17 +125,17 @@ export default function OverviewPage() {
           </div>
         </div>
 
-        {/* Right Column: Editorial Hero Visual Card with Dark Blue Theme */}
-        <div className="lg:col-span-5 relative rounded-sm overflow-hidden border border-[#E2E8F0] bg-[#0B1E36] min-h-[220px] flex flex-col justify-end p-5 shadow-xs">
+        {/* Right Column: Editorial Hero Visual Card - Clean Natural Photo without Blue Overlay */}
+        <div className="lg:col-span-5 relative rounded-sm overflow-hidden border border-[#E2E8F0] bg-white min-h-[220px] flex flex-col justify-end p-5 shadow-xs">
           <img
             src="/hero_aviation.jpg"
             alt="Aviation over clouds"
-            className="absolute inset-0 w-full h-full object-cover opacity-50 mix-blend-luminosity"
+            className="absolute inset-0 w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E36] via-[#0B1E36]/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
           
           <div className="relative z-10 text-white space-y-1">
-            <span className="text-[10px] font-mono tracking-widest uppercase text-sky-300 font-semibold block">
+            <span className="text-[10px] font-mono tracking-widest uppercase text-white/90 font-semibold block">
               National Air Corridor Basket
             </span>
             <p className="text-lg font-semibold leading-snug text-white max-w-xs">
