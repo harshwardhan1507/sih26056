@@ -117,7 +117,7 @@ export default function OverviewPage() {
             <Metric
               size="hero"
               label="Headline Index"
-              value={snapshot.value.toFixed(1)}
+              value={snapshot.value !== null && snapshot.value !== undefined ? snapshot.value.toFixed(1) : "100.0"}
               delta={snapshot.change_pct}
               deltaLabel="vs previous collection period"
               subtext={`Base (Aug 2026) = 100.0 · Last updated: 04 Sep 2026 · 17:32 IST`}

@@ -46,7 +46,10 @@ export function CollectionRunsTable({
           </thead>
           <tbody className="divide-y divide-[#E2E8F0] font-sans">
             {runs.map((r) => {
-              const cleanRate = ((r.valid / r.total) * 100).toFixed(1);
+              const cleanRate =
+                r.total > 0 && r.valid !== null && r.valid !== undefined
+                  ? ((r.valid / r.total) * 100).toFixed(1)
+                  : "0.0";
               return (
                 <tr key={r.run_id} className="hover:bg-slate-50 transition-colors">
                   <td className="py-2.5 px-3 font-mono font-bold text-xs text-[#0F172A]">

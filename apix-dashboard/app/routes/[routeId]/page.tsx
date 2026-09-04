@@ -141,7 +141,11 @@ export default function RouteDetailPage({
 
       {/* Page Header */}
       <PageHeader
-        eyebrow={`DGCA Passenger Weight: ${(detail.weight * 100).toFixed(2)}%`}
+        eyebrow={
+          detail.weight !== null && detail.weight !== undefined
+            ? `DGCA Passenger Weight: ${(detail.weight * 100).toFixed(2)}%`
+            : "DGCA Passenger Basket"
+        }
         title={`${detail.origin_city} (${detail.origin}) → ${detail.destination_city} (${detail.destination})`}
         subtitle="Economy Class · Non-stop and direct scheduled operations · Matched-sample Jevons elementary series"
         actions={
@@ -159,7 +163,7 @@ export default function RouteDetailPage({
         <Metric
           size="medium"
           label="Route Airfare Index"
-          value={detail.current_index !== null ? detail.current_index.toFixed(1) : "—"}
+          value={detail.current_index !== null && detail.current_index !== undefined ? detail.current_index.toFixed(1) : "—"}
           delta={detail.change_pct}
           deltaLabel="30D movement"
           subtext="Base (Aug 2026) = 100.0"

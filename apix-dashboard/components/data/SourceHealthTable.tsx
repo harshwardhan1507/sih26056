@@ -68,11 +68,15 @@ export function SourceHealthTable({
                 </td>
 
                 <td className="py-3 px-3 font-mono text-xs tabular-nums text-[#0F172A]">
-                  {s.quotes_contributed.toLocaleString("en-IN")}
+                  {s.quotes_contributed !== null && s.quotes_contributed !== undefined
+                    ? s.quotes_contributed.toLocaleString("en-IN")
+                    : "—"}
                 </td>
 
                 <td className="py-3 px-3 font-mono text-xs tabular-nums text-[#64748B]">
-                  {s.share_pct.toFixed(1)}%
+                  {s.share_pct !== null && s.share_pct !== undefined
+                    ? `${s.share_pct.toFixed(1)}%`
+                    : "—"}
                 </td>
 
                 <td className="py-3 px-3 font-mono text-xs tabular-nums font-semibold text-[#0F172A]">

@@ -61,10 +61,14 @@ export function RouteComparisonView({
                     </div>
                   </td>
                   <td className="py-2.5 px-3 font-mono tabular-nums text-xs text-[#0F172A]">
-                    {(r.weight * 100).toFixed(2)}%
+                    {r.weight !== null && r.weight !== undefined
+                      ? `${(r.weight * 100).toFixed(2)}%`
+                      : "—"}
                   </td>
                   <td className="py-2.5 px-3 font-bold text-sm tabular-nums text-[#0F172A]">
-                    {r.current_index ? r.current_index.toFixed(1) : "—"}
+                    {r.current_index !== null && r.current_index !== undefined
+                      ? r.current_index.toFixed(1)
+                      : "—"}
                   </td>
                   <td className="py-2.5 px-3">
                     <span

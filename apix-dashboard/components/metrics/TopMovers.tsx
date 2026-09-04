@@ -48,7 +48,10 @@ export function TopMovers({
       <div className="divide-y divide-[#E2E8F0]">
         {movers.map((route) => {
           const polarity = getMovementPolarity(route.change_pct);
-          const weightPct = (route.weight * 100).toFixed(1);
+          const weightPct =
+            route.weight !== null && route.weight !== undefined
+              ? (route.weight * 100).toFixed(1)
+              : "—";
 
           return (
             <Link

@@ -36,7 +36,9 @@ export function QualityScoreHero({
 
           <div className="flex items-baseline gap-4">
             <span className="text-5xl md:text-6xl font-bold text-[#0F172A] tabular-nums tracking-tight">
-              {score.toFixed(1)}%
+              {score !== null && score !== undefined && !Number.isNaN(score)
+                ? `${score.toFixed(1)}%`
+                : "—"}
             </span>
             <span className="text-xs font-mono text-[#1E3A8A] bg-blue-50 border border-[#1E3A8A]/30 px-2 py-0.5 rounded-xs font-semibold uppercase">
               High Confidence
@@ -59,7 +61,9 @@ export function QualityScoreHero({
               {validQuotes}
             </div>
             <div className="text-[10px] text-[#64748B]">
-              {((validQuotes / totalQuotes) * 100).toFixed(1)}% clean rate
+              {totalQuotes > 0 && validQuotes !== null && validQuotes !== undefined
+                ? `${((validQuotes / totalQuotes) * 100).toFixed(1)}% clean rate`
+                : "—"}
             </div>
           </div>
 
@@ -110,7 +114,7 @@ export function QualityScoreHero({
           <AlertTriangle className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
           <div className="text-xs space-y-1">
             <p className="font-mono font-bold uppercase tracking-wider">
-              Simulated Fallback Engine Active ({fallbackSimulatedPct.toFixed(1)}%)
+              Simulated Fallback Engine Active ({fallbackSimulatedPct !== null && fallbackSimulatedPct !== undefined ? `${fallbackSimulatedPct.toFixed(1)}%` : "0.0%"})
             </p>
             <p className="text-amber-800 font-sans leading-relaxed">
               {Math.round((fallbackSimulatedPct / 100) * totalQuotes)} of {totalQuotes} observations were fulfilled via Tier 4 advance-decay simulation due to upstream API rate limits. All simulated observations maintain transparent collection_method=&quot;simulated&quot; metadata.

@@ -90,7 +90,9 @@ export function MarketSnapshot({
               Data Quality Score
             </span>
             <span className="text-2xl font-bold text-[#1E3A8A] tabular-nums mt-0.5 block">
-              {qualityScore.toFixed(1)}%
+              {qualityScore !== null && qualityScore !== undefined && !Number.isNaN(qualityScore)
+                ? `${qualityScore.toFixed(1)}%`
+                : "—"}
             </span>
             <span className="text-[10px] text-[#64748B] font-sans">
               Clean & validated rate
