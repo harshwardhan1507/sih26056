@@ -9,7 +9,7 @@ import { Tabs } from "@/components/common/Tabs";
 interface CoordinatedFareChartProps {
   data: IndexPoint[];
   baseValue?: number;
-  latestAverageFare?: number;
+  latestAverageFare?: number | null;
   timeframe: "7D" | "30D" | "90D";
   onTimeframeChange: (tf: "7D" | "30D" | "90D") => void;
   className?: string;
@@ -18,7 +18,9 @@ interface CoordinatedFareChartProps {
 export function CoordinatedFareChart({
   data,
   baseValue = 100.0,
-  latestAverageFare = 6842,
+  // No default fare. A hardcoded INR 6,842 anchor drew a fare curve that
+  // looked measured but was not; with no anchor the fare track is omitted.
+  latestAverageFare = null,
   timeframe,
   onTimeframeChange,
   className = "",
@@ -33,17 +35,24 @@ export function CoordinatedFareChart({
     return data.slice(-limit);
   }, [data, timeframe]);
 
-  // Derive daily observed average fare from base and index value for synchronized analysis
+  // Index-implied fare path, anchored on the latest observed average fare.
+  // Without an anchor there is nothing to scale, so every fare is null and the
+  // fare track renders empty rather than inventing a level.
   const pointsWithFare = useMemo(() => {
+    const anchorIndex = points[points.length - 1]?.index_value;
+    const canDeriveFare =
+      latestAverageFare !== null &&
+      latestAverageFare !== undefined &&
+      anchorIndex !== null &&
+      anchorIndex !== undefined &&
+      anchorIndex > 0;
+
     return points.map((p) => {
-      if (p.index_value === null || p.index_value === undefined) {
+      if (!canDeriveFare || p.index_value === null || p.index_value === undefined) {
         return { ...p, fare: null };
       }
-      // Calculated proportional observed fare relative to base index
-      const ratio = p.index_value / baseValue;
-      const baseFare = latestAverageFare / (points[points.length - 1]?.index_value || 103.7) * baseValue;
-      const fareVal = Math.round(baseFare * ratio);
-      return { ...p, fare: fareVal };
+      const baseFare = (latestAverageFare / anchorIndex) * baseValue;
+      return { ...p, fare: Math.round(baseFare * (p.index_value / baseValue)) };
     });
   }, [points, baseValue, latestAverageFare]);
 

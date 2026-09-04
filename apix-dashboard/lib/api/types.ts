@@ -17,17 +17,42 @@
 
 export interface DataContextMetadata {
   mode: "live" | "demo";
-  dataset_type: "production" | "synthetic";
+  /**
+   * What the numbers actually are. "mixed" exists because a real collection
+   * run blends observed tariff-sheet fares with simulated fallback for
+   * carriers that publish no sheet — reporting that as "production" would
+   * overstate it, and as "synthetic" would understate it.
+   */
+  dataset_type: "production" | "mixed" | "synthetic" | "unknown";
+  /** Share of the underlying rows produced by the simulator. */
+  simulated_percentage?: number;
+  /** File the API read the rows from. */
+  source_file?: string;
   generated_at?: string;
   last_updated_ist?: string;
   stale?: boolean;
+}
+
+/** Provenance block returned by every data-bearing API response. */
+export interface DatasetProvenance {
+  dataset_type: "production" | "mixed" | "synthetic";
+  source_file: string;
+  is_live_collection: boolean;
+  total_quotes: number;
+  observed_quotes: number;
+  simulated_quotes: number;
+  simulated_percentage: number;
+  note: string;
 }
 
 export type CollectionMethod =
   | "api"
   | "tariff_sheet"
   | "scrape"
-  | "simulated";
+  | "historical_panel"
+  | "simulated"
+  | "imputed"
+  | "unknown";
 
 export type QualityFlag =
   | "ok"
@@ -65,7 +90,8 @@ export interface IndexSnapshot {
   value: number;
   change_pct: number;
   base: number;
-  average_fare: number;
+  /** null when no route reported a fare; the UI shows a dash, never a guess. */
+  average_fare: number | null;
   quotes: number;
   routes: number;
   quality_score: number;
@@ -146,10 +172,25 @@ export interface SourceStatusItem {
   source_id: string;
   name: string;
   type: CollectionMethod;
-  status: "available" | "fallback" | "degraded" | "failed";
-  success_rate: number;
+  /**
+   * "not_integrated" is the honest state for a source the project has no
+   * adapter for. The live provider used to report TripJack and TBO as
+   * "available" with invented success rates and latencies, while the
+   * project's own outreach register recorded both as access-pending.
+   */
+  status: "active" | "fallback" | "degraded" | "failed" | "not_integrated";
+  /** Quotes this source actually contributed to the served dataset. */
+  quotes_contributed: number;
+  /** Share of the served dataset, 0-100. */
+  share_pct: number;
   last_check_utc: string;
-  latency_ms: number;
+  /**
+   * Only present when genuinely measured. Absent means not measured — the
+   * UI must render a dash, never a plausible-looking number.
+   */
+  success_rate?: number | null;
+  latency_ms?: number | null;
+  note?: string;
 }
 
 export interface HealthStatus {

@@ -70,6 +70,16 @@ export function StatusBadge({
 
   if (type === "source") {
     switch (value) {
+      case "not_integrated":
+        return (
+          <span
+            className={`inline-flex items-center gap-1 font-mono rounded-xs border border-[#D8D7D0] bg-[#F4F2EC] text-[#626863] ${sizeClasses} ${className}`}
+          >
+            <span className="h-1.5 w-1.5 rounded-full bg-[#A8A69C]" />
+            <span>Not Integrated</span>
+          </span>
+        );
+      case "active":
       case "available":
         return (
           <span
@@ -115,7 +125,10 @@ export function StatusBadge({
       api: "API Direct",
       tariff_sheet: "Tariff Sheet",
       scrape: "Web Scrape",
+      historical_panel: "Historical Panel",
       simulated: "Simulated Fallback",
+      imputed: "Imputed",
+      unknown: "Unknown Provenance",
     };
     return (
       <span

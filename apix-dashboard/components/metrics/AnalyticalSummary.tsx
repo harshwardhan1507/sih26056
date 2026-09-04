@@ -8,7 +8,7 @@ interface AnalyticalSummaryProps {
   timeframeLabel: string;
   highestDay: { change: number; date: string };
   lowestDay: { change: number; date: string };
-  latestFare: number;
+  latestFare: number | null;
   className?: string;
 }
 

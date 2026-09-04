@@ -38,10 +38,25 @@ export function DataProvider({ children }: { children: ReactNode }) {
     setLastCheckedIst(getCurrentISTHeaderDate());
   }, []);
 
+  /**
+   * Enter the API_UNAVAILABLE state.
+   *
+   * The provider is reset to the fixture provider on the way in. Previously
+   * only the status changed: `provider` was left as whatever it was, so a
+   * failed connection attempt left the pages rendering FIXTURE data under a red
+   * "API Unavailable" badge with `isDemoMode === false` — no indication at all
+   * that the numbers on screen were demo data. And because page effects depend
+   * on `provider`, an unchanged provider did not even re-render.
+   */
+  const markUnavailable = useCallback(() => {
+    setProvider(fixtureProvider);
+    setConnectionStatus("API_UNAVAILABLE");
+    setLastCheckedIst(getCurrentISTHeaderDate());
+  }, []);
+
   const switchToLive = useCallback(async () => {
     if (!config.isLiveApiConfigured()) {
-      // If no API URL configured, immediately flag as API_UNAVAILABLE (no silent fake live)
-      setConnectionStatus("API_UNAVAILABLE");
+      markUnavailable();
       return;
     }
 
@@ -49,18 +64,18 @@ export function DataProvider({ children }: { children: ReactNode }) {
       const baseUrl = config.getEffectiveApiBaseUrl();
       const res = await fetch(`${baseUrl}/health`, { signal: AbortSignal.timeout(3000) });
       if (res.ok) {
-        // Live server responded
         setProvider(fastApiProvider);
         setConnectionStatus("LIVE_CONNECTED");
         setLastCheckedIst(getCurrentISTHeaderDate());
       } else {
-        setConnectionStatus("API_UNAVAILABLE");
+        markUnavailable();
       }
     } catch {
-      // Live server down or unreachable - explicit unavailable state, NO silent fallback
-      setConnectionStatus("API_UNAVAILABLE");
+      // Live server down or unreachable — explicit unavailable state, and the
+      // provider falls back so what is displayed matches what is claimed.
+      markUnavailable();
     }
-  }, []);
+  }, [markUnavailable]);
 
   const toggleMode = useCallback(async () => {
     if (connectionStatus === "LOCAL_DEMO") {
@@ -79,22 +94,26 @@ export function DataProvider({ children }: { children: ReactNode }) {
         const baseUrl = config.getEffectiveApiBaseUrl();
         const res = await fetch(`${baseUrl}/health`, { signal: AbortSignal.timeout(4000) });
         if (!res.ok) {
-          setConnectionStatus("API_UNAVAILABLE");
+          markUnavailable();
         } else {
           setLastCheckedIst(getCurrentISTHeaderDate());
         }
       } catch {
-        setConnectionStatus("API_UNAVAILABLE");
+        // A live server that dies mid-session must also drop the provider:
+        // leaving fastApiProvider in place made every later call throw.
+        markUnavailable();
       }
     }, 30000);
 
     return () => clearInterval(interval);
-  }, [connectionStatus]);
+  }, [connectionStatus, markUnavailable]);
 
   const value: DataContextType = {
     provider,
     connectionStatus,
-    isDemoMode: connectionStatus === "LOCAL_DEMO",
+    // True whenever the displayed numbers come from fixtures — which includes
+    // API_UNAVAILABLE, since that state now falls back to the fixture provider.
+    isDemoMode: connectionStatus !== "LIVE_CONNECTED",
     lastCheckedIst,
     switchToLive,
     switchToDemo,

@@ -2,7 +2,7 @@ import React from "react";
 import { formatINR } from "@/lib/formatters/currency";
 
 interface MarketSnapshotProps {
-  averageFare: number;
+  averageFare: number | null;
   quotesCount: number;
   routesCount: number;
   qualityScore: number;

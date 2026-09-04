@@ -24,7 +24,8 @@ export function SourceHealthTable({
             Multi-Tier Resolver Health Matrix
           </h4>
           <p className="text-[11px] text-[#626863] mt-0.5">
-            Real-time status, latency, and ingestion availability across Tier 1 through Tier 4 adapters
+            Contribution to the served dataset per adapter. Success rate and latency
+            show a dash where they are not measured rather than an estimate.
           </p>
         </div>
         <span className="text-[10px] font-mono text-[#626863]">
@@ -39,8 +40,10 @@ export function SourceHealthTable({
               <th className="py-2 px-2 font-semibold">Data Source / Provider</th>
               <th className="py-2 px-2 font-semibold">Tier / Method</th>
               <th className="py-2 px-2 font-semibold">Status</th>
+              <th className="py-2 px-2 font-semibold">Quotes</th>
+              <th className="py-2 px-2 font-semibold">Share</th>
               <th className="py-2 px-2 font-semibold">Success Rate</th>
-              <th className="py-2 px-2 font-semibold">Response Latency</th>
+              <th className="py-2 px-2 font-semibold">Latency</th>
               <th className="py-2 px-2 font-semibold text-right">Last Check (IST)</th>
             </tr>
           </thead>
@@ -64,19 +67,35 @@ export function SourceHealthTable({
                   <StatusBadge type="source" value={s.status} size="sm" />
                 </td>
 
-                <td className="py-3 px-2 font-mono text-xs tabular-nums font-semibold text-[#111716]">
-                  {s.success_rate.toFixed(1)}%
+                <td className="py-3 px-2 font-mono text-xs tabular-nums text-[#111716]">
+                  {s.quotes_contributed.toLocaleString("en-IN")}
                 </td>
 
                 <td className="py-3 px-2 font-mono text-xs tabular-nums text-[#626863]">
-                  <span className="inline-flex items-center gap-1">
-                    <Clock className="h-3 w-3 text-[#626863]/60" />
-                    <span>{s.latency_ms} ms</span>
-                  </span>
+                  {s.share_pct.toFixed(1)}%
+                </td>
+
+                <td className="py-3 px-2 font-mono text-xs tabular-nums font-semibold text-[#111716]">
+                  {s.success_rate === null || s.success_rate === undefined
+                    ? <span className="text-[#626863]" title="Not measured">—</span>
+                    : `${s.success_rate.toFixed(1)}%`}
+                </td>
+
+                <td className="py-3 px-2 font-mono text-xs tabular-nums text-[#626863]">
+                  {s.latency_ms === null || s.latency_ms === undefined ? (
+                    <span title="Not measured">—</span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1">
+                      <Clock className="h-3 w-3 text-[#626863]/60" />
+                      <span>{s.latency_ms} ms</span>
+                    </span>
+                  )}
                 </td>
 
                 <td className="py-3 px-2 font-mono text-[11px] text-[#626863] text-right">
-                  {formatUTCtoIST(s.last_check_utc, { format: "time" })}
+                  {s.last_check_utc
+                    ? formatUTCtoIST(s.last_check_utc, { format: "time" })
+                    : "—"}
                 </td>
               </tr>
             ))}
