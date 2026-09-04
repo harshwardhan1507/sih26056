@@ -29,3 +29,6 @@ data/raw/
 
 # Local tooling & agents
 .claude/
+
+# Scheduled-task run logs
+logs/

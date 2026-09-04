@@ -1,11 +1,48 @@
 # APIx HTTP Data Service API Documentation
 
-**Service:** APIx Data Delivery Layer (Issue #12, Deliverable D)  
+**Service:** APIx Data Delivery Layer  
 **Base URL:** `http://127.0.0.1:8000`  
 **OpenAPI / Interactive Swagger UI:** `http://127.0.0.1:8000/docs`  
 **ReDoc UI:** `http://127.0.0.1:8000/redoc`
 
-The APIx API is a read-only HTTP service designed for frontend dashboards, statistical researchers, and regulatory consumers (such as MoSPI and the RBI). It serves data from validated backend artifacts (`route_weights.json`, `fare_quote.csv`, `index_series.csv`) with graceful degradation and uniform error formatting.
+The APIx API is a read-only HTTP service designed for frontend dashboards, statistical researchers, and regulatory consumers (such as MoSPI and the RBI). It serves data from validated backend artifacts with graceful degradation and uniform error formatting.
+
+> **The OpenAPI spec at `/docs` is authoritative.** It is generated from the
+> Pydantic response models, so it cannot drift. This document is a narrative
+> companion; where the two disagree, believe `/docs`.
+
+### Dataset selection & provenance
+
+The service serves the **live collection log**
+(`data/raw/live_collection/fare_quote_log.csv`) when one exists, and falls back
+to the simulated demo artifact (`apix/data/fare_quote.csv`) otherwise.
+
+Every data-bearing response carries a `provenance` block so a consumer never has
+to guess what it received:
+
+```json
+{
+  "dataset_type": "mixed",
+  "source_file": "fare_quote_log.csv",
+  "is_live_collection": true,
+  "total_quotes": 300,
+  "observed_quotes": 180,
+  "simulated_quotes": 120,
+  "simulated_percentage": 40.0,
+  "note": "Serving the live collection log."
+}
+```
+
+`dataset_type` is `production` (no simulated rows), `mixed` (some), or
+`synthetic` (all). A real collection run is typically `mixed`: tariff sheets
+cover the carriers that publish them, and the simulator fills the rest.
+
+### Time axis
+
+Date filters and index series use the **observation date** — the day a fare was
+seen, equal to `departure_date - advance_window_days`. Filtering on departure
+date mixes advance windows: a T+1 and a T+45 quote observed on the same day
+depart 44 days apart.
 
 ---
 
@@ -142,8 +179,9 @@ Returns collected fare quotes from `fare_quote.csv`. All query filters are optio
 - `origin` (string, optional): Filter by 3-letter origin IATA code (e.g. `DEL`).
 - `destination` (string, optional): Filter by 3-letter destination IATA code (e.g. `BOM`).
 - `advance_window_days` (int, optional): Filter by advance purchase horizon (`1`, `7`, `15`, `30`, `45`).
-- `date_from` (date, optional): Minimum flight departure date (`YYYY-MM-DD`).
-- `date_to` (date, optional): Maximum flight departure date (`YYYY-MM-DD`).
+- `date_from` (date, optional): Minimum **observation** date (`YYYY-MM-DD`).
+- `date_to` (date, optional): Maximum **observation** date (`YYYY-MM-DD`).
+- `limit` (int, optional): Maximum quotes to return. `total_matched` reports the unlimited count.
 
 **Example Request:**
 ```bash
@@ -227,7 +265,14 @@ curl "http://127.0.0.1:8000/quotes?origin=DEL&destination=BOM&advance_window_day
 ---
 
 ### `GET /index/aggregate`
-Returns the headline APIx chained Laspeyres aggregate airfare price index series from `index_series.csv`. Base value is 100.0 at day 0.
+Returns the headline APIx aggregate airfare price index series. Base value is 100.0 at day 0.
+
+Aggregation is a **fixed-base Laspeyres**, not a daily chain — the response's
+`methodology` field states which. A daily-chained index of noisy prices is
+upward-biased by `exp(sigma^2)` per link and manufactures inflation that is not
+there; see [METHODOLOGY_CHAIN_DRIFT.md](METHODOLOGY_CHAIN_DRIFT.md).
+
+Each point carries its calendar `date` and `change_pct` alongside the day index.
 
 **Example Response (`200 OK`):**
 ```json
@@ -306,18 +351,65 @@ curl "http://127.0.0.1:8000/index/elementary?origin=DEL&destination=BOM&advance_
 
 ---
 
-### `GET /sources/status`
-Surfaces multi-tier collection telemetry, counting quotes by collection method (`api`, `tariff_sheet`, `scrape`, `simulated`) and computing the current reliance on simulated fallback. Returns `200 OK` with zero counts even if `fare_quote.csv` is completely empty.
+### `GET /routes/summary`
+Computes each basket route's current index level, day-over-day change, latest
+average observed fare, matched observation count and a down-sampled sparkline —
+all derived from the served dataset.
+
+Routes with no observations return `null` values and
+`coverage_status: "insufficient"`. Nothing is filled in with a placeholder.
 
 **Example Response (`200 OK`):**
 ```json
 {
-  "total_quotes": 13500,
+  "count": 12,
+  "provenance": { "dataset_type": "mixed", "...": "..." },
+  "routes": [
+    {
+      "route_id": "DEL-BOM",
+      "origin": "DEL",
+      "destination": "BOM",
+      "weight": 0.192173,
+      "current_index": 100.0,
+      "change_pct": null,
+      "average_fare": 7661.0,
+      "matched_observations": 24,
+      "coverage_status": "insufficient",
+      "series_length": 1,
+      "sparkline": [100.0]
+    }
+  ]
+}
+```
+
+---
+
+### `GET /sources/status`
+Counts quotes by collection method (`api`, `tariff_sheet`, `scrape`,
+`historical_panel`, `simulated`, `imputed`) **and by the adapter that produced
+them**, plus the current reliance on simulated fallback. Returns `200 OK` with
+zero counts when no data exists.
+
+Only source identifiers that actually contributed rows appear. A source with no
+integration is absent, never reported as healthy.
+
+**Example Response (`200 OK`):**
+```json
+{
+  "total_quotes": 300,
   "by_method": {
-    "simulated": 13500
+    "tariff_sheet": 180,
+    "simulated": 120
   },
-  "fallback_simulated_percentage": 100.0,
-  "status_note": "Aggregated from fare_quote.csv collection_method counts. Will transition to live resolver telemetry in future milestone."
+  "by_source_id": {
+    "indigo_tariff_v1": 60,
+    "air_india_tariff_v1": 60,
+    "akasa_tariff_v1": 60,
+    "simulated_v1": 120
+  },
+  "fallback_simulated_percentage": 40.0,
+  "provenance": { "dataset_type": "mixed", "...": "..." },
+  "status_note": "Counted from fare_quote_log.csv. ..."
 }
 ```
 

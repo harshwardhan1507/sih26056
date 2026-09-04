@@ -3,13 +3,23 @@
 # Testing & Validation
 pytest>=8.0.0
 
-# Data Processing & Index Computation
-pandas>=2.2.0
-numpy>=1.26.0
-pyyaml>=6.0.1
-
 # API & Serving
 fastapi>=0.110.0
 uvicorn>=0.28.0
 pydantic>=2.6.0
-requests>=2.31.0
+
+# Tier 2 tariff-sheet parsing (apix/collector/adapters/tariff_sheet.py).
+# Required for use_fixture=False; the committed CSV fixtures do not need it.
+pdfplumber>=0.11.0
+
+# NOTE ON WHAT IS *NOT* HERE
+# --------------------------
+# pandas, numpy, pyyaml and requests were previously declared but imported
+# nowhere in the codebase. The index mathematics is deliberately pure-stdlib
+# Python: it is short, auditable line by line by a statistician, and adds no
+# numerical-library version surface to a national-statistics deliverable.
+# Do not re-add a dependency until something imports it.
+#
+# `playwright` is likewise absent because no live browser automation exists.
+# apix/collector/adapters/har_replay_scraper.py replays captured HAR archives
+# and raises NotImplementedError for live mode.
