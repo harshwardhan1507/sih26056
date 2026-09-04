@@ -4,15 +4,17 @@ FastAPI application for the APIx Airfare Price Index system.
 Serves data to the frontend dashboard and external consumers (MoSPI / RBI):
   - GET /health           : Liveness and status check
   - GET /routes           : Route basket with DGCA passenger weights
+  - GET /routes/summary   : Per-route computed index, fare and coverage
   - GET /quotes           : Filterable quote observations with provenance
   - GET /index/elementary : Per-(route, window) Jevons elementary series
-  - GET /index/aggregate  : Chained Laspeyres aggregate price index
+  - GET /index/aggregate  : Fixed-base Laspeyres aggregate price index
   - GET /sources/status   : Multi-tier collection method telemetry & fallback rate
   - GET /quality          : Data hygiene audit metrics (ok, outlier, imputed, sold-out)
 """
 
 from __future__ import annotations
 
+import os
 from datetime import date, datetime, timezone
 from typing import Optional
 
@@ -29,6 +31,7 @@ from .schemas import (
     QualityStatusOut,
     QuotesResponse,
     RouteBasketOut,
+    RouteSummaryResponse,
     SourceStatusOut,
 )
 
@@ -37,7 +40,8 @@ app = FastAPI(
     description=(
         "Production-grade data delivery service for the APIx Airfare Price Index system "
         "(MoSPI CPI Problem Statement SIH-26056). Exposes route weights, price quotes, "
-        "Jevons elementary series, chained Laspeyres aggregates, and data-quality metrics."
+        "Jevons elementary series, fixed-base Laspeyres aggregates, and data-quality "
+        "metrics. Every data response states whether its rows were observed or simulated."
     ),
     version="1.0.0",
     docs_url="/docs",
@@ -50,11 +54,22 @@ app = FastAPI(
 )
 
 # Enable CORS for local and web dashboard integrations
+# Read-only public data service. Origins are configurable via APIX_CORS_ORIGINS
+# (comma-separated). Credentials are NOT allowed: the pairing of
+# allow_origins=["*"] with allow_credentials=True is rejected by browsers and
+# would be unsafe if it were not.
+_cors_origins = [
+    o.strip() for o in os.getenv(
+        "APIX_CORS_ORIGINS",
+        "http://localhost:3000,http://127.0.0.1:3000",
+    ).split(",")
+    if o.strip()
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_origins=_cors_origins,
+    allow_credentials=False,
+    allow_methods=["GET"],
     allow_headers=["*"],
 )
 
@@ -98,17 +113,19 @@ def get_routes() -> RouteBasketOut:
     tags=["Quotes"],
     summary="Filterable fare quote records",
     description=(
-        "Returns collected fare quotes from fare_quote.csv. Supports filtering by "
-        "origin, destination, advance window, and departure date range. "
-        "All active query parameters are ANDed together."
+        "Returns collected fare quotes from the served dataset (live collection "
+        "log when present, otherwise the simulated demo artifact). Filters by "
+        "origin, destination, advance window, and OBSERVATION date range; all "
+        "active parameters are ANDed. Every response states its provenance."
     ),
 )
 def get_quotes(
     origin: Optional[str] = Query(None, description="Origin 3-letter IATA code, e.g. 'DEL'"),
     destination: Optional[str] = Query(None, description="Destination 3-letter IATA code, e.g. 'BOM'"),
     advance_window_days: Optional[int] = Query(None, description="Advance lead window (1, 7, 15, 30, 45)"),
-    date_from: Optional[date] = Query(None, description="Filter departure date >= YYYY-MM-DD"),
-    date_to: Optional[date] = Query(None, description="Filter departure date <= YYYY-MM-DD"),
+    date_from: Optional[date] = Query(None, description="Filter observation date >= YYYY-MM-DD"),
+    date_to: Optional[date] = Query(None, description="Filter observation date <= YYYY-MM-DD"),
+    limit: Optional[int] = Query(None, ge=1, le=50000, description="Max quotes to return"),
 ) -> QuotesResponse:
     return data_access.get_quotes(
         origin=origin,
@@ -116,6 +133,7 @@ def get_quotes(
         advance_window_days=advance_window_days,
         date_from=date_from,
         date_to=date_to,
+        limit=limit,
     )
 
 
@@ -133,8 +151,8 @@ def get_elementary_index(
     origin: str = Query(..., description="Origin 3-letter IATA code, e.g. 'DEL'"),
     destination: str = Query(..., description="Destination 3-letter IATA code, e.g. 'BOM'"),
     advance_window_days: int = Query(..., description="Advance lead window, e.g. 7"),
-    date_from: Optional[date] = Query(None, description="Filter departure date >= YYYY-MM-DD"),
-    date_to: Optional[date] = Query(None, description="Filter departure date <= YYYY-MM-DD"),
+    date_from: Optional[date] = Query(None, description="Filter observation date >= YYYY-MM-DD"),
+    date_to: Optional[date] = Query(None, description="Filter observation date <= YYYY-MM-DD"),
 ) -> ElementaryIndexResponse:
     return data_access.get_elementary_index(
         origin=origin,
@@ -149,14 +167,31 @@ def get_elementary_index(
     "/index/aggregate",
     response_model=AggregateIndexResponse,
     tags=["Index"],
-    summary="Chained Laspeyres aggregate index series",
+    summary="Fixed-base Laspeyres aggregate index series",
     description=(
-        "Returns the official APIx chained Laspeyres aggregate index series from index_series.csv. "
-        "Base value is 100.0 at day 0."
+        "Returns the APIx aggregate index series. Base value is 100.0 at day 0. "
+        "The response states the aggregation methodology and whether the "
+        "underlying data is simulated."
     ),
 )
 def get_aggregate_index() -> AggregateIndexResponse:
     return data_access.get_aggregate_index()
+
+
+@app.get(
+    "/routes/summary",
+    response_model=RouteSummaryResponse,
+    tags=["Basket"],
+    summary="Per-route computed index, fare and coverage",
+    description=(
+        "Computes each route's current index level, day-over-day change, latest "
+        "average observed fare, matched observation count and a down-sampled "
+        "sparkline from the served dataset. Routes with no observations return "
+        "nulls and coverage_status='insufficient' rather than placeholder values."
+    ),
+)
+def get_route_summary() -> RouteSummaryResponse:
+    return data_access.get_route_summaries()
 
 
 @app.get(
