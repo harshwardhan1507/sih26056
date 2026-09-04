@@ -1,0 +1,60 @@
+Unnamed: 0,airline,flight,source_city,departure_time,stops,arrival_time,destination_city,class,duration,days_left,price
+0,SpiceJet,SG-8709,Delhi,Evening,zero,Night,Mumbai,Economy,2.17,1,5953
+1,SpiceJet,SG-8157,Delhi,Early_Morning,zero,Morning,Mumbai,Economy,2.33,1,5953
+2,AirAsia,I5-764,Delhi,Early_Morning,zero,Early_Morning,Mumbai,Economy,2.17,1,5956
+3,Vistara,UK-995,Delhi,Morning,zero,Afternoon,Mumbai,Economy,2.25,1,15955
+4,Vistara,UK-963,Delhi,Morning,zero,Morning,Mumbai,Economy,2.33,1,16654
+5,Vistara,UK-945,Delhi,Morning,zero,Afternoon,Mumbai,Economy,2.33,1,16654
+6,Vistara,UK-927,Delhi,Morning,zero,Morning,Mumbai,Economy,2.08,1,16654
+7,Vistara,UK-951,Delhi,Afternoon,zero,Evening,Mumbai,Economy,2.25,1,16654
+8,GO FIRST,G8-334,Delhi,Early_Morning,zero,Morning,Mumbai,Economy,2.17,1,5954
+9,GO FIRST,G8-336,Delhi,Afternoon,zero,Evening,Mumbai,Economy,2.25,1,5954
+10,GO FIRST,G8-392,Delhi,Afternoon,zero,Evening,Mumbai,Economy,2.25,1,5954
+11,Indigo,6E-2053,Delhi,Early_Morning,zero,Morning,Mumbai,Economy,2.17,1,5955
+12,Indigo,6E-5001,Delhi,Morning,zero,Afternoon,Mumbai,Economy,2.25,1,5955
+13,Air India,AI-865,Delhi,Morning,zero,Afternoon,Mumbai,Economy,2.17,1,6000
+14,Air India,AI-665,Delhi,Early_Morning,zero,Morning,Mumbai,Economy,2.17,1,6000
+15,SpiceJet,SG-8709,Delhi,Evening,zero,Night,Mumbai,Economy,2.17,7,4500
+16,Indigo,6E-2053,Delhi,Early_Morning,zero,Morning,Mumbai,Economy,2.17,7,4200
+17,Air India,AI-865,Delhi,Morning,zero,Afternoon,Mumbai,Economy,2.17,7,4800
+18,Vistara,UK-995,Delhi,Morning,zero,Afternoon,Mumbai,Economy,2.25,7,5200
+19,AirAsia,I5-764,Delhi,Early_Morning,zero,Early_Morning,Mumbai,Economy,2.17,7,4100
+20,GO FIRST,G8-334,Delhi,Early_Morning,zero,Morning,Mumbai,Economy,2.17,7,4150
+21,SpiceJet,SG-8709,Delhi,Evening,zero,Night,Mumbai,Economy,2.17,15,3800
+22,Indigo,6E-2053,Delhi,Early_Morning,zero,Morning,Mumbai,Economy,2.17,15,3600
+23,Air India,AI-865,Delhi,Morning,zero,Afternoon,Mumbai,Economy,2.17,15,4100
+24,Vistara,UK-995,Delhi,Morning,zero,Afternoon,Mumbai,Economy,2.25,15,4400
+25,SpiceJet,SG-8709,Delhi,Evening,zero,Night,Mumbai,Economy,2.17,30,3400
+26,Indigo,6E-2053,Delhi,Early_Morning,zero,Morning,Mumbai,Economy,2.17,30,3200
+27,Air India,AI-865,Delhi,Morning,zero,Afternoon,Mumbai,Economy,2.17,30,3700
+28,Vistara,UK-995,Delhi,Morning,zero,Afternoon,Mumbai,Economy,2.25,30,3900
+29,SpiceJet,SG-8709,Delhi,Evening,zero,Night,Mumbai,Economy,2.17,45,3000
+30,Indigo,6E-2053,Delhi,Early_Morning,zero,Morning,Mumbai,Economy,2.17,45,2900
+31,Air India,AI-865,Delhi,Morning,zero,Afternoon,Mumbai,Economy,2.17,45,3300
+32,Vistara,UK-995,Delhi,Morning,zero,Afternoon,Mumbai,Economy,2.25,45,3500
+33,Indigo,6E-2131,Delhi,Morning,zero,Afternoon,Bangalore,Economy,2.75,1,7200
+34,Air India,AI-506,Delhi,Afternoon,zero,Evening,Bangalore,Economy,2.83,7,5800
+35,Vistara,UK-815,Delhi,Evening,zero,Night,Bangalore,Economy,2.67,15,5100
+36,Indigo,6E-2131,Delhi,Morning,zero,Afternoon,Bangalore,Economy,2.75,30,4600
+37,Air India,AI-506,Delhi,Afternoon,zero,Evening,Bangalore,Economy,2.83,45,4200
+38,Indigo,6E-5314,Mumbai,Morning,zero,Afternoon,Bangalore,Economy,1.67,1,4100
+39,Air India,AI-639,Mumbai,Evening,zero,Night,Bangalore,Economy,1.75,7,3200
+40,Vistara,UK-854,Mumbai,Afternoon,zero,Evening,Bangalore,Economy,1.75,15,3000
+41,Indigo,6E-5314,Mumbai,Morning,zero,Afternoon,Bangalore,Economy,1.67,30,2800
+42,Air India,AI-639,Mumbai,Evening,zero,Night,Bangalore,Economy,1.75,45,2600
+43,Indigo,6E-6512,Bangalore,Morning,zero,Afternoon,Hyderabad,Economy,1.17,7,2800
+44,Air India,AI-518,Bangalore,Evening,zero,Night,Hyderabad,Economy,1.25,15,2900
+45,Indigo,6E-279,Delhi,Morning,zero,Afternoon,Kolkata,Economy,2.17,7,4900
+46,Air India,AI-764,Delhi,Evening,zero,Night,Kolkata,Economy,2.25,30,3800
+47,Indigo,6E-204,Delhi,Afternoon,zero,Evening,Chennai,Economy,2.83,7,5100
+48,Air India,AI-440,Delhi,Morning,zero,Afternoon,Chennai,Economy,2.75,15,4800
+49,Vistara,UK-995,Delhi,Morning,zero,Afternoon,Mumbai,Business,2.25,1,38500
+50,Vistara,UK-995,Delhi,Morning,zero,Afternoon,Mumbai,Business,2.25,7,29800
+51,Air India,AI-865,Delhi,Morning,zero,Afternoon,Mumbai,Business,2.17,15,26500
+52,Air India,AI-865,Delhi,Morning,zero,Afternoon,Mumbai,Business,2.17,30,24000
+53,Vistara,UK-995,Delhi,Morning,zero,Afternoon,Mumbai,Business,2.25,45,22500
+54,Indigo,6E-2053,Delhi,Early_Morning,zero,Morning,Mumbai,Economy,2.17,2,5800
+55,Indigo,6E-2053,Delhi,Early_Morning,zero,Morning,Mumbai,Economy,2.17,8,4100
+56,Indigo,6E-2053,Delhi,Early_Morning,zero,Morning,Mumbai,Economy,2.17,14,3700
+57,Indigo,6E-2053,Delhi,Early_Morning,zero,Morning,Mumbai,Economy,2.17,28,3250
+58,Indigo,6E-2053,Delhi,Early_Morning,zero,Morning,Mumbai,Economy,2.17,42,2950
