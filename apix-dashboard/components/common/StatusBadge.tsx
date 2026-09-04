@@ -23,7 +23,7 @@ export function StatusBadge({
       case "ok":
         return (
           <span
-            className={`inline-flex items-center gap-1 font-mono rounded-xs border border-[#176B5B]/30 bg-[#176B5B]/10 text-[#176B5B] ${sizeClasses} ${className}`}
+            className={`inline-flex items-center gap-1 font-mono rounded-xs border border-[#1E3A8A]/30 bg-blue-50 text-[#1E3A8A] ${sizeClasses} ${className}`}
           >
             <CheckCircle2 className="h-3 w-3" />
             <span>Valid</span>
@@ -50,7 +50,7 @@ export function StatusBadge({
       case "missing":
         return (
           <span
-            className={`inline-flex items-center gap-1 font-mono rounded-xs border border-stone-300 bg-stone-100 text-[#626863] ${sizeClasses} ${className}`}
+            className={`inline-flex items-center gap-1 font-mono rounded-xs border border-slate-300 bg-slate-100 text-[#64748B] ${sizeClasses} ${className}`}
           >
             <HelpCircle className="h-3 w-3" />
             <span>Missing</span>
@@ -83,9 +83,9 @@ export function StatusBadge({
       case "available":
         return (
           <span
-            className={`inline-flex items-center gap-1 font-mono rounded-xs border border-[#176B5B]/30 bg-[#176B5B]/10 text-[#176B5B] ${sizeClasses} ${className}`}
+            className={`inline-flex items-center gap-1 font-mono rounded-xs border border-[#1E3A8A]/30 bg-blue-50 text-[#1E3A8A] ${sizeClasses} ${className}`}
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-[#176B5B]" />
+            <span className="h-1.5 w-1.5 rounded-full bg-[#1E3A8A]" />
             <span>Available</span>
           </span>
         );
@@ -132,7 +132,7 @@ export function StatusBadge({
     };
     return (
       <span
-        className={`inline-flex items-center font-mono rounded-xs border border-[#D8D7D0] bg-[#FAF9F5] text-[#111716] ${sizeClasses} ${className}`}
+        className={`inline-flex items-center font-mono rounded-xs border border-[#E2E8F0] bg-white text-[#0F172A] ${sizeClasses} ${className}`}
       >
         {labels[method] || value}
       </span>
@@ -142,7 +142,7 @@ export function StatusBadge({
   // Default fallback badge
   return (
     <span
-      className={`inline-flex items-center font-mono rounded-xs border border-[#D8D7D0] bg-[#FAF9F5] text-[#626863] ${sizeClasses} ${className}`}
+      className={`inline-flex items-center font-mono rounded-xs border border-[#E2E8F0] bg-white text-[#64748B] ${sizeClasses} ${className}`}
     >
       {value}
     </span>

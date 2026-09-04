@@ -190,6 +190,13 @@ def test_get_quotes_happy_path_and_filters():
             date.fromisoformat(q["departure_date"]) - obs
         ).days == q["advance_window_days"]
 
+    # 5. Limit parameter
+    resp_limit = client.get("/quotes?limit=10")
+    assert resp_limit.status_code == 200
+    data_limit = resp_limit.json()
+    assert data_limit["count"] == 10
+    assert len(data_limit["quotes"]) == 10
+
 
 def test_get_aggregate_index():
     response = client.get("/index/aggregate")

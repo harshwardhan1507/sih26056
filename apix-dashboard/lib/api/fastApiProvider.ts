@@ -425,6 +425,7 @@ export class FastApiProvider implements ApiXDataProvider {
     }
     if (filters?.date_from) params.set("date_from", filters.date_from);
     if (filters?.date_to) params.set("date_to", filters.date_to);
+    if (filters?.limit) params.set("limit", String(filters.limit));
 
     const qs = params.toString();
     const res = await this.fetchJson<{

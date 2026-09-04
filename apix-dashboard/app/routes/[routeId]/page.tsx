@@ -71,7 +71,7 @@ export default function RouteDetailPage({
         <div className="mb-4">
           <Link
             href="/routes"
-            className="inline-flex items-center gap-1 text-xs font-mono text-[#176B5B] hover:underline"
+            className="inline-flex items-center gap-1 text-xs font-mono text-[#1E3A8A] hover:underline"
           >
             <ArrowLeft className="h-3 w-3" />
             <span>Back to 12 Trunk Routes</span>
@@ -88,7 +88,7 @@ export default function RouteDetailPage({
         <div className="mb-4">
           <Link
             href="/routes"
-            className="inline-flex items-center gap-1 text-xs font-mono text-[#176B5B] hover:underline"
+            className="inline-flex items-center gap-1 text-xs font-mono text-[#1E3A8A] hover:underline"
           >
             <ArrowLeft className="h-3 w-3" />
             <span>Back to 12 Trunk Routes</span>
@@ -107,7 +107,7 @@ export default function RouteDetailPage({
             action={
               <Link
                 href="/routes"
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#111716] text-[#FAF9F5] text-xs font-mono rounded-xs"
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#0F172A] text-white text-xs font-mono rounded-xs"
               >
                 <span>View Tracked Routes</span>
               </Link>
@@ -132,7 +132,7 @@ export default function RouteDetailPage({
       <div>
         <Link
           href="/routes"
-          className="inline-flex items-center gap-1.5 text-xs font-mono text-[#176B5B] hover:underline font-medium"
+          className="inline-flex items-center gap-1.5 text-xs font-mono text-[#1E3A8A] hover:underline font-medium"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
           <span>Back to 12 Trunk Routes</span>
@@ -154,7 +154,7 @@ export default function RouteDetailPage({
       />
 
       {/* Key Route Metrics Strip */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 p-4 border border-[#E2E8F0] bg-white rounded-sm shadow-xs">
         {/* Route Index */}
         <Metric
           size="medium"
@@ -185,26 +185,26 @@ export default function RouteDetailPage({
 
         {/* Matched Observations & Coverage */}
         <div className="flex flex-col justify-between">
-          <span className="text-[11px] uppercase tracking-wider font-mono text-[#626863] font-medium">
+          <span className="text-[11px] uppercase tracking-wider font-mono text-[#64748B] font-medium">
             Sample Reliability
           </span>
           <div className="mt-1">
             {currentWindowDetail?.coverage_status === "complete" ? (
-              <div className="flex items-center gap-2 text-[#176B5B]">
+              <div className="flex items-center gap-2 text-[#1E3A8A]">
                 <CheckCircle2 className="h-4 w-4" />
-                <span className="font-serif font-bold text-xl">
+                <span className="font-bold text-xl">
                   {currentWindowDetail.matched_observations} Matched Pairs
                 </span>
               </div>
             ) : (
               <div className="flex items-center gap-2 text-amber-700">
                 <AlertCircle className="h-4 w-4" />
-                <span className="font-serif font-bold text-xl">
+                <span className="font-bold text-xl">
                   {currentWindowDetail?.matched_observations || 18} Pairs (Partial)
                 </span>
               </div>
             )}
-            <p className="text-xs text-[#626863] mt-1">
+            <p className="text-xs text-[#64748B] mt-1">
               {currentWindowDetail?.coverage_status === "complete"
                 ? "Robust daily matched sample across all scheduled carriers"
                 : "Limited observations on this window; coverage flag active"}

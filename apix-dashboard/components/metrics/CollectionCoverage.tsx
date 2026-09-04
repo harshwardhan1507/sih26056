@@ -29,32 +29,32 @@ export function CollectionCoverage({
 
   return (
     <div
-      className={`border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm p-4 ${className}`}
+      className={`border border-[#E2E8F0] bg-white rounded-sm p-4 shadow-xs ${className}`}
     >
-      <div className="flex items-baseline justify-between mb-3 pb-2 border-b border-[#D8D7D0]">
-        <h4 className="font-mono text-xs uppercase tracking-widest text-[#111716] font-semibold">
+      <div className="flex items-baseline justify-between mb-3 pb-2 border-b border-[#E2E8F0]">
+        <h4 className="font-mono text-xs uppercase tracking-widest text-[#0F172A] font-semibold">
           Collection Coverage
         </h4>
-        <span className="text-[10px] font-mono text-[#626863]">
+        <span className="text-[10px] font-mono text-[#64748B]">
           Multi-Tier Resolver Distribution
         </span>
       </div>
 
       {/* Proportional Segmented Bar */}
-      <div className="h-3 w-full rounded-xs flex overflow-hidden bg-[#D8D7D0]/40 mb-3">
+      <div className="h-3 w-full rounded-xs flex overflow-hidden bg-slate-100 mb-3">
         <div
           style={{ width: `${apiPct}%` }}
-          className="bg-[#176B5B] transition-all"
+          className="bg-[#1E3A8A] transition-all"
           title={`API Direct: ${apiPct}% (${counts.api} quotes)`}
         />
         <div
           style={{ width: `${tariffPct}%` }}
-          className="bg-[#626863] transition-all"
+          className="bg-[#0284C7] transition-all"
           title={`Tariff Sheets: ${tariffPct}% (${counts.tariff_sheet} quotes)`}
         />
         <div
           style={{ width: `${scrapePct}%` }}
-          className="bg-[#A9C4B8] transition-all"
+          className="bg-[#93C5FD] transition-all"
           title={`Web Extraction: ${scrapePct}% (${counts.scrape} quotes)`}
         />
         <div
@@ -67,27 +67,27 @@ export function CollectionCoverage({
       {/* Legend & Breakdown */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs font-mono">
         <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-xs bg-[#176B5B] shrink-0" />
-          <span className="text-[#626863]">API</span>
-          <span className="font-semibold text-[#111716] ml-auto">{apiPct}%</span>
+          <span className="h-2 w-2 rounded-xs bg-[#1E3A8A] shrink-0" />
+          <span className="text-[#64748B]">API</span>
+          <span className="font-semibold text-[#0F172A] ml-auto">{apiPct}%</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-xs bg-[#626863] shrink-0" />
-          <span className="text-[#626863]">Tariff Sheet</span>
-          <span className="font-semibold text-[#111716] ml-auto">{tariffPct}%</span>
+          <span className="h-2 w-2 rounded-xs bg-[#0284C7] shrink-0" />
+          <span className="text-[#64748B]">Tariff Sheet</span>
+          <span className="font-semibold text-[#0F172A] ml-auto">{tariffPct}%</span>
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="h-2 w-2 rounded-xs bg-[#A9C4B8] shrink-0" />
-          <span className="text-[#626863]">Web Extract</span>
-          <span className="font-semibold text-[#111716] ml-auto">{scrapePct}%</span>
+          <span className="h-2 w-2 rounded-xs bg-[#93C5FD] shrink-0" />
+          <span className="text-[#64748B]">Web Extract</span>
+          <span className="font-semibold text-[#0F172A] ml-auto">{scrapePct}%</span>
         </div>
 
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-xs bg-amber-400 shrink-0" />
-          <span className="text-[#626863]">Simulation</span>
-          <span className="font-semibold text-[#111716] ml-auto">{simPct}%</span>
+          <span className="text-[#64748B]">Simulation</span>
+          <span className="font-semibold text-[#0F172A] ml-auto">{simPct}%</span>
         </div>
       </div>
     </div>

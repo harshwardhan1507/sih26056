@@ -205,4 +205,5 @@ export interface QuoteFilters {
   advance_window_days?: number;
   date_from?: string;
   date_to?: string;
+  limit?: number;
 }

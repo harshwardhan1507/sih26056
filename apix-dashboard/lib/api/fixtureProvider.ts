@@ -179,6 +179,10 @@ export class FixtureDataProvider implements ApiXDataProvider {
       quotes = quotes.filter((q) => q.departure_date <= filters.date_to!);
     }
 
+    if (filters.limit !== undefined && filters.limit > 0) {
+      quotes = quotes.slice(0, filters.limit);
+    }
+
     return quotes;
   }
 

@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/layout/AppShell";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "APIx — India Airfare Price Index",
@@ -14,8 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="h-full" suppressHydrationWarning>
-      <body className="min-h-full flex flex-col bg-[#F4F2EC] text-[#111716] antialiased" suppressHydrationWarning>
+    <html lang="en" className={`h-full ${inter.variable}`} suppressHydrationWarning>
+      <body className={`min-h-full flex flex-col bg-[#F8FAFC] text-[#0F172A] ${inter.className} antialiased`} suppressHydrationWarning>
         <AppShell>{children}</AppShell>
       </body>
     </html>

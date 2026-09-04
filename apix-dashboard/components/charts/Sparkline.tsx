@@ -12,14 +12,14 @@ export function Sparkline({
   data,
   width = 60,
   height = 20,
-  color = "#176B5B",
+  color = "#1E3A8A",
   className = "",
 }: SparklineProps) {
   const valid = data.filter((v): v is number => v !== null && v !== undefined && !Number.isNaN(v));
 
   if (valid.length < 2) {
     return (
-      <span className="text-[10px] font-mono text-[#626863]/50 italic">—</span>
+      <span className="text-[10px] font-mono text-[#64748B]/50 italic">—</span>
     );
   }
 

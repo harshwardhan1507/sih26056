@@ -14,8 +14,8 @@ export function LoadingState({
   return (
     <div className={`py-8 animate-pulse ${className}`}>
       <div className="flex items-center gap-3 mb-6">
-        <div className="h-2 w-2 rounded-full bg-[#176B5B] animate-ping" />
-        <span className="font-mono text-xs text-[#626863] uppercase tracking-wider">
+        <div className="h-2 w-2 rounded-full bg-[#1E3A8A] animate-ping" />
+        <span className="font-mono text-xs text-[#64748B] uppercase tracking-wider">
           {label}
         </span>
       </div>
@@ -24,7 +24,7 @@ export function LoadingState({
         {Array.from({ length: rows }).map((_, i) => (
           <div
             key={i}
-            className="h-10 bg-[#D8D7D0]/30 rounded-xs w-full"
+            className="h-10 bg-[#E2E8F0]/70 rounded-xs w-full"
             style={{ opacity: 1 - i * 0.15 }}
           />
         ))}
