@@ -33,9 +33,9 @@ Current source is `SimulatedFareSource` with `collection_method="simulated"`. On
 
 ## Run History
 
-| Day | Collection date | Command | Output | Status |
-|---:|---|---|---|---|
-| 1 | 2026-09-04 | `py apix\collect_today.py --date 2026-09-04` | 300 quotes appended to `data\raw\live_collection\fare_quote_log.csv` | completed |
+| Day | Collection date | Command | Quotes appended | Resolution | Status |
+|---:|---|---|---:|---|---|
+| 1 | 2026-09-04 | `py apix\collect_today.py --date 2026-09-04` | 300 | `simulated_v1: 300` (fallback: 60) | ✅ completed |
 
 ## Daily Update Rule
 
@@ -46,5 +46,6 @@ After each daily run, add one new row to **Run History** with:
 | Day | Sequential collection day number |
 | Collection date | Date passed to the collector, or today's date if no date was passed |
 | Command | Exact command used |
-| Output | Number of quotes appended and output path |
-| Status | `completed`, `partial`, or `failed` |
+| Quotes appended | Integer count from the script's `Appended N quotes` line |
+| Resolution | Copy the `Resolution breakdown` line from script output |
+| Status | `✅ completed`, `⚠️ partial`, or `❌ failed` — if partial/failed, add a note row below |
