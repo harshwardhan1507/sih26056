@@ -22,24 +22,31 @@ if str(PACKAGE_DIR) not in sys.path:
 from collector.adapters.simulated import SimulatedFareSource, BASE_FARE
 from index.elementary import build_elementary_index
 from index.aggregate import build_aggregate_index
-
-# Placeholder weights — replace with DGCA passenger-share-derived weights (§3.2).
-# Rough proportional guess based on route "size" (base fare as a crude proxy here).
-# This dict is also the single source of truth for which 12 routes we track
-# (each stored once, in a fixed direction — no need to dedupe BASE_FARE's A-B/B-A pairs).
-ROUTE_WEIGHT = {
-    ("DEL", "BOM"): 0.20, ("DEL", "BLR"): 0.14, ("DEL", "CCU"): 0.09,
-    ("DEL", "MAA"): 0.09, ("DEL", "HYD"): 0.10, ("BOM", "BLR"): 0.10,
-    ("BOM", "MAA"): 0.08, ("BOM", "CCU"): 0.05, ("BLR", "HYD"): 0.06,
-    ("BLR", "MAA"): 0.04, ("DEL", "GOI"): 0.03, ("BOM", "GOI"): 0.02,
-}
-ROUTES = list(ROUTE_WEIGHT.keys())
+from index.weights import load_weights, weight_file_metadata, DEFAULT_WEIGHT_FILE
+# Route basket — canonical direction, one entry per undirected pair.
+# Weights come from apix/data/route_weights.json (DGCA-derived, §3.2).
+# Override the weight file path by passing --weights <path> or set the
+# APIX_WEIGHT_FILE env var in a future CLI extension.
+ROUTES = [
+    ("DEL", "BOM"), ("DEL", "BLR"), ("DEL", "CCU"),
+    ("DEL", "MAA"), ("DEL", "HYD"), ("BOM", "BLR"),
+    ("BOM", "MAA"), ("BOM", "CCU"), ("BLR", "HYD"),
+    ("BLR", "MAA"), ("DEL", "GOI"), ("BOM", "GOI"),
+]
 WINDOWS = [1, 7, 15, 30, 45]
 CARRIERS = ["6E", "AI", "QP", "SG", "IX"]
 N_DAYS = 45
 
 
-def main():
+def main(weight_file=None):
+    # Load DGCA-derived weights from configurable file (§3.2, issue #10).
+    meta = weight_file_metadata(weight_file)
+    route_weights = load_weights(weight_file)
+    print(f"Weights source : {meta.get('source', 'unknown')}")
+    print(f"Coverage month : {meta.get('coverage_month', 'unknown')}")
+    print(f"Generated date : {meta.get('generated_date', 'unknown')}")
+    print()
+
     source = SimulatedFareSource()
     start = date(2026, 1, 1)
     all_rows = []
@@ -59,8 +66,9 @@ def main():
             key = f"{origin}-{destination}|{window}"
             elementary_series[key] = build_elementary_index(daily_prices)
 
+    # Spread each route weight evenly across the 5 advance-purchase windows.
     weights = {
-        f"{o}-{d}|{w}": ROUTE_WEIGHT[(o, d)] / len(WINDOWS)
+        f"{o}-{d}|{w}": route_weights[f"{o}-{d}"] / len(WINDOWS)
         for (o, d) in ROUTES for w in WINDOWS
     }
     aggregate = build_aggregate_index(elementary_series, weights)
