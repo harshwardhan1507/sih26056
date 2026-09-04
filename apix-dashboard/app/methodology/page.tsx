@@ -1,0 +1,209 @@
+import React from "react";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { BookOpen, ShieldCheck, Scale, Database, Layers, CheckCircle2 } from "lucide-react";
+
+export default function MethodologyPage() {
+  return (
+    <div className="space-y-12 max-w-5xl">
+      {/* Page Header */}
+      <PageHeader
+        eyebrow="Econometric Foundations · MoSPI CPI Augmentation"
+        title="Index Construction Methodology"
+        subtitle="Technical documentation for the Ministry of Statistics and Programme Implementation (MoSPI) and Reserve Bank of India (RBI) regarding daily airfare price index calculation, matched-sample chaining, and DGCA passenger weighting."
+      />
+
+      {/* Overview Card */}
+      <div className="border border-[#D8D7D0] bg-[#FAF9F5] rounded-sm p-6 space-y-4">
+        <div className="flex items-center gap-2">
+          <Scale className="h-5 w-5 text-[#176B5B]" />
+          <h3 className="font-serif text-xl font-bold text-[#111716]">
+            Econometric Problem Statement & Purpose
+          </h3>
+        </div>
+        <p className="text-xs text-[#626863] leading-relaxed">
+          Airfare constitutes an increasingly significant share of modern Indian urban consumer expenditure. However, conventional Consumer Price Index (CPI) collection relies on monthly physical surveys of static airline tariff sheets that fail to capture dynamic pricing algorithms, advance-purchase yield curves, or sold-out flight effects. APIx resolves this gap by automating daily multi-horizon price collection across major trunk routes and computing official elementary and aggregate price indices under international statistical standards (ILO/IMF Consumer Price Index Manual 2020).
+        </p>
+      </div>
+
+      {/* Pillar 01: Data Collection & Scope */}
+      <div className="border-t border-[#D8D7D0] pt-8 space-y-4">
+        <div className="flex items-baseline gap-3">
+          <span className="font-mono text-xs font-bold text-[#176B5B] bg-[#176B5B]/10 px-2 py-0.5 rounded-xs border border-[#176B5B]/30">
+            PILLAR 01
+          </span>
+          <h3 className="font-serif text-2xl font-bold text-[#111716]">
+            Price Scope & Multi-Tier Collection Architecture
+          </h3>
+        </div>
+
+        <p className="text-xs text-[#626863] leading-relaxed">
+          In accordance with the BLS and Eurostat standards for consumer price indices, APIx observes the <strong>total consumer price paid</strong> at the point of booking, rather than unbundled airline base fares. This encompasses base commercial fare, airline fuel surcharges (YQ), User Development Fees (UDF), Passenger Service Fees (PSF), Goods and Services Tax (GST), and mandatory OTA platform convenience fees.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          <div className="p-4 bg-[#FAF9F5] border border-[#D8D7D0] rounded-xs space-y-2">
+            <h4 className="font-mono text-xs font-semibold text-[#111716] uppercase">
+              12 DGCA Domestic Trunk Routes
+            </h4>
+            <p className="text-xs text-[#626863] leading-relaxed">
+              Tracked across 7 metropolitan aviation hubs: Delhi (DEL), Mumbai (BOM), Bengaluru (BLR), Kolkata (CCU), Chennai (MAA), Hyderabad (HYD), and Goa (GOI). Represents over 65% of scheduled domestic seat-kilometers.
+            </p>
+          </div>
+
+          <div className="p-4 bg-[#FAF9F5] border border-[#D8D7D0] rounded-xs space-y-2">
+            <h4 className="font-mono text-xs font-semibold text-[#111716] uppercase">
+              5 Advance-Purchase Horizons
+            </h4>
+            <p className="text-xs text-[#626863] leading-relaxed">
+              Collected daily across <strong>T+1</strong> (next-day departure), <strong>T+7</strong> (1 week), <strong>T+15</strong> (2 weeks), <strong>T+30</strong> (1 month), and <strong>T+45</strong> (45 days) to measure distinct consumer booking lead behaviors without cross-window contamination.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Pillar 02: Elementary Jevons Index */}
+      <div className="border-t border-[#D8D7D0] pt-8 space-y-4">
+        <div className="flex items-baseline gap-3">
+          <span className="font-mono text-xs font-bold text-[#176B5B] bg-[#176B5B]/10 px-2 py-0.5 rounded-xs border border-[#176B5B]/30">
+            PILLAR 02
+          </span>
+          <h3 className="font-serif text-2xl font-bold text-[#111716]">
+            Elementary Level: Jevons Index & Matched-Sample Chaining
+          </h3>
+        </div>
+
+        <p className="text-xs text-[#626863] leading-relaxed">
+          At the elementary level (within a specific route and advance window), price observations lack individual quantity weights. Traditional arithmetic formulas (Carli and Dutot) suffer from severe mathematical defects when applied to high-dispersion airline fares:
+        </p>
+
+        {/* Formula Box */}
+        <div className="p-5 bg-[#FAF9F5] border border-[#D8D7D0] rounded-xs font-mono text-xs space-y-3">
+          <div className="text-[11px] text-[#176B5B] uppercase font-semibold">
+            Jevons Geometric Mean Formula:
+          </div>
+          <div className="p-3 bg-[#F4F2EC] rounded-xs text-sm text-[#111716] overflow-x-auto text-center font-serif italic">
+            I_Jevons^(t-1 → t) = [ ∏_(i ∈ S_t) ( p_(i,t) / p_(i,t-1) ) ] ^ (1 / |S_t|)
+          </div>
+          <p className="text-[11px] text-[#626863] font-sans leading-relaxed">
+            Where <em>S_t</em> represents the set of matched flight observations present in both observation period <em>t</em> and base period <em>t-1</em>, <em>p_(i,t)</em> is the total consumer fare for flight <em>i</em> on day <em>t</em>, and <em>|S_t|</em> is the count of matched observations.
+          </p>
+        </div>
+
+        <div className="p-4 bg-[#FAF9F5] border border-[#D8D7D0] rounded-xs space-y-2">
+          <h4 className="font-mono text-xs font-semibold text-[#111716] uppercase">
+            Why Jevons Over Carli or Dutot?
+          </h4>
+          <ul className="space-y-1.5 text-xs text-[#626863]">
+            <li className="flex items-start gap-2">
+              <span className="text-[#176B5B] font-mono font-bold">›</span>
+              <span><strong>Time-Reversal Test:</strong> The Jevons index satisfies the time-reversal axiom: I^(t-1 → t) · I^(t → t-1) = 1.0. In contrast, the Carli arithmetic mean creates a persistent upward bias when prices oscillate.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-[#176B5B] font-mono font-bold">›</span>
+              <span><strong>Commensurability:</strong> Invariant to changes in measurement units or airline currency denomination.</span>
+            </li>
+            <li className="flex items-start gap-2">
+              <span className="text-[#176B5B] font-mono font-bold">›</span>
+              <span><strong>Pure Price Change Isolation:</strong> Comparisons strictly compare T+7 today vs T+7 yesterday. Never cross advance horizons, which would confound product quality with price movement.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Pillar 03: Upper-Level Laspeyres Aggregation */}
+      <div className="border-t border-[#D8D7D0] pt-8 space-y-4">
+        <div className="flex items-baseline gap-3">
+          <span className="font-mono text-xs font-bold text-[#176B5B] bg-[#176B5B]/10 px-2 py-0.5 rounded-xs border border-[#176B5B]/30">
+            PILLAR 03
+          </span>
+          <h3 className="font-serif text-2xl font-bold text-[#111716]">
+            Upper-Level Aggregation: Chained Laspeyres with DGCA Traffic Weights
+          </h3>
+        </div>
+
+        <p className="text-xs text-[#626863] leading-relaxed">
+          Elementary indices for each route are aggregated into the national APIx index using a chained Laspeyres aggregation model weighted by domestic passenger traffic shares reported by the Directorate General of Civil Aviation (DGCA).
+        </p>
+
+        {/* Laspeyres Formula */}
+        <div className="p-5 bg-[#FAF9F5] border border-[#D8D7D0] rounded-xs font-mono text-xs space-y-3">
+          <div className="text-[11px] text-[#176B5B] uppercase font-semibold">
+            Chained Laspeyres Aggregation Formula:
+          </div>
+          <div className="p-3 bg-[#F4F2EC] rounded-xs text-sm text-[#111716] overflow-x-auto text-center font-serif italic">
+            I_APIx^t = I_APIx^(t-1) × ∑_(r=1)^12 [ w_r × ( I_(r,t) / I_(r,t-1) ) ]
+          </div>
+          <p className="text-[11px] text-[#626863] font-sans leading-relaxed">
+            Where <em>w_r</em> is the official passenger traffic weight of route <em>r</em> derived from DGCA Trailing 12-Month city-pair statistics (normalised to sum to 1.0), and <em>I_(r,t)</em> is the elementary price relative for route <em>r</em> on day <em>t</em>.
+          </p>
+        </div>
+
+        <div className="p-4 bg-[#FAF9F5] border border-[#D8D7D0] rounded-xs space-y-2">
+          <h4 className="font-mono text-xs font-semibold text-[#111716] uppercase">
+            Authoritative DGCA Passenger Weighting Spec
+          </h4>
+          <p className="text-xs text-[#626863] leading-relaxed">
+            Route weights are derived via <code>scripts/derive_weights.py</code> over the Trailing 12-Month window (June 2025 to May 2026) using official city-pair passenger records:
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 font-mono text-xs pt-1">
+            <div className="p-2 bg-[#F4F2EC] rounded-xs">DEL-BOM: <strong>19.22%</strong></div>
+            <div className="p-2 bg-[#F4F2EC] rounded-xs">DEL-BLR: <strong>13.60%</strong></div>
+            <div className="p-2 bg-[#F4F2EC] rounded-xs">BOM-BLR: <strong>11.56%</strong></div>
+            <div className="p-2 bg-[#F4F2EC] rounded-xs">DEL-HYD: <strong>8.94%</strong></div>
+            <div className="p-2 bg-[#F4F2EC] rounded-xs">DEL-CCU: <strong>8.18%</strong></div>
+            <div className="p-2 bg-[#F4F2EC] rounded-xs">BLR-HYD: <strong>6.60%</strong></div>
+            <div className="p-2 bg-[#F4F2EC] rounded-xs">BOM-CCU: <strong>6.55%</strong></div>
+            <div className="p-2 bg-[#F4F2EC] rounded-xs">DEL-MAA: <strong>6.54%</strong></div>
+            <div className="p-2 bg-[#F4F2EC] rounded-xs">BOM-MAA: <strong>6.13%</strong></div>
+            <div className="p-2 bg-[#F4F2EC] rounded-xs">DEL-GOI: <strong>4.48%</strong></div>
+            <div className="p-2 bg-[#F4F2EC] rounded-xs">BLR-MAA: <strong>4.26%</strong></div>
+            <div className="p-2 bg-[#F4F2EC] rounded-xs">BOM-GOI: <strong>3.94%</strong></div>
+          </div>
+        </div>
+      </div>
+
+      {/* Pillar 04: Quality Controls & Metropolitan Catchment */}
+      <div className="border-t border-[#D8D7D0] pt-8 space-y-4">
+        <div className="flex items-baseline gap-3">
+          <span className="font-mono text-xs font-bold text-[#176B5B] bg-[#176B5B]/10 px-2 py-0.5 rounded-xs border border-[#176B5B]/30">
+            PILLAR 04
+          </span>
+          <h3 className="font-serif text-2xl font-bold text-[#111716]">
+            Quality Hygiene, IQR Outliers & Catchment Normalization
+          </h3>
+        </div>
+
+        <div className="space-y-3 text-xs text-[#626863] leading-relaxed">
+          <div className="p-4 bg-[#FAF9F5] border border-[#D8D7D0] rounded-xs space-y-2">
+            <h4 className="font-mono text-xs font-semibold text-[#111716] uppercase">
+              Metropolitan Catchment Aggregation (Multi-Airport Markets)
+            </h4>
+            <p>
+              Passengers booking flights to multi-airport metropolitan regions treat airports within the catchment as interchangeable economic substitutes. APIx aggregates:
+            </p>
+            <ul className="space-y-1 list-disc list-inside">
+              <li><strong>Goa Catchment:</strong> Sums Dabolim (<code>GOI</code>) + Manohar International at Mopa (<code>GOX</code>) traffic into a single destination market code <code>GOI</code>.</li>
+              <li><strong>Mumbai Catchment:</strong> Consolidates CSMT (<code>BOM</code>) and Navi Mumbai (<code>NMI</code>) to <code>BOM</code>.</li>
+            </ul>
+          </div>
+
+          <div className="p-4 bg-[#FAF9F5] border border-[#D8D7D0] rounded-xs space-y-2">
+            <h4 className="font-mono text-xs font-semibold text-[#111716] uppercase">
+              IQR Outlier Fences & Sold-Out Handling
+            </h4>
+            <ul className="space-y-1.5">
+              <li className="flex items-start gap-2">
+                <span className="text-[#176B5B] font-mono font-bold">›</span>
+                <span><strong>Interquartile Range (IQR) Fences:</strong> Observations exceeding Q3 + 3.0 × IQR for a specific (route, window) cell are flagged as price outliers and excluded from index calculation to prevent fare scrapes from introducing spurious noise.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-[#176B5B] font-mono font-bold">›</span>
+                <span><strong>Sold-Out Observations:</strong> Unavailable flights are stored strictly with <code>total_fare_inr = null</code> and <code>quality_flag = 'sold_out'</code>. They drop out of matched-sample chaining and are <strong>NEVER converted to ₹0.00</strong>, which would cause catastrophic false deflation.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -1,0 +1,56 @@
+[
+  {
+    "source_id": "tripjack_api_v2",
+    "name": "TripJack B2B API",
+    "type": "api",
+    "status": "available",
+    "success_rate": 98.4,
+    "last_check_utc": "2026-09-04T12:02:15Z",
+    "latency_ms": 42
+  },
+  {
+    "source_id": "tbo_air_v1",
+    "name": "TBO Air API",
+    "type": "api",
+    "status": "available",
+    "success_rate": 96.1,
+    "last_check_utc": "2026-09-04T12:02:16Z",
+    "latency_ms": 58
+  },
+  {
+    "source_id": "tariff_parser_v1",
+    "name": "Airline Tariff Sheets",
+    "type": "tariff_sheet",
+    "status": "available",
+    "success_rate": 100.0,
+    "last_check_utc": "2026-09-04T12:00:00Z",
+    "latency_ms": 12
+  },
+  {
+    "source_id": "playwright_ota_scrape",
+    "name": "Web Extraction (Playwright)",
+    "type": "scrape",
+    "status": "available",
+    "success_rate": 95.2,
+    "last_check_utc": "2026-09-04T12:03:10Z",
+    "latency_ms": 320
+  },
+  {
+    "source_id": "simulated_v1",
+    "name": "Simulated Fallback Engine",
+    "type": "simulated",
+    "status": "fallback",
+    "success_rate": 100.0,
+    "last_check_utc": "2026-09-04T12:05:40Z",
+    "latency_ms": 2
+  },
+  {
+    "source_id": "dgca_weights_t12m",
+    "name": "DGCA Traffic Basket (T12M)",
+    "type": "api",
+    "status": "available",
+    "success_rate": 100.0,
+    "last_check_utc": "2026-09-04T06:00:00Z",
+    "latency_ms": 5
+  }
+]

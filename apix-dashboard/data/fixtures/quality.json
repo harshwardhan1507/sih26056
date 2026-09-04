@@ -1,0 +1,65 @@
+{
+  "total_quotes": 300,
+  "score": 96.8,
+  "ok_count": 291,
+  "outlier_count": 6,
+  "sold_out_count": 3,
+  "missing_count": 0,
+  "imputed_count": 0,
+  "by_method": {
+    "api": 126,
+    "tariff_sheet": 93,
+    "scrape": 54,
+    "simulated": 27
+  },
+  "fallback_simulated_pct": 9.0,
+  "collection_runs": [
+    {
+      "run_id": "RUN-20260904-01",
+      "date": "2026-09-04",
+      "total": 300,
+      "valid": 291,
+      "outliers": 6,
+      "sold_out": 3,
+      "simulated_count": 27,
+      "status": "ok"
+    },
+    {
+      "run_id": "RUN-20260903-01",
+      "date": "2026-09-03",
+      "total": 300,
+      "valid": 289,
+      "outliers": 7,
+      "sold_out": 4,
+      "simulated_count": 30,
+      "status": "ok"
+    },
+    {
+      "run_id": "RUN-20260902-01",
+      "date": "2026-09-02",
+      "total": 300,
+      "valid": 296,
+      "outliers": 3,
+      "sold_out": 1,
+      "simulated_count": 25,
+      "status": "ok"
+    },
+    {
+      "run_id": "RUN-20260901-01",
+      "date": "2026-09-01",
+      "total": 300,
+      "valid": 290,
+      "outliers": 6,
+      "sold_out": 4,
+      "simulated_count": 28,
+      "status": "ok"
+    }
+  ],
+  "metadata": {
+    "mode": "demo",
+    "dataset_type": "synthetic",
+    "generated_at": "2026-09-04T12:02:00Z",
+    "last_updated_ist": "04 Sep 2026 · 17:32 IST",
+    "stale": false
+  }
+}

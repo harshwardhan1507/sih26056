@@ -1,0 +1,200 @@
+{
+  "DEL-BOM": {
+    "route_id": "DEL-BOM",
+    "origin": "DEL",
+    "destination": "BOM",
+    "origin_city": "Delhi",
+    "destination_city": "Mumbai",
+    "weight": 0.192173,
+    "current_index": 108.4,
+    "change_pct": 8.2,
+    "average_fare": 7450,
+    "matched_observations": 36,
+    "coverage_status": "complete",
+    "sparkline": [100.0, 101.2, 103.5, 105.1, 107.0, 108.4],
+    "windows": {
+      "T+1": {
+        "available": true,
+        "average_fare": 9420,
+        "matched_observations": 36,
+        "coverage_status": "complete",
+        "carriers": [
+          { "carrier": "6E", "name": "IndiGo", "fare": 9120, "change_pct": 5.4, "status": "available" },
+          { "carrier": "AI", "name": "Air India", "fare": 9480, "change_pct": 6.1, "status": "available" },
+          { "carrier": "QP", "name": "Akasa Air", "fare": 8940, "change_pct": 4.8, "status": "available" },
+          { "carrier": "SG", "name": "SpiceJet", "fare": 8730, "change_pct": -1.2, "status": "available" },
+          { "carrier": "IX", "name": "Air India Express", "fare": 8650, "change_pct": 3.2, "status": "available" }
+        ],
+        "fare_history": [
+          { "day": 0, "date": "2026-08-05", "fare": 8710 },
+          { "day": 7, "date": "2026-08-12", "fare": 8840 },
+          { "day": 14, "date": "2026-08-19", "fare": 9050 },
+          { "day": 21, "date": "2026-08-26", "fare": 9230 },
+          { "day": 30, "date": "2026-09-04", "fare": 9420 }
+        ]
+      },
+      "T+7": {
+        "available": true,
+        "average_fare": 7840,
+        "matched_observations": 36,
+        "coverage_status": "complete",
+        "carriers": [
+          { "carrier": "6E", "name": "IndiGo", "fare": 7650, "change_pct": 4.2, "status": "available" },
+          { "carrier": "AI", "name": "Air India", "fare": 8050, "change_pct": 5.1, "status": "available" },
+          { "carrier": "QP", "name": "Akasa Air", "fare": 7420, "change_pct": 3.5, "status": "available" },
+          { "carrier": "SG", "name": "SpiceJet", "fare": 7280, "change_pct": -0.8, "status": "available" },
+          { "carrier": "IX", "name": "Air India Express", "fare": 7190, "change_pct": 2.1, "status": "available" }
+        ],
+        "fare_history": [
+          { "day": 0, "date": "2026-08-05", "fare": 7520 },
+          { "day": 7, "date": "2026-08-12", "fare": 7610 },
+          { "day": 14, "date": "2026-08-19", "fare": 7690 },
+          { "day": 21, "date": "2026-08-26", "fare": 7760 },
+          { "day": 30, "date": "2026-09-04", "fare": 7840 }
+        ]
+      },
+      "T+15": {
+        "available": true,
+        "average_fare": 6930,
+        "matched_observations": 35,
+        "coverage_status": "complete",
+        "carriers": [
+          { "carrier": "6E", "name": "IndiGo", "fare": 6820, "change_pct": 2.8, "status": "available" },
+          { "carrier": "AI", "name": "Air India", "fare": 7150, "change_pct": 3.4, "status": "available" },
+          { "carrier": "QP", "name": "Akasa Air", "fare": 6650, "change_pct": 1.9, "status": "available" },
+          { "carrier": "SG", "name": "SpiceJet", "fare": 6480, "change_pct": 0.4, "status": "available" },
+          { "carrier": "IX", "name": "Air India Express", "fare": null, "change_pct": null, "status": "unavailable" }
+        ],
+        "fare_history": [
+          { "day": 0, "date": "2026-08-05", "fare": 6740 },
+          { "day": 7, "date": "2026-08-12", "fare": 6790 },
+          { "day": 14, "date": "2026-08-19", "fare": 6850 },
+          { "day": 21, "date": "2026-08-26", "fare": 6890 },
+          { "day": 30, "date": "2026-09-04", "fare": 6930 }
+        ]
+      },
+      "T+30": {
+        "available": true,
+        "average_fare": 5920,
+        "matched_observations": 34,
+        "coverage_status": "complete",
+        "carriers": [
+          { "carrier": "6E", "name": "IndiGo", "fare": 5840, "change_pct": 1.5, "status": "available" },
+          { "carrier": "AI", "name": "Air India", "fare": 6120, "change_pct": 2.0, "status": "available" },
+          { "carrier": "QP", "name": "Akasa Air", "fare": 5710, "change_pct": 0.8, "status": "available" },
+          { "carrier": "SG", "name": "SpiceJet", "fare": null, "change_pct": null, "status": "outlier_excluded" },
+          { "carrier": "IX", "name": "Air India Express", "fare": 5620, "change_pct": 1.1, "status": "available" }
+        ],
+        "fare_history": [
+          { "day": 0, "date": "2026-08-05", "fare": 5830 },
+          { "day": 7, "date": "2026-08-12", "fare": 5860 },
+          { "day": 14, "date": "2026-08-19", "fare": 5890 },
+          { "day": 21, "date": "2026-08-26", "fare": 5905 },
+          { "day": 30, "date": "2026-09-04", "fare": 5920 }
+        ]
+      },
+      "T+45": {
+        "available": true,
+        "average_fare": 5410,
+        "matched_observations": 33,
+        "coverage_status": "complete",
+        "carriers": [
+          { "carrier": "6E", "name": "IndiGo", "fare": 5350, "change_pct": 0.9, "status": "available" },
+          { "carrier": "AI", "name": "Air India", "fare": 5580, "change_pct": 1.4, "status": "available" },
+          { "carrier": "QP", "name": "Akasa Air", "fare": 5240, "change_pct": 0.5, "status": "available" },
+          { "carrier": "SG", "name": "SpiceJet", "fare": 5190, "change_pct": -0.2, "status": "available" },
+          { "carrier": "IX", "name": "Air India Express", "fare": 5120, "change_pct": 0.3, "status": "available" }
+        ],
+        "fare_history": [
+          { "day": 0, "date": "2026-08-05", "fare": 5360 },
+          { "day": 7, "date": "2026-08-12", "fare": 5380 },
+          { "day": 14, "date": "2026-08-19", "fare": 5395 },
+          { "day": 21, "date": "2026-08-26", "fare": 5400 },
+          { "day": 30, "date": "2026-09-04", "fare": 5410 }
+        ]
+      }
+    }
+  },
+  "BOM-GOI": {
+    "route_id": "BOM-GOI",
+    "origin": "BOM",
+    "destination": "GOI",
+    "origin_city": "Mumbai",
+    "destination_city": "Goa",
+    "weight": 0.039407,
+    "current_index": 104.2,
+    "change_pct": 4.2,
+    "average_fare": 4820,
+    "matched_observations": 18,
+    "coverage_status": "partial",
+    "sparkline": [100.0, 100.9, 101.8, 102.9, 103.7, 104.2],
+    "windows": {
+      "T+1": {
+        "available": true,
+        "average_fare": 5890,
+        "matched_observations": 18,
+        "coverage_status": "partial",
+        "carriers": [
+          { "carrier": "6E", "name": "IndiGo", "fare": 5750, "change_pct": 3.8, "status": "available" },
+          { "carrier": "AI", "name": "Air India", "fare": 6020, "change_pct": 4.5, "status": "available" },
+          { "carrier": "QP", "name": "Akasa Air", "fare": 5610, "change_pct": 3.2, "status": "available" }
+        ],
+        "fare_history": [
+          { "day": 0, "date": "2026-08-05", "fare": 5650 },
+          { "day": 30, "date": "2026-09-04", "fare": 5890 }
+        ]
+      },
+      "T+7": {
+        "available": true,
+        "average_fare": 4820,
+        "matched_observations": 18,
+        "coverage_status": "partial",
+        "carriers": [
+          { "carrier": "6E", "name": "IndiGo", "fare": 4720, "change_pct": 2.6, "status": "available" },
+          { "carrier": "AI", "name": "Air India", "fare": 4950, "change_pct": 3.1, "status": "available" },
+          { "carrier": "QP", "name": "Akasa Air", "fare": 4610, "change_pct": 2.0, "status": "available" }
+        ],
+        "fare_history": [
+          { "day": 0, "date": "2026-08-05", "fare": 4690 },
+          { "day": 30, "date": "2026-09-04", "fare": 4820 }
+        ]
+      },
+      "T+15": {
+        "available": true,
+        "average_fare": 4120,
+        "matched_observations": 16,
+        "coverage_status": "partial",
+        "carriers": [
+          { "carrier": "6E", "name": "IndiGo", "fare": 4050, "change_pct": 1.5, "status": "available" },
+          { "carrier": "AI", "name": "Air India", "fare": 4210, "change_pct": 2.2, "status": "available" }
+        ],
+        "fare_history": [
+          { "day": 0, "date": "2026-08-05", "fare": 4060 },
+          { "day": 30, "date": "2026-09-04", "fare": 4120 }
+        ]
+      },
+      "T+30": {
+        "available": true,
+        "average_fare": 3540,
+        "matched_observations": 15,
+        "coverage_status": "partial",
+        "carriers": [
+          { "carrier": "6E", "name": "IndiGo", "fare": 3480, "change_pct": 0.8, "status": "available" },
+          { "carrier": "AI", "name": "Air India", "fare": 3610, "change_pct": 1.1, "status": "available" }
+        ],
+        "fare_history": [
+          { "day": 0, "date": "2026-08-05", "fare": 3510 },
+          { "day": 30, "date": "2026-09-04", "fare": 3540 }
+        ]
+      },
+      "T+45": {
+        "available": false,
+        "average_fare": null,
+        "matched_observations": 0,
+        "coverage_status": "insufficient",
+        "carriers": [],
+        "fare_history": []
+      }
+    }
+  }
+}
