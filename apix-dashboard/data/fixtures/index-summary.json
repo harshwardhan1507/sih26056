@@ -1,0 +1,17 @@
+{
+  "date": "2026-09-04",
+  "value": 103.7,
+  "change_pct": 2.4,
+  "base": 100.0,
+  "average_fare": 6842,
+  "quotes": 300,
+  "routes": 12,
+  "quality_score": 96.8,
+  "metadata": {
+    "mode": "demo",
+    "dataset_type": "synthetic",
+    "generated_at": "2026-09-04T12:02:00Z",
+    "last_updated_ist": "04 Sep 2026 · 17:32 IST",
+    "stale": false
+  }
+}
