@@ -109,6 +109,7 @@ def get_quotes(
     advance_window_days: Optional[int] = Query(None, description="Advance lead window (1, 7, 15, 30, 45)"),
     date_from: Optional[date] = Query(None, description="Filter departure date >= YYYY-MM-DD"),
     date_to: Optional[date] = Query(None, description="Filter departure date <= YYYY-MM-DD"),
+    limit: Optional[int] = Query(None, ge=1, description="Maximum number of quotes to return"),
 ) -> QuotesResponse:
     return data_access.get_quotes(
         origin=origin,
@@ -116,6 +117,7 @@ def get_quotes(
         advance_window_days=advance_window_days,
         date_from=date_from,
         date_to=date_to,
+        limit=limit,
     )
 
 
