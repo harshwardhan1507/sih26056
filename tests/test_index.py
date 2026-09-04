@@ -13,6 +13,7 @@ if str(ROOT_DIR) not in sys.path:
 
 from apix.index.elementary import jevons_ratio, build_elementary_index
 from apix.index.aggregate import build_aggregate_index
+from apix.index.weights import load_weights, BASKET_ROUTES, DEFAULT_WEIGHT_FILE
 
 
 def test_jevons_ratio_single_carrier():
@@ -100,4 +101,26 @@ if __name__ == "__main__":
     test_build_elementary_index_constant_prices()
     test_build_elementary_index_chained()
     test_build_aggregate_index()
+    test_weights_sum_to_one()
+    test_weights_required_routes_present()
     print("All unit tests passed successfully!")
+
+
+# ---------------------------------------------------------------------------
+# Weight file tests (issue #10 acceptance criteria)
+# ---------------------------------------------------------------------------
+
+def test_weights_sum_to_one():
+    """Weights in route_weights.json must sum to 1.0 (±1e-4)."""
+    weights = load_weights(DEFAULT_WEIGHT_FILE)
+    total = sum(weights.values())
+    assert math.isclose(total, 1.0, abs_tol=1e-4), (
+        f"Weights sum to {total:.8f}, expected 1.0"
+    )
+
+
+def test_weights_required_routes_present():
+    """All 12 basket routes must be present in route_weights.json."""
+    weights = load_weights(DEFAULT_WEIGHT_FILE)
+    missing = [r for r in BASKET_ROUTES if r not in weights]
+    assert not missing, f"Missing routes in weight file: {missing}"
