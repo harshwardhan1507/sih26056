@@ -84,25 +84,22 @@ export default function RoutesPage() {
         subtitle="Authoritative 12-route network derived from Trailing 12-Month DGCA domestic city-pair passenger traffic (June 2025 to May 2026)."
       />
 
-      {/* Grid: Geometric Map (top/side) & Authoritative Table */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Authoritative Route Table (7 cols on desktop) */}
-        <div className="lg:col-span-7">
-          <RouteTable
-            routes={routes}
-            selectedRouteId={selectedRouteId}
-            onSelectRoute={setSelectedRouteId}
-          />
-        </div>
+      {/* Route Network Map with DGCA Basket Hierarchy */}
+      <div>
+        <IndiaRouteMap
+          routes={routes}
+          selectedRouteId={selectedRouteId}
+          onSelectRoute={setSelectedRouteId}
+        />
+      </div>
 
-        {/* Geometric Route Network Map (5 cols on desktop) */}
-        <div className="lg:col-span-5">
-          <IndiaRouteMap
-            routes={routes}
-            selectedRouteId={selectedRouteId}
-            onSelectRoute={setSelectedRouteId}
-          />
-        </div>
+      {/* Authoritative Route Table with Sparklines & Movement Indicators */}
+      <div>
+        <RouteTable
+          routes={routes}
+          selectedRouteId={selectedRouteId}
+          onSelectRoute={setSelectedRouteId}
+        />
       </div>
     </div>
   );
