@@ -11,6 +11,13 @@ Outputs:
 
 import csv
 from datetime import date, timedelta
+from pathlib import Path
+import sys
+
+# Ensure apix directory is in sys.path when invoked from root or other locations
+PACKAGE_DIR = Path(__file__).resolve().parent
+if str(PACKAGE_DIR) not in sys.path:
+    sys.path.insert(0, str(PACKAGE_DIR))
 
 from collector.adapters.simulated import SimulatedFareSource, BASE_FARE
 from index.elementary import build_elementary_index
@@ -58,15 +65,18 @@ def main():
     }
     aggregate = build_aggregate_index(elementary_series, weights)
 
+    data_dir = PACKAGE_DIR / "data"
+    data_dir.mkdir(parents=True, exist_ok=True)
+
     # Write fare_quote.csv (provenance-tagged, matches Appendix C schema fields)
-    with open("data/fare_quote.csv", "w", newline="") as f:
+    with open(data_dir / "fare_quote.csv", "w", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=list(all_rows[0].to_row().keys()))
         writer.writeheader()
         for q in all_rows:
             writer.writerow(q.to_row())
 
     # Write index_series.csv
-    with open("data/index_series.csv", "w", newline="") as f:
+    with open(data_dir / "index_series.csv", "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(["day"] + ["APIx_aggregate"])
         for t in range(N_DAYS):
@@ -74,7 +84,7 @@ def main():
 
     print(f"Simulated {len(all_rows)} fare quotes across {len(ROUTES)} routes x {len(WINDOWS)} windows x {N_DAYS} days")
     print(f"APIx aggregate index: day 0 = {aggregate[0]:.2f}, day {N_DAYS-1} = {aggregate[-1]:.2f}")
-    print("Wrote data/fare_quote.csv and data/index_series.csv")
+    print(f"Wrote {data_dir / 'fare_quote.csv'} and {data_dir / 'index_series.csv'}")
 
 
 if __name__ == "__main__":

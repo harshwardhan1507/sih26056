@@ -26,17 +26,18 @@ def jevons_ratio(prices_today: dict[str, float], prices_yesterday: dict[str, flo
         return None
 
     log_sum = 0.0
+    n_valid = 0
     for carrier in common:
         p_t = prices_today[carrier]
         p_y = prices_yesterday[carrier]
         if p_t is None or p_y is None or p_t <= 0 or p_y <= 0:
             continue
         log_sum += math.log(p_t / p_y)
+        n_valid += 1
 
-    n = len(common)
-    if n == 0:
+    if n_valid == 0:
         return None
-    return math.exp(log_sum / n)
+    return math.exp(log_sum / n_valid)
 
 
 def build_elementary_index(daily_prices: list[dict[str, float]], base_value: float = 100.0) -> list[float]:

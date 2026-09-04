@@ -14,11 +14,14 @@ On this Windows environment, Python 3 is invoked using the Windows Python Launch
 
 ```bash
 # Run backfill simulation demo (outputs data/fare_quote.csv and data/index_series.csv)
+py apix/backfill_demo.py
+# Or inside package directory:
 cd apix && py backfill_demo.py
 
-# Run tests (with pytest once installed)
-py -m pytest
-py -m pytest tests/test_elementary.py -v
+# Run tests
+py tests/test_index.py
+# Or with pytest once installed:
+py -m pytest tests/ -v
 
 # Run Python module or script
 py path/to/script.py
@@ -27,17 +30,24 @@ py path/to/script.py
 ## System Architecture
 
 ```
-apix/
-├── collector/          # Data ingestion layer
-│   ├── adapters/
-│   │   ├── base.py     # FareQuote dataclass & FareSource abstract base class
-│   │   └── simulated.py# Tier 4 simulator (advance decay, weekend surcharge, carrier spread)
-│   └── resolver.py     # Priority fallback: Tier 1 (API) -> Tier 2 (Tariff Sheet) -> Tier 3 (Scrape) -> Tier 4 (Simulated)
-├── cleaning/           # Data hygiene (outlier detection, sold-out imputation)
-├── index/              # Statistical index calculation
-│   ├── elementary.py   # Jevons elementary index (geometric mean of relatives, chained, matched-sample)
-│   └── aggregate.py    # Chained Laspeyres aggregation with DGCA route weights
-└── data/               # Generated datasets (fare_quote.csv, index_series.csv)
+sih26056/
+├── docs/
+│   └── SIH-26056-APIx-Team-Handbook.md  # Detailed handbook, methodology & research
+├── apix/
+│   ├── collector/          # Data ingestion layer
+│   │   ├── adapters/
+│   │   │   ├── base.py     # FareQuote dataclass & FareSource abstract base class
+│   │   │   └── simulated.py# Tier 4 simulator (advance decay, weekend surcharge, carrier spread)
+│   │   ├── compliance/     # Rate limiting, robots.txt, circuit breakers
+│   │   └── resolver.py     # Priority fallback: Tier 1 (API) -> Tier 2 (Tariff Sheet) -> Tier 3 (Scrape) -> Tier 4 (Simulated)
+│   ├── cleaning/           # Data hygiene (outlier detection, sold-out imputation)
+│   ├── index/              # Statistical index calculation
+│   │   ├── elementary.py   # Jevons elementary index (geometric mean of relatives, chained, matched-sample)
+│   │   └── aggregate.py    # Chained Laspeyres aggregation with DGCA route weights
+│   ├── api/                # FastAPI service & OpenAPI endpoint
+│   └── data/               # Generated datasets (fare_quote.csv, index_series.csv)
+└── tests/
+    └── test_index.py       # Unit tests for Jevons and Laspeyres formulas
 ```
 
 ### Key Components
