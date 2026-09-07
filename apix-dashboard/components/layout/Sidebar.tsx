@@ -11,6 +11,7 @@ import {
   Radio,
   BookOpen,
   Code2,
+  Globe,
 } from "lucide-react";
 
 interface NavItem {
@@ -20,7 +21,7 @@ interface NavItem {
 }
 
 const PRIMARY_NAV: NavItem[] = [
-  { label: "Overview", href: "/", icon: LayoutDashboard },
+  { label: "Overview", href: "/overview", icon: LayoutDashboard },
   { label: "Index / Trends", href: "/index-trend", icon: TrendingUp },
   { label: "Routes", href: "/routes", icon: MapPin },
 ];
@@ -36,7 +37,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   const isNavActive = (href: string) => {
-    if (href === "/") return pathname === "/";
+    if (href === "/overview") return pathname === "/overview" || pathname === "/dashboard";
     return pathname.startsWith(href);
   };
 
@@ -45,14 +46,14 @@ export function Sidebar() {
       <div className="py-5 px-3">
         {/* Brand Header / Title */}
         <div className="mb-6 px-3">
-          <div className="flex items-center gap-2">
-            <span className="text-xl font-bold tracking-tight text-white">
-              APIx
+          <Link href="/" className="group flex items-center justify-between select-none">
+            <span className="text-2xl font-black tracking-tighter text-white leading-none">
+              APIx<span className="text-sky-400">.</span>
             </span>
-          </div>
-          <p className="text-[10px] text-blue-200/70 font-mono tracking-wider uppercase mt-0.5">
-            Real-Time Airfare Price Index
-          </p>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-950 text-sky-300 border border-blue-800/60 group-hover:bg-blue-900 transition-colors">
+              PORTAL ↗
+            </span>
+          </Link>
         </div>
 
         {/* Primary Navigation */}
