@@ -1,12 +1,22 @@
 "use client";
 
-import React from "react";
+import { usePathname } from "next/navigation";
 import { Header } from "./Header";
 import { Sidebar } from "./Sidebar";
 import { DataProvider, useData } from "@/lib/api/dataContext";
 
 function ShellContent({ children }: { children: React.ReactNode }) {
   const { connectionStatus, toggleMode, lastCheckedIst } = useData();
+  const pathname = usePathname();
+
+  // Landing page has its own dedicated navbar, hero, sections, and footer
+  if (pathname === "/") {
+    return (
+      <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] flex flex-col font-sans selection:bg-[#1E3A8A] selection:text-white">
+        {children}
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] flex flex-col font-sans">
