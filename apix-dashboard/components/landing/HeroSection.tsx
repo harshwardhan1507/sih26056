@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, ChevronRight } from "lucide-react";
 
 export function HeroSection() {
@@ -12,10 +13,13 @@ export function HeroSection() {
     >
       {/* Background image layer covering exact screen ratio */}
       <div className="absolute inset-0 pointer-events-none">
-        <img
+        <Image
           src="/bg-sunset-wing.jpg"
           alt="Aviation over clouds at sunset"
-          className="w-full h-full object-cover object-center"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
         />
       </div>
 

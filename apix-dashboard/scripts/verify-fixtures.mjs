@@ -97,7 +97,12 @@ console.log(`✓ Quality metrics valid: score ${quality.score}%, ${quality.colle
 // 7. Verify sources.json
 console.log("Checking sources.json...");
 const sources = loadFixture("sources.json");
-if (!Array.isArray(sources) || sources.length !== 6) throw new Error("Expected 6 sources in health matrix");
+// 7 honest collection slots: 3 active tariff sheets (6E, AI, QP), 1 simulated fallback,
+// 2 unintegrated Tier 1 slots (TripJack, TBO), and 1 HAR replay archive slot.
+const EXPECTED_SOURCE_COUNT = 7;
+if (!Array.isArray(sources) || sources.length !== EXPECTED_SOURCE_COUNT) {
+  throw new Error(`Expected exactly ${EXPECTED_SOURCE_COUNT} sources in health matrix, found ${sources?.length}`);
+}
 console.log(`✓ Sources health matrix valid: ${sources.length} sources registered.`);
 
 console.log("\n>>> ALL PHASE 2 DATA FIXTURE & INVARIANT CHECKS PASSED CLEANLY! <<<");

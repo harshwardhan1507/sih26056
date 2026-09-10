@@ -11,7 +11,6 @@ import {
   Radio,
   BookOpen,
   Code2,
-  Globe,
 } from "lucide-react";
 
 interface NavItem {

@@ -135,7 +135,7 @@ export function IndexTrendChart({
     }
     path += ` L ${last.x} ${bottomY} Z`;
     return path;
-  }, [points, minVal, maxVal]);
+  }, [points, chartH, getX, getY, padTop]);
 
   // Hover interaction
   const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {

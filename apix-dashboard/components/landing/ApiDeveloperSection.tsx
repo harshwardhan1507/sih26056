@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Code2, Copy, Check, Terminal, ArrowRight } from "lucide-react";
 
 export function ApiDeveloperSection() {
@@ -47,10 +48,12 @@ console.log(\`APIx Headline: \${data.value}\`);`,
     <section id="api" className="py-16 sm:py-20 border-b border-[#E2E8F0] relative overflow-hidden flex items-center min-h-[580px]">
       {/* Background airliner image with NO white overlay */}
       <div className="absolute inset-0 pointer-events-none">
-        <img
+        <Image
           src="/airliner.jpg"
           alt="Airliner cruising in blue sky"
-          className="w-full h-full object-cover object-center"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
         />
       </div>
 

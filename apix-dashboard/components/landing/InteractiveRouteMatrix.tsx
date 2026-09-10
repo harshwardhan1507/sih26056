@@ -17,7 +17,7 @@ export function InteractiveRouteMatrix() {
       try {
         const rts = await provider.getRoutes();
         if (mounted && rts && rts.length > 0) setRoutes(rts);
-      } catch (err) {
+      } catch {
         // fallback to default
       }
     }

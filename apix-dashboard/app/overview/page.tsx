@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import { useData } from "@/lib/api/dataContext";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Metric } from "@/components/common/Metric";
@@ -126,10 +127,12 @@ export default function OverviewPage() {
 
         {/* Right Column: Editorial Hero Visual Card */}
         <div className="lg:col-span-5 relative rounded-sm overflow-hidden border border-[#E2E8F0] bg-white min-h-[220px] flex flex-col justify-end p-5 shadow-xs">
-          <img
+          <Image
             src="/hero_aviation.jpg"
             alt="Aviation over clouds"
-            className="absolute inset-0 w-full h-full object-cover"
+            fill
+            sizes="(max-width: 1024px) 100vw, 40vw"
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
           
